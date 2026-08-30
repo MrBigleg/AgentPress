@@ -34,4 +34,5 @@ if ( ! $agentpress_compatibility->is_supported() ) {
 }
 
 register_activation_hook( AGENTPRESS_FILE, array( AgentPress\Activation::class, 'activate' ) );
+register_deactivation_hook( AGENTPRESS_FILE, array( AgentPress\Activation::class, 'deactivate' ) );
 AgentPress\Plugin::instance()->boot();

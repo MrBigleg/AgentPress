@@ -14,7 +14,7 @@
 
 AgentPress is an open-source WordPress plugin project that will let ChatGPT work inside the WordPress session a human is already using. WordPress defines the user's maximum authority. AgentPress narrows that authority into actions the agent may perform automatically, actions requiring explicit human approval, and actions that remain unavailable.
 
-> **Project stage:** early implementation. The scaffold, attributed bridge boundary, current browser adapter, and private WordPress-session transport are implemented. The production Ability catalog, product UI, release, and live challenge workflow remain unimplemented or unverified.
+> **Project stage:** early implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, and versioned persistence layer are implemented. The production Ability catalog, product UI, release, and live challenge workflow remain unimplemented or unverified.
 
 ## Product thesis
 
@@ -151,21 +151,22 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Bridge source provenance | `OBSERVED`, merged in PR #4 | [Experiment 008](docs/evidence/sessions/2026-08-30-exp-008-bridge-pin-attribution.md) |
 | Current WebMCP browser adapter | `OBSERVED`, merged in PR #6 | [Experiment 009](docs/evidence/sessions/2026-08-30-exp-009-current-webmcp-adapter.md) |
 | Private WordPress-session transport | `OBSERVED`, PR #8; local runtime and hosted repository gates pass | [Experiment 010](docs/evidence/sessions/2026-08-30-exp-010-private-rest-transport.md) |
+| Versioned database and repositories | `OBSERVED`, AP-005 task branch; local schema/lifecycle matrix passes | [Experiment 011](docs/evidence/sessions/2026-08-31-exp-011-database-repositories.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment after AP-004 merges is `AP-005 — Add database migrations and repositories`.
+The next dependency-ordered implementation experiment after AP-005 merges is `AP-006 — Implement common schemas and error normalization`.
 
-**Hypothesis:** the three v0.1 tables and typed repositories can migrate idempotently, round-trip bounded JSON with UTC timestamps, and preserve data through deactivation and default uninstall behavior.
+**Hypothesis:** shared closed-schema builders, success envelopes, and a safe `AP_*` error factory can reject every invalid input class and serialize every documented error consistently before the Ability catalog is registered.
 
-**Falsification condition:** repeated migration changes the schema, repository CRUD loses or widens bounded data, SQL is unprepared, dates are not UTC, or ordinary deactivation/default uninstall deletes rows.
+**Falsification condition:** unknown fields, wrong types/ranges, oversized content, unsupported enums, or invalid operation combinations pass validation; or any declared error leaks unsafe detail or serializes outside the documented shape.
 
-**Prerequisite evidence:** AP-001, AP-002, and AP-003 are merged in PRs #2, #4, and #6; AP-004 has local runtime evidence in Experiment 010 and must merge before the next branch begins.
+**Prerequisite evidence:** AP-001 through AP-004 are merged; AP-005 has local runtime/lifecycle evidence in Experiment 011 and must merge before the next branch begins.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-005--add-database-migrations-and-repositories).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-006--implement-common-schemas-and-error-normalization).
 
 ## Local development
 

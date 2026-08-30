@@ -51,7 +51,7 @@
 
 ### AP-005 — Add database migrations and repositories
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-001
 - **Demo critical:** yes
 - **Deliverable:** the three specified tables, versioned idempotent `dbDelta` migration, typed repositories, UTC dates, prepared SQL, preserve-on-deactivation/uninstall default.
