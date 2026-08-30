@@ -14,7 +14,7 @@
 
 AgentPress is an open-source WordPress plugin project that will let ChatGPT work inside the WordPress session a human is already using. WordPress defines the user's maximum authority. AgentPress narrows that authority into actions the agent may perform automatically, actions requiring explicit human approval, and actions that remain unavailable.
 
-> **Project stage:** early implementation. The AP-001 plugin scaffold now activates on the supported runtime and fails closed on the two minimum-version controls. Abilities, Site Tools transport, product UI, production release, and the live challenge workflow remain unimplemented or unverified.
+> **Project stage:** early implementation. The scaffold, attributed bridge boundary, current browser adapter, and private WordPress-session transport are implemented. The production Ability catalog, product UI, release, and live challenge workflow remain unimplemented or unverified.
 
 ## Product thesis
 
@@ -149,22 +149,23 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Engineering sequence | `PROPOSED`, acceptance tests defined | [Build checklist](docs/BUILD_CHECKLIST.md) |
 | WordPress plugin scaffold | `OBSERVED`, merged in PR #2 | [Experiment 005](docs/evidence/sessions/2026-08-30-exp-005-plugin-scaffold.md) |
 | Bridge source provenance | `OBSERVED`, merged in PR #4 | [Experiment 008](docs/evidence/sessions/2026-08-30-exp-008-bridge-pin-attribution.md) |
-| Current WebMCP browser adapter | `OBSERVED`, AP-003 task branch | [Experiment 009](docs/evidence/sessions/2026-08-30-exp-009-current-webmcp-adapter.md) |
+| Current WebMCP browser adapter | `OBSERVED`, merged in PR #6 | [Experiment 009](docs/evidence/sessions/2026-08-30-exp-009-current-webmcp-adapter.md) |
+| Private WordPress-session transport | `OBSERVED`, PR #8; local runtime and hosted repository gates pass | [Experiment 010](docs/evidence/sessions/2026-08-30-exp-010-private-rest-transport.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment after AP-003 merges is `AP-004 — Implement private same-origin WebMCP REST transport`.
+The next dependency-ordered implementation experiment after AP-004 merges is `AP-005 — Add database migrations and repositories`.
 
-**Hypothesis:** private same-origin discovery and execution routes can require the signed-in WordPress cookie plus a valid `wp_rest` nonce, expose only the fixed AgentPress allowlist, enforce size/rate limits, and retry one expired nonce without unauthorized execution.
+**Hypothesis:** the three v0.1 tables and typed repositories can migrate idempotently, round-trip bounded JSON with UTC timestamps, and preserve data through deactivation and default uninstall behavior.
 
-**Falsification condition:** any missing/wrong nonce, logged-out, cross-origin, oversized, or non-AgentPress request reaches Ability execution; a private response is cacheable; or nonce refresh can retry more than once.
+**Falsification condition:** repeated migration changes the schema, repository CRUD loses or widens bounded data, SQL is unprepared, dates are not UTC, or ordinary deactivation/default uninstall deletes rows.
 
-**Prerequisite evidence:** AP-001 and AP-002 are merged in PRs #2 and #4; AP-003 adapter evidence is being completed in Experiment 009 and must merge before AP-004 begins.
+**Prerequisite evidence:** AP-001, AP-002, and AP-003 are merged in PRs #2, #4, and #6; AP-004 has local runtime evidence in Experiment 010 and must merge before the next branch begins.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-004--implement-private-same-origin-webmcp-rest-transport).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-005--add-database-migrations-and-repositories).
 
 ## Local development
 

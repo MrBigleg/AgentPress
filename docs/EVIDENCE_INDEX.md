@@ -23,6 +23,7 @@ This append-only registry links AgentPress research, implementation, verificatio
 | [EXP-007](evidence/sessions/2026-08-30-exp-007-ap001-ci-gate.md) | 2026-08-30 | Can AP-001 repository checks run green in GitHub Actions without overstating runtime coverage? | AP-001 | `SUPPORTED` | `448e893` | CI workflow and [successful run 33303870871](https://github.com/MrBigleg/AgentPress/actions/runs/33303870871) |
 | [EXP-008](evidence/sessions/2026-08-30-exp-008-bridge-pin-attribution.md) | 2026-08-30 | Can audited bridge material be pinned and attributed without shipping obsolete or unrelated upstream behavior? | AP-002 | `SUPPORTED` | `09cf45c` | provenance/package boundary and [successful run 33304713519](https://github.com/MrBigleg/AgentPress/actions/runs/33304713519) |
 | [EXP-009](evidence/sessions/2026-08-30-exp-009-current-webmcp-adapter.md) | 2026-08-30 | Can the browser adapter register fixed current-WebMCP definitions and cancel execution without obsolete APIs? | AP-003 | `SUPPORTED` | `d9d0a09` | adapter tests/package and [successful run 33305257104](https://github.com/MrBigleg/AgentPress/actions/runs/33305257104) |
+| [EXP-010](evidence/sessions/2026-08-30-exp-010-private-rest-transport.md) | 2026-08-30 | Can private WebMCP routes enforce cookie identity, REST nonce, origin, allowlist, and size boundaries with zero unauthorized execution? | AP-004 | `SUPPORTED` | `65bf03f` | runtime security matrix and [successful run 33338390478](https://github.com/MrBigleg/AgentPress/actions/runs/33338390478) |
 
 ## Planned experiment queue
 

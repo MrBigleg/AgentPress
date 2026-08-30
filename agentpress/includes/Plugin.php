@@ -12,6 +12,13 @@ namespace AgentPress;
  */
 final class Plugin {
 	/**
+	 * Private WebMCP transport.
+	 *
+	 * @var \AgentPress\Rest\WebMCPRoutes|null
+	 */
+	private $webmcp_routes;
+
+	/**
 	 * Shared plugin instance.
 	 *
 	 * @var Plugin|null
@@ -48,7 +55,9 @@ final class Plugin {
 			return;
 		}
 
-		$this->booted = true;
+		$this->booted        = true;
+		$this->webmcp_routes = new \AgentPress\Rest\WebMCPRoutes();
+		$this->webmcp_routes->register_hooks();
 		do_action( 'agentpress_initialized', $this );
 	}
 

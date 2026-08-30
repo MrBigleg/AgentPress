@@ -71,6 +71,7 @@ export function createJsonFetchExecutor({
   endpoint,
   fetchImpl = globalThis.fetch,
   getRequestInit = () => ({}),
+  refreshNonce,
 }) {
   if (typeof endpoint !== 'string' || endpoint === '') {
     throw new TypeError('AgentPress execute endpoint is required.');
@@ -84,28 +85,156 @@ export function createJsonFetchExecutor({
     throw new TypeError('AgentPress request initializer must be a function.');
   }
 
-  return async (ability, input, { signal } = {}) => {
-    const suppliedInit = (await getRequestInit({ ability, input })) ?? {};
-    const response = await fetchImpl(endpoint, {
-      ...suppliedInit,
+  return (ability, input, { signal } = {}) =>
+    requestJsonWithNonceRetry({
+      endpoint,
+      fetchImpl,
+      getRequestInit: () => getRequestInit({ ability, input }),
+      refreshNonce,
+      signal,
+      method: 'POST',
+      body: JSON.stringify({ ability, input }),
+    });
+}
+
+/**
+ * Fetch the current private definition set without persisting it.
+ */
+export function fetchAgentPressDefinitions({
+  endpoint,
+  fetchImpl = globalThis.fetch,
+  getRequestInit = () => ({}),
+  refreshNonce,
+  signal,
+}) {
+  return requestJsonWithNonceRetry({
+    endpoint,
+    fetchImpl,
+    getRequestInit,
+    refreshNonce,
+    signal,
+    method: 'GET',
+  }).then((payload) => (Array.isArray(payload.tools) ? payload.tools : []));
+}
+
+/**
+ * Keep the REST nonce only in this page's closure and refresh it once on demand.
+ */
+export function createRestNonceManager({
+  initialNonce,
+  refreshEndpoint,
+  fetchImpl = globalThis.fetch,
+}) {
+  if (typeof initialNonce !== 'string' || initialNonce === '') {
+    throw new TypeError('AgentPress initial REST nonce is required.');
+  }
+
+  if (typeof refreshEndpoint !== 'string' || refreshEndpoint === '') {
+    throw new TypeError('AgentPress nonce refresh endpoint is required.');
+  }
+
+  if (typeof fetchImpl !== 'function') {
+    throw new TypeError('AgentPress fetch implementation is required.');
+  }
+
+  let currentNonce = initialNonce;
+
+  const getRequestInit = () => ({
+    headers: { 'X-WP-Nonce': currentNonce },
+  });
+
+  const refreshNonce = async ({ signal } = {}) => {
+    const response = await fetchImpl(refreshEndpoint, {
       method: 'POST',
       credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(suppliedInit.headers ?? {}),
-      },
-      body: JSON.stringify({ ability, input }),
+      cache: 'no-store',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      body: 'action=agentpress_refresh_nonce',
       signal,
     });
+    const payload = await response.json();
+    const nonce = payload?.data?.nonce;
 
-    if (!response.ok) {
-      const error = new Error(`AgentPress execution failed with HTTP ${response.status}.`);
-      error.status = response.status;
-      throw error;
+    if (!response.ok || payload?.success !== true || typeof nonce !== 'string' || nonce === '') {
+      throw createTransportError(response, payload);
     }
 
-    return response.json();
+    currentNonce = nonce;
+    return nonce;
   };
+
+  return Object.freeze({
+    getNonce: () => currentNonce,
+    getRequestInit,
+    refreshNonce,
+  });
+}
+
+const NONCE_ERROR_CODES = Object.freeze(
+  new Set(['AP_NONCE_INVALID', 'rest_cookie_invalid_nonce']),
+);
+
+async function requestJsonWithNonceRetry({
+  endpoint,
+  fetchImpl,
+  getRequestInit,
+  refreshNonce,
+  signal,
+  method,
+  body,
+}) {
+  if (typeof endpoint !== 'string' || endpoint === '') {
+    throw new TypeError('AgentPress endpoint is required.');
+  }
+
+  if (typeof fetchImpl !== 'function' || typeof getRequestInit !== 'function') {
+    throw new TypeError('AgentPress request dependencies are required.');
+  }
+
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const suppliedInit = (await getRequestInit()) ?? {};
+    const response = await fetchImpl(endpoint, {
+      ...suppliedInit,
+      method,
+      credentials: 'same-origin',
+      cache: 'no-store',
+      headers: {
+        ...(body === undefined ? {} : { 'Content-Type': 'application/json' }),
+        ...(suppliedInit.headers ?? {}),
+      },
+      ...(body === undefined ? {} : { body }),
+      signal,
+    });
+    const payload = await response.json();
+
+    if (response.ok) {
+      return payload;
+    }
+
+    if (
+      attempt === 0 &&
+      typeof refreshNonce === 'function' &&
+      NONCE_ERROR_CODES.has(payload?.code)
+    ) {
+      await refreshNonce({ signal });
+      continue;
+    }
+
+    throw createTransportError(response, payload);
+  }
+
+  throw new Error('AgentPress nonce retry invariant failed.');
+}
+
+function createTransportError(response, payload) {
+  const error = new Error(
+    typeof payload?.message === 'string'
+      ? payload.message
+      : `AgentPress request failed with HTTP ${response.status}.`,
+  );
+  error.status = response.status;
+  error.code = typeof payload?.code === 'string' ? payload.code : 'AP_TRANSPORT_ERROR';
+  return error;
 }
 
 /**
