@@ -6,16 +6,16 @@
 |---|---|
 | Experiment | `EXP-008` |
 | Related task | `AP-002`; GitHub issue #3 |
-| Status | `IN_PROGRESS` |
-| Result | `PENDING` |
+| Status | `COMPLETED` |
+| Result | `SUPPORTED` |
 | Started local | `2026-08-30T16:27:06+07:00` |
 | Started UTC | `2026-08-30T09:27:06Z` |
-| Ended local | `PENDING` |
-| Ended UTC | `PENDING` |
+| Ended local | `2026-08-30T16:43:20+07:00` |
+| Ended UTC | `2026-08-30T09:43:20Z` |
 | Agent/operator | Codex, implementation agent |
 | Branch | `ap-002-bridge-attribution` |
 | Baseline commit | `09cf45c5a7b51ba9d99d422e5b5dadf5a3a43fbc` |
-| Ending commit | `ac5d92467728b0ec945d8f18ccd6c67cc47f75a2` (implementation); evidence/format closeout follows |
+| Ending commit | `82de2df5350d600a84c6b347a6bec63da265a3fb` (implementation and license normalization); evidence closeout follows |
 | Environment | Windows/PowerShell; Node.js 22.23.2; npm 10.9.8; local PHP and Composer unavailable; GitHub API inspection of pinned upstream commit/tree/blobs |
 
 ## Question
@@ -99,6 +99,7 @@ environment: Node.js 22.23.2; npm 10.9.8; PHP and Composer not available on the 
 | timestamp not independently captured | Strengthened license equality check plus audit/provenance/package rerun | repository | exit 1 | npm audit found zero vulnerabilities; exact byte equality failed because the complete GPL copies differed only by terminal newline. Two explicit package builds still matched SHA-256 `7DC842E08377C804B3896D1E6160D887330A2E640A7B1A35E79485D63DDE1EB3`. Normalize line endings and trailing whitespace in the text-equivalence assertion. |
 | before 2026-08-30T16:36:25+07:00 | Corrected syntax/audit/provenance/package rerun | repository | exit 0 | Both licenses reported GPL-2.0-or-later; exact pin verified; 15 ZIP entries included notices and no upstream runtime code; npm audit found zero vulnerabilities; two ZIP hashes matched `7DC842E08377C804B3896D1E6160D887330A2E640A7B1A35E79485D63DDE1EB3`. |
 | 2026-08-30T16:41:19+07:00 | Remove two extra EOF blank lines reported by `git diff --cached --check`, then rerun provenance and two-build package controls | repository | exit 0 | License SHA-256 is now `8177F97513213526DF2CF6184D8FF986C675AFB514D4E68A404010521B880643`; both ZIP builds match `0CC9853EEBB645B7E74004C68DF1AF399F9321EDA77D9C2027247422590461B0`; `git diff --check` is clean. |
+| 2026-08-30T16:42:32+07:00 to 2026-08-30T16:42:59+07:00 | GitHub Actions run `33304713519` on commit `82de2df5350d600a84c6b347a6bec63da265a3fb` | PR #4 | success | Job `99239086179` completed dependency installs, audit, syntax, provenance/package boundary, PHPUnit, PHPCS, and deterministic package steps successfully in 23 seconds. |
 
 ## Observation ledger
 
@@ -111,6 +112,7 @@ environment: Node.js 22.23.2; npm 10.9.8; PHP and Composer not available on the 
 | O5 | `SOURCE_VERIFIED` | The upstream runtime includes generic `wp/*` built-ins, settings/public-discovery options, permission-scoped caching, custom nonce behavior, and an obsolete `navigator.modelContext.provideContext` client. | S4 and inspected pinned REST/settings/built-in sources | Supports an explicit no-runtime-copy boundary for AP-002. |
 | O6 | `OBSERVED` | AgentPress provenance records three concept-only candidates, an empty copied/adapted-material list, and eight excluded runtime paths. | `PROVENANCE.json` | Prevents attribution from implying that unshipped code was copied. |
 | O7 | `OBSERVED` | The focused scan identifies both licenses as GPL-2.0-or-later; the 15-entry ZIP contains both notices/licenses and no upstream runtime source; two post-format builds match SHA-256 `0CC9853E...`. | local test and package output | Supports the AP-002 acceptance conditions locally. |
+| O8 | `OBSERVED` | The first GitHub-hosted run completed every declared repository and AP-002 provenance/package step successfully on the published head. | [run 33304713519](https://github.com/MrBigleg/AgentPress/actions/runs/33304713519), [job 99239086179](https://github.com/MrBigleg/AgentPress/actions/runs/33304713519/job/99239086179) | Supports the hypothesis in a clean hosted environment. |
 
 ## Contradictions and failures
 
@@ -136,33 +138,39 @@ environment: Node.js 22.23.2; npm 10.9.8; PHP and Composer not available on the 
 | Complete GPL-compatible attribution | Notice, three declaration blobs, and normalized full-license equality | `PASS` | `THIRD_PARTY_NOTICES.md`, bundled license, O4 |
 | License scan identifies both projects | `npm run test:third-party` | `PASS` | AgentPress and upstream both reported `GPL-2.0-or-later` |
 | ZIP contains notices but no excluded upstream behavior | ZIP central-directory assertions and 15-entry listing | `PASS` | O7; current SHA-256 `0CC9853EEBB645B7E74004C68DF1AF399F9321EDA77D9C2027247422590461B0` |
+| Published branch passes repository gates | GitHub Actions on `82de2df` | `PASS` | run `33304713519`, job `99239086179` |
 
 ## Artifact inventory
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-08-30-exp-008-bridge-pin-attribution.md` | evidence | untracked | `EXP-008` | Opened before upstream research or product mutation. |
-| `agentpress/third-party/webmcp-abilities/PROVENANCE.json` | machine-readable provenance | untracked | SHA-256 `55764A64F3495E9E7E358B223DBF1776ED89C47B30ADA235789CB9915A17A281` | Exact pin/tree/blob mappings and exclusions. |
-| `agentpress/third-party/webmcp-abilities/LICENSE` | license | committed pre-format; cleanup pending | current SHA-256 `8177F97513213526DF2CF6184D8FF986C675AFB514D4E68A404010521B880643`; pre-format `6A64FD65...` | Complete GPL v2 text supplied by AgentPress. |
-| `agentpress/THIRD_PARTY_NOTICES.md` | attribution | untracked | SHA-256 `1ED94CF4E76FFF4233A978999D309AFEFDE78DA08FF65D006CEFCA7803EB23A9` | Human-readable attribution and no-code boundary. |
+| `docs/evidence/sessions/2026-08-30-exp-008-bridge-pin-attribution.md` | evidence | closeout pending | `EXP-008` | Opened before upstream research or product mutation. |
+| `agentpress/third-party/webmcp-abilities/PROVENANCE.json` | machine-readable provenance | committed | SHA-256 `55764A64F3495E9E7E358B223DBF1776ED89C47B30ADA235789CB9915A17A281` | Exact pin/tree/blob mappings and exclusions. |
+| `agentpress/third-party/webmcp-abilities/LICENSE` | license | committed | current SHA-256 `8177F97513213526DF2CF6184D8FF986C675AFB514D4E68A404010521B880643`; pre-format `6A64FD65...` | Complete GPL v2 text supplied by AgentPress. |
+| `agentpress/THIRD_PARTY_NOTICES.md` | attribution | committed | SHA-256 `1ED94CF4E76FFF4233A978999D309AFEFDE78DA08FF65D006CEFCA7803EB23A9` | Human-readable attribution and no-code boundary. |
 | `dist/agentpress.zip` | generated package control | ignored | current SHA-256 `0CC9853EEBB645B7E74004C68DF1AF399F9321EDA77D9C2027247422590461B0`; pre-format `7DC842E...` | AP-002 test artifact, not release evidence. |
+| GitHub Actions run | hosted command evidence | completed | `33304713519` / job `99239086179` | First published-head run; conclusion `success`. |
 
 ## Result
 
-`PENDING`
+`SUPPORTED`
 
-No AP-002 acceptance claim exists yet.
+`SOURCE_VERIFIED`: the exact upstream commit/tree and three GPL-2.0-or-later declarations support the selected licensing and provenance boundary.
+
+`OBSERVED`: AgentPress packages the pin, machine-readable provenance, complete license, and notice; focused local and GitHub-hosted checks found no upstream runtime code in the 15-entry ZIP and passed all AP-002 acceptance conditions.
+
+This result establishes provenance, attribution, compatibility, and package exclusion only. It does not establish the browser or REST adapter behavior planned for AP-003/AP-004.
 
 ## Limitations and `NOT_TESTED` boundaries
 
-- `NOT_TESTED`: authoritative GitHub CI on this branch, adapter runtime, WordPress behavior beyond unchanged AP-001 scaffold checks, browser, ChatGPT, deployment, and AP-003+ behavior.
+- `NOT_TESTED`: adapter runtime, WordPress behavior beyond unchanged AP-001 scaffold checks, browser, ChatGPT, deployment, and AP-003+ behavior.
 
 ## Competition evidence statement
 
 - work attributable to challenge period: baseline and timestamps recorded before material AP-002 work;
 - pre-existing work distinguished by: merged AP-001 baseline and EXP-001 source decision;
 - third-party material/license/pin: exact commit/tree/blob provenance and GPL-2.0-or-later declarations verified; no upstream runtime source copied by AP-002;
-- commit/PR evidence: pending;
+- commit/PR evidence: implementation commit `ac5d924`, normalization commit `82de2df`, issue #3, draft PR #4, and successful run `33304713519`;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -177,9 +185,9 @@ No AP-002 acceptance claim exists yet.
 ## End state
 
 ```text
-git status --short --branch: EXP-008 and evidence index modified on ap-002-bridge-attribution
-tests/checks: local syntax, npm audit, provenance/license scan, ZIP boundary, and two-build hash PASS; GitHub CI pending
-committed: no
-pushed: no
+git status --short --branch: clean at 82de2df before this evidence closeout
+tests/checks: local syntax, npm audit, provenance/license scan, ZIP boundary, and two-build hash PASS; GitHub run 33304713519 PASS
+committed: implementation ac5d924; normalization 82de2df; closeout pending
+pushed: implementation and normalization pushed; closeout pending
 deployed: no
 ```
