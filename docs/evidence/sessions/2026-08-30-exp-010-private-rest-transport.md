@@ -6,17 +6,17 @@
 |---|---|
 | Experiment | `EXP-010` |
 | Related task | `AP-004`; GitHub issue #7 |
-| Status | `IN_PROGRESS` |
-| Result | `PENDING` |
+| Status | `COMPLETED` |
+| Result | `SUPPORTED` |
 | Started local | `2026-08-30T16:59:50+07:00` |
 | Started UTC | `2026-08-30T09:59:50Z` |
-| Ended local | `PENDING` |
-| Ended UTC | `PENDING` |
+| Ended local | `2026-08-31T05:10:28+07:00` |
+| Ended UTC | `2026-08-30T22:10:28Z` |
 | Agent/operator | Codex, implementation agent |
 | Branch | `ap-004-private-rest-transport` |
 | Baseline commit | `65bf03f09b942eb15e0a5d3848fc882fe763376f` |
-| Ending commit | `UNCOMMITTED` |
-| Environment | Windows/PowerShell; Node.js 22.23.2; npm 10.9.8; WordPress 6.9/PHP 8.0 Docker controls pending; official WordPress 6.9.7 core source |
+| Ending commit | `1840903fe03e9994ed4ba8cb37b34a7946e6a5df` (implementation); evidence closeout follows |
+| Environment | Windows/PowerShell; Node.js 22.23.2; npm 10.9.8; wp-env WordPress 6.9/PHP 8.0; official WordPress 6.9.7 core source |
 
 ## Question
 
@@ -113,6 +113,7 @@ environment: Node.js 22.23.2; npm 10.9.8; WordPress/PHP runtime pending
 | 2026-08-31 local / 2026-08-30 UTC | Two pre-review release builds and SHA-256 | `dist/agentpress.zip` | exit 0 | Both builds produced `E954A96A27F94E16D11387651BC85BBAF14217C84FA5AF52EA58CEB31C573E9C`. |
 | 2026-08-31 local / 2026-08-30 UTC | `npm run env:stop` | repository | exit 0 | Local WordPress environment stopped after verification. |
 | 2026-08-31 local / 2026-08-30 UTC | Post-review validation-order runtime, PHPCS, provenance, and two builds | repository and wp-env | exit 0 | The default 100 KB check was moved before per-Ability rate accounting; all 14 controls and 10/10 PHPCS files passed; the environment was stopped; both final 20-entry builds produced `31C718F1445FFCF1D4E897DCC868EE6E9AD4AC85591FBEEB808AC1EDEB0485BD`. |
+| 2026-08-31T05:10:28+07:00 | GitHub Actions implementation gate | PR #8 at `1840903` | exit 0 | Run [33338390478](https://github.com/MrBigleg/AgentPress/actions/runs/33338390478), job `99329349910`, passed unit, standards, provenance, audit, and package checks in 21 seconds. |
 
 ## Observation ledger
 
@@ -126,6 +127,7 @@ environment: Node.js 22.23.2; npm 10.9.8; WordPress/PHP runtime pending
 | O6 | `OBSERVED` | WordPress runtime accepted valid private discovery/execution once and rejected 14 forbidden controls before sensitive side effects; route errors carried private no-store headers and rate errors carried `Retry-After: 60`. | final runtime matrix | Supports the AP-004 server-side boundary under the synthetic fixture. |
 | O7 | `OBSERVED` | The browser suite refreshed/retried nonce errors exactly once, never retried permission errors, used same-origin/no-store requests, and kept the nonce in page memory only. | 14/14 Node tests | Supports the client-side AP-004 boundary. |
 | O8 | `OBSERVED` | Two consecutive package builds produced the same 20-entry ZIP SHA-256 and contained no upstream runtime source. | final package scan/builds | Supports deterministic packaging and the AP-002 attribution boundary after AP-004 additions. |
+| O9 | `OBSERVED` | The published implementation commit passed the hosted unit, standards, provenance, audit, package, and built-adapter storage scans. | GitHub run `33338390478` | Supports reproducibility outside the local workstation. |
 
 ## Contradictions and failures
 
@@ -155,21 +157,27 @@ environment: Node.js 22.23.2; npm 10.9.8; WordPress/PHP runtime pending
 | Unknown/third-party, cross-origin, malformed, and oversized requests execute nothing | WordPress runtime controls | `OBSERVED`, pass | all expected bounded errors; zero sensitive side effects |
 | Responses are private no-store and vary by cookie | Success/error header assertions | `OBSERVED`, pass | `Cache-Control: private, no-store`; `Vary: Cookie` |
 | Discovery, total, and per-Ability limits fail with retry guidance | Runtime limits reduced to one through the documented filter | `OBSERVED`, pass | `AP_RATE_LIMITED`; `Retry-After: 60`; zero sensitive side effects |
-| Client refreshes nonce/retries once only and uses no shared storage | Node browser suite and production-source scan | `OBSERVED`, pass locally | 14/14 tests; no local/session storage identifiers; built-ZIP CI scan pending |
+| Client refreshes nonce/retries once only and uses no shared storage | Node browser suite, production-source scan, and hosted built-ZIP scan | `OBSERVED`, pass | 14/14 tests; no local/session storage identifiers in source or built adapter |
+| Published implementation passes repository gates | GitHub Actions on `1840903` | `OBSERVED`, pass | run `33338390478`, job `99329349910` |
 
 ## Artifact inventory
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-08-30-exp-010-private-rest-transport.md` | evidence | untracked | `EXP-010` | Opened before WordPress research or product mutation. |
-| `agentpress/tests/integration/ap004-rest-transport.php` | executable evidence | untracked | AP-004 runtime matrix | Synthetic fixture; not included in release ZIP. |
+| `docs/evidence/sessions/2026-08-30-exp-010-private-rest-transport.md` | evidence | committed at `1840903` | `EXP-010` | Opened before WordPress research or product mutation. |
+| `agentpress/tests/integration/ap004-rest-transport.php` | executable evidence | committed at `1840903` | AP-004 runtime matrix | Synthetic fixture; not included in release ZIP. |
 | `dist/agentpress.zip` | generated release check | ignored/uncommitted | `31C718F1445FFCF1D4E897DCC868EE6E9AD4AC85591FBEEB808AC1EDEB0485BD` | Final post-review artifact; deterministic across two consecutive builds; 20 entries. |
+| GitHub Actions run | hosted command evidence | completed | `33338390478` / job `99329349910` | Published implementation gate; conclusion `success`. |
 
 ## Result
 
-`PENDING CI/PR CLOSEOUT`
+`SUPPORTED`
 
-Local evidence supports AP-004. The experiment remains open until the task branch is committed, CI is green, and the authorized PR is merged.
+`SOURCE_VERIFIED`: WordPress cookie authentication, REST dispatch, private response filtering, and Ability permission/execution behavior support the chosen transport boundary.
+
+`OBSERVED`: the published AP-004 implementation allows one valid synthetic discovery/execution path and rejects 14 forbidden controls without unauthorized Ability resolution, execution, or target mutation. Local and GitHub-hosted gates passed.
+
+This result establishes the private transport and retry contract only. It is not production Ability-catalog, real-browser, deployed-site, or ChatGPT acceptance evidence.
 
 ## Limitations and `NOT_TESTED` boundaries
 
@@ -181,7 +189,7 @@ Local evidence supports AP-004. The experiment remains open until the task branc
 - work attributable to challenge period: baseline and timestamps recorded before material AP-004 work;
 - pre-existing work distinguished by: merged AP-003 adapter baseline;
 - third-party material/license/pin: no new third-party material added; existing pinned attribution remained green;
-- commit/PR evidence: pending closeout;
+- commit/PR evidence: implementation commit `1840903`, issue #7, draft PR #8, and successful run `33338390478`;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -196,9 +204,9 @@ Local evidence supports AP-004. The experiment remains open until the task branc
 ## End state
 
 ```text
-git status --short --branch: EXP-010 and evidence index modified on ap-004-private-rest-transport
+git status --short --branch: clean at 1840903 before this evidence closeout
 tests/checks: local runtime/security matrix, PHPCS, PHPUnit, browser, syntax, audit, provenance, and deterministic package build pass
-committed: no
-pushed: no
+committed: implementation 1840903; closeout pending
+pushed: implementation pushed; closeout pending
 deployed: no
 ```
