@@ -99,7 +99,7 @@ AP task, issue, and PR: AP-001; issue created after verification as GitHub #1; P
 | 2026-08-30T11:01:22+07:00 (Composer lockfile time) | Install Composer dependencies in CLI container | plugin mount | exit 0 | 36 locked development packages installed and autoload generated. |
 | 2026-08-30 (time not independently captured; after Composer install) | Run PHPUnit and PHPCS, correct recorded lint/configuration failures, and rerun | plugin mount | initial mixed; final exit 0 | PHPUnit passed 7 tests/12 assertions; final PHPCS passed 6 production files. The incorrect first PHPCBF invocation was retained before the corrected direct invocation. |
 | 2026-08-30 (time not independently captured; before browser captures) | Start/query WordPress 6.8/PHP 8.0 and WordPress 6.9/PHP 7.4 controls | isolated wp68/php74 environments | exit 0 with expected option lookup failures | Both kept AgentPress inactive, produced one requirements warning, created no version option, and loaded no runtime class. |
-| 2026-08-30T11:14:33+07:00 (ZIP file time) | Final ZIP build twice, hash/list, and install on clean unmapped supported site | repository root and isolated zip environment | exit 0 | Both builds SHA-256 `CF75187F7E107C9D5C9B17F898D395C3666B08C6CBD29D87D2CF800B610088A4`; ten expected entries; clean install activated and booted. |
+| 2026-08-30T11:14:33+07:00 (ZIP file time) | Pre-commit ZIP build twice, hash/list, and install on clean unmapped supported site | repository root and isolated zip environment | exit 0 | Both builds SHA-256 `CF75187F7E107C9D5C9B17F898D395C3666B08C6CBD29D87D2CF800B610088A4`; ten expected entries; clean install activated and booted. Four later EOF-only fixes changed artifact bytes before commit. |
 | 2026-08-30T11:20:43+07:00 and 2026-08-30T11:21:57+07:00 (screenshot file times) | Browser-login and inspect Installed Plugins on both controls | local wp-admin sites | supported observation | WordPress 6.8 showed one “does not work with your version of WordPress” row; PHP 7.4 showed one “does not work with your version of PHP” row. Screenshots saved and visually inspected. |
 | 2026-08-30T11:31:18+07:00 | Create `difficulty: S`, milestone `v0.1`, and GitHub issue #1 | GitHub repository | success | [AP-001 issue #1](https://github.com/MrBigleg/AgentPress/issues/1) contains the task, dependency, deliverable, acceptance test, evidence pointer, and scope boundary. |
 | 2026-08-30T11:35:51+07:00 | Pre-commit rerun: supported `wp-env`, PHPUnit, PHPCS, npm audit, Node syntax | task branch and supported container | exit 0 | PHPUnit 7 tests/12 assertions; PHPCS 6/6 files; npm zero vulnerabilities; `build-zip.mjs` syntax valid. |
@@ -117,7 +117,7 @@ AP task, issue, and PR: AP-001; issue created after verification as GitHub #1; P
 | O6 | `OBSERVED` | PHPUnit passed 7 tests/12 assertions and PHPCS passed all 6 production files after the recorded correction. | container test commands | Supports the compatibility and quality-tooling portions of AP-001. |
 | O7 | `OBSERVED` | Both unsupported environments kept AgentPress inactive, created no version option, loaded no runtime class, and presented exactly one WordPress compatibility message in wp-admin. | WP-CLI controls and compatibility screenshots | Supports the fail-closed hypothesis with zero initialization. |
 | O8 | `OBSERVED` | The generated ZIP installed and activated on a clean, unmapped supported site. | isolated ZIP install command | Supports installability independently of the source mount. |
-| O9 | `OBSERVED` | Two final ZIP builds were byte-identical with SHA-256 `CF75187F7E107C9D5C9B17F898D395C3666B08C6CBD29D87D2CF800B610088A4`. | final build controls | Supports packaging reproducibility for the current workspace state. |
+| O9 | `OBSERVED` | Two pre-commit ZIP builds were byte-identical at `CF75187F...`, and two post-commit-source builds after EOF cleanup were byte-identical at `2AB78B6C4B1CC4DB0DFEA7084DA52D1E9A29C3DC56C48D960737A3D12612BA7E`. | build controls; EXP-007 | Supports packaging reproducibility while distinguishing the installed pre-format artifact from the current source artifact. |
 | O10 | `OBSERVED` | A concurrent owner commit `e665779` added EXP-006 while AP-001 was still uncommitted; the EXP-006 work was preserved in the task-branch base. | mid-session status/log comparison | Neutral to hypothesis; changes ending commit context without changing the AP-001 baseline. |
 | O11 | `OBSERVED` | Verified AP-001 changes were moved intact from `main` onto local branch `ap-001-plugin-scaffold`; publication waited for explicit owner authorization. | branch/status checks | Improved task isolation while preserving the authorization boundary. |
 | O12 | `OBSERVED` | After owner authorization, GitHub issue #1, the `difficulty: S` label, and `v0.1` milestone were created before commit; implementation was committed as `807275f`. | GitHub issue/milestone and Git output | Satisfies the checklist metadata requirement and establishes dated source history. |
@@ -134,6 +134,7 @@ AP task, issue, and PR: AP-001; issue created after verification as GitHub #1; P
 | C6 | The first PHPCBF command forwards its standard argument through Composer and wp-env. | Composer consumed `--standard`; command exited 1 without formatting. | command invocation defect | Corrected by invoking `vendor/bin/phpcbf` directly with wp-env argument separation; two source files fixed. |
 | C7 | Existing hidden ignore rules were preserved by the first scaffold patch. | Initial `.gitignore` addition replaced 23 existing lines because the hidden file was absent from the ordinary file listing. | preservation defect | Restored every original rule from `HEAD` and added only scoped ignores; final diff confirms additive changes. |
 | C8 | Manually entered execution-log minute values accurately reflected command time. | Pre-commit review found several estimated times later than the actual current time. | evidence chronology defect | Removed false precision, replaced recoverable entries with authoritative lockfile/ZIP/screenshot/log timestamps, explicitly marked unrecoverable times as not independently captured, and retained this correction before commit. |
+| C9 | The pre-commit ZIP checksum remained the checksum of the committed source tree. | Four EOF-only fixes after the pre-commit build changed ZIP bytes; EXP-007 detected the current hash as `2AB78B6C...`. | artifact-evidence drift | Retained the installed pre-format hash, added the current committed-source hash, and updated the verification/artifact inventory before PR merge. |
 
 ## Decisions
 
@@ -152,7 +153,7 @@ AP task, issue, and PR: AP-001; issue created after verification as GitHub #1; P
 | WordPress 6.9 boot and clean activation | Supported source-mount and clean ZIP sites on PHP 8.0.30 | `PASS` | WP-CLI activation/status/option/runtime checks; HTTP 200 and bounded logs |
 | WordPress 6.8 fails closed with one notice | WP-CLI activation/state checks plus wp-admin browser inspection | `PASS` | no option/class; [screenshot](../assets/EXP-005/wp68-agentpress-compatibility.png) |
 | PHP 7.4 fails closed with one notice | WP-CLI activation/state checks plus wp-admin browser inspection | `PASS` | no option/class; [screenshot](../assets/EXP-005/php74-agentpress-compatibility.png) |
-| Installable ZIP script and contents | Two-build hash control, ten-entry listing, isolated clean-site install | `PASS` | SHA-256 `CF75187F7E107C9D5C9B17F898D395C3666B08C6CBD29D87D2CF800B610088A4` |
+| Installable ZIP script and contents | Two-build controls before and after EOF cleanup, ten-entry listing, isolated clean-site install | `PASS` | installed pre-format SHA-256 `CF75187F...`; current-source SHA-256 `2AB78B6C4B1CC4DB0DFEA7084DA52D1E9A29C3DC56C48D960737A3D12612BA7E` |
 
 ## Artifact inventory
 
@@ -161,7 +162,7 @@ AP task, issue, and PR: AP-001; issue created after verification as GitHub #1; P
 | `agentpress/` | source/tests/tooling | untracked | repository paths | Entrypoint, compatibility guard, runtime shell, autoloader, uninstall policy, Composer lock/config, PHPUnit/PHPCS tests. |
 | `.wp-env.json`, `.wp-env.wp68.json`, `.wp-env.php74.json`, `.wp-env.zip.json` | test configuration | untracked | repository paths | Supported, compatibility, and clean-ZIP environments. |
 | `package.json`, `package-lock.json`, `scripts/build-zip.mjs` | tooling | untracked | repository paths | Pinned npm tree and deterministic ZIP generator. |
-| `dist/agentpress.zip` | generated ZIP | ignored | `CF75187F7E107C9D5C9B17F898D395C3666B08C6CBD29D87D2CF800B610088A4` | Test artifact only; not AP-030 release evidence. |
+| `dist/agentpress.zip` | generated ZIP | ignored | current source `2AB78B6C4B1CC4DB0DFEA7084DA52D1E9A29C3DC56C48D960737A3D12612BA7E`; installed pre-format artifact `CF75187F...` | Test artifacts only; not AP-030 release evidence. |
 | `docs/evidence/assets/EXP-005/wp68-agentpress-compatibility.png` | screenshot | untracked | `71D5D7D5552272ED695546C63BFF6F05165DB755B3A5E5993F4703BAE5E8E4AA` | Local WordPress 6.8 compatibility table; no private data. |
 | `docs/evidence/assets/EXP-005/php74-agentpress-compatibility.png` | screenshot | untracked | `3C4DB43D33EC26F368ED75B49630AA6AC883A8D33735ADF31F1018807F1530BB` | Local PHP 7.4 compatibility table; no private data. |
 | `docs/evidence/sessions/2026-08-30-exp-005-plugin-scaffold.md` | evidence | untracked | repository path | Session record opened before source mutation and updated during execution. |
@@ -170,7 +171,7 @@ AP task, issue, and PR: AP-001; issue created after verification as GitHub #1; P
 
 `SUPPORTED`
 
-The hypothesis is supported. The minimal scaffold activates cleanly on WordPress 6.9/PHP 8.0, fails closed with one visible WordPress compatibility message and zero AgentPress initialization on WordPress 6.8 or PHP 7.4, passes its unit/coding-standard checks, builds reproducibly, and installs from ZIP on a clean supported site.
+The hypothesis is supported. The minimal scaffold activates cleanly on WordPress 6.9/PHP 8.0, fails closed with one visible WordPress compatibility message and zero AgentPress initialization on WordPress 6.8 or PHP 7.4, passes its unit/coding-standard checks, builds reproducibly from both tested source states, and installs from the tested pre-format ZIP on a clean supported site.
 
 This result establishes AP-001 only. It does not establish any Ability, WebMCP, storage, permission, approval, admin UI, live ChatGPT, deployment, release, or challenge workflow behavior.
 
