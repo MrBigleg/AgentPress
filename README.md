@@ -147,7 +147,7 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Product scope | `OBSERVED` | [PRD v2](docs/PRD.md) |
 | Technical architecture | `DECIDED`, not implemented | [Implementation specification](docs/IMPLEMENTATION_SPEC.md) |
 | Engineering sequence | `PROPOSED`, acceptance tests defined | [Build checklist](docs/BUILD_CHECKLIST.md) |
-| WordPress plugin scaffold | `OBSERVED`, uncommitted | [Experiment 005](docs/evidence/sessions/2026-08-30-exp-005-plugin-scaffold.md) |
+| WordPress plugin scaffold | `OBSERVED`, committed on task branch | [Experiment 005](docs/evidence/sessions/2026-08-30-exp-005-plugin-scaffold.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
@@ -160,7 +160,7 @@ The next dependency-ordered implementation experiment is `AP-002 — Pin and att
 
 **Falsification condition:** a missing or ambiguous license/pin, unrecorded adapted material, or any unrelated upstream runtime behavior in the AgentPress source or ZIP falsifies the hypothesis.
 
-**Prerequisite evidence:** AP-001 is `SUPPORTED` locally in Experiment 005 but remains `UNCOMMITTED`; no push or deployment has been performed.
+**Prerequisite evidence:** AP-001 is `SUPPORTED` in Experiment 005 and committed as `807275f`; merge, deployment, and release remain separate verification gates.
 
 The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-002--pin-and-attribute-the-webmcp-bridge-source).
 

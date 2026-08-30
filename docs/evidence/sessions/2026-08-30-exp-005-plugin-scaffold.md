@@ -15,7 +15,7 @@
 | Agent/operator | Codex, implementation agent |
 | Branch | started on `main`; isolated on `ap-001-plugin-scaffold` before commit |
 | Baseline commit | `89b4def3a2b4ae4d1b463885a787e2a3e45e1dda` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `807275f48002cb60793fe8c79e4283d11eef0d14` (implementation); evidence closeout commit follows |
 | Environment | Windows; Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; Git 2.55.0.windows.3; supported WordPress 6.9/PHP 8.0.30; controls WordPress 6.8/PHP 8.0.30 and WordPress 6.9/PHP 7.4.33; Playwright CLI browser; host PHP and Composer not installed |
 
 ## Question
@@ -103,6 +103,7 @@ AP task, issue, and PR: AP-001; issue created after verification as GitHub #1; P
 | 2026-08-30T11:20:43+07:00 and 2026-08-30T11:21:57+07:00 (screenshot file times) | Browser-login and inspect Installed Plugins on both controls | local wp-admin sites | supported observation | WordPress 6.8 showed one “does not work with your version of WordPress” row; PHP 7.4 showed one “does not work with your version of PHP” row. Screenshots saved and visually inspected. |
 | 2026-08-30T11:31:18+07:00 | Create `difficulty: S`, milestone `v0.1`, and GitHub issue #1 | GitHub repository | success | [AP-001 issue #1](https://github.com/MrBigleg/AgentPress/issues/1) contains the task, dependency, deliverable, acceptance test, evidence pointer, and scope boundary. |
 | 2026-08-30T11:35:51+07:00 | Pre-commit rerun: supported `wp-env`, PHPUnit, PHPCS, npm audit, Node syntax | task branch and supported container | exit 0 | PHPUnit 7 tests/12 assertions; PHPCS 6/6 files; npm zero vulnerabilities; `build-zip.mjs` syntax valid. |
+| 2026-08-30T11:38:25+07:00 | Commit verified AP-001 implementation | `ap-001-plugin-scaffold` | success | Commit `807275f48002cb60793fe8c79e4283d11eef0d14`; 27 scoped files; no generated dependency tree, ZIP, browser profile, push, or deployment included. |
 
 ## Observation ledger
 
@@ -117,9 +118,9 @@ AP task, issue, and PR: AP-001; issue created after verification as GitHub #1; P
 | O7 | `OBSERVED` | Both unsupported environments kept AgentPress inactive, created no version option, loaded no runtime class, and presented exactly one WordPress compatibility message in wp-admin. | WP-CLI controls and compatibility screenshots | Supports the fail-closed hypothesis with zero initialization. |
 | O8 | `OBSERVED` | The generated ZIP installed and activated on a clean, unmapped supported site. | isolated ZIP install command | Supports installability independently of the source mount. |
 | O9 | `OBSERVED` | Two final ZIP builds were byte-identical with SHA-256 `CF75187F7E107C9D5C9B17F898D395C3666B08C6CBD29D87D2CF800B610088A4`. | final build controls | Supports packaging reproducibility for the current workspace state. |
-| O10 | `OBSERVED` | A concurrent owner commit `e665779` added EXP-006 during this session; AP-001 files remain uncommitted and the EXP-006 work was preserved. | mid-session status/log comparison | Neutral to hypothesis; changes ending commit context without changing the AP-001 baseline. |
-| O11 | `OBSERVED` | Verified AP-001 changes were moved intact from `main` onto local branch `ap-001-plugin-scaffold`; no commit, push, issue, PR, or merge was created. | final branch/status check | Improves task isolation while preserving the authorization boundary. |
-| O12 | `OBSERVED` | After owner authorization, GitHub issue #1, the `difficulty: S` label, and `v0.1` milestone were created before commit. | GitHub issue/milestone output | Satisfies the checklist metadata requirement and provides the commit/PR linkage target. |
+| O10 | `OBSERVED` | A concurrent owner commit `e665779` added EXP-006 while AP-001 was still uncommitted; the EXP-006 work was preserved in the task-branch base. | mid-session status/log comparison | Neutral to hypothesis; changes ending commit context without changing the AP-001 baseline. |
+| O11 | `OBSERVED` | Verified AP-001 changes were moved intact from `main` onto local branch `ap-001-plugin-scaffold`; publication waited for explicit owner authorization. | branch/status checks | Improved task isolation while preserving the authorization boundary. |
+| O12 | `OBSERVED` | After owner authorization, GitHub issue #1, the `difficulty: S` label, and `v0.1` milestone were created before commit; implementation was committed as `807275f`. | GitHub issue/milestone and Git output | Satisfies the checklist metadata requirement and establishes dated source history. |
 
 ## Contradictions and failures
 
@@ -182,7 +183,7 @@ This result establishes AP-001 only. It does not establish any Ability, WebMCP, 
 - work attributable to challenge period: experiment began at the recorded baseline and timestamps;
 - pre-existing work distinguished by: clean baseline SHA and recent history;
 - third-party material/license/pin: `NOT_APPLICABLE` to AP-001; AP-002 will own bridge attribution;
-- commit/PR evidence: AP-001 issue [#1](https://github.com/MrBigleg/AgentPress/issues/1); implementation commit and PR pending; concurrent owner commit `e665779` contains EXP-006 only;
+- commit/PR evidence: AP-001 issue [#1](https://github.com/MrBigleg/AgentPress/issues/1); implementation commit `807275f48002cb60793fe8c79e4283d11eef0d14`; PR pending; concurrent owner commit `e665779` contains EXP-006 only;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -197,9 +198,9 @@ This result establishes AP-001 only. It does not establish any Ability, WebMCP, 
 ## End state
 
 ```text
-git status --short --branch: ap-001-plugin-scaffold; based on concurrent owner commit e665779; AP-001 source/evidence/docs uncommitted
+git status --short --branch: ap-001-plugin-scaffold; implementation commit 807275f; evidence closeout changes pending
 tests/checks: PHPUnit 7 tests/12 assertions PASS; PHPCS 6 files PASS; supported/control/ZIP runtime checks PASS; npm audit 0 vulnerabilities
-committed: AP-001 no; concurrent EXP-006 commit preserved
+committed: AP-001 implementation 807275f; concurrent EXP-006 commit preserved
 pushed: no
 deployed: no
 ```
