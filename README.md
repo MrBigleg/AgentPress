@@ -148,22 +148,23 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Technical architecture | `DECIDED`, scaffold and provenance implemented | [Implementation specification](docs/IMPLEMENTATION_SPEC.md) |
 | Engineering sequence | `PROPOSED`, acceptance tests defined | [Build checklist](docs/BUILD_CHECKLIST.md) |
 | WordPress plugin scaffold | `OBSERVED`, merged in PR #2 | [Experiment 005](docs/evidence/sessions/2026-08-30-exp-005-plugin-scaffold.md) |
-| Bridge source provenance | `OBSERVED`, AP-002 task branch | [Experiment 008](docs/evidence/sessions/2026-08-30-exp-008-bridge-pin-attribution.md) |
+| Bridge source provenance | `OBSERVED`, merged in PR #4 | [Experiment 008](docs/evidence/sessions/2026-08-30-exp-008-bridge-pin-attribution.md) |
+| Current WebMCP browser adapter | `OBSERVED`, AP-003 task branch | [Experiment 009](docs/evidence/sessions/2026-08-30-exp-009-current-webmcp-adapter.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment after AP-002 merges is `AP-003 — Implement the current browser registration adapter`.
+The next dependency-ordered implementation experiment after AP-003 merges is `AP-004 — Implement private same-origin WebMCP REST transport`.
 
-**Hypothesis:** an AgentPress-owned adapter can register fixed definitions with `document.modelContext.registerTool`, return structured results directly, and cancel cleanly without loading the obsolete upstream client.
+**Hypothesis:** private same-origin discovery and execution routes can require the signed-in WordPress cookie plus a valid `wp_rest` nonce, expose only the fixed AgentPress allowlist, enforce size/rate limits, and retry one expired nonce without unauthorized execution.
 
-**Falsification condition:** missing or slash-containing registrations, use of `navigator.modelContext`/`provideContext`, swallowed cancellation, or non-structured results falsify the hypothesis.
+**Falsification condition:** any missing/wrong nonce, logged-out, cross-origin, oversized, or non-AgentPress request reaches Ability execution; a private response is cacheable; or nonce refresh can retry more than once.
 
-**Prerequisite evidence:** AP-001 is merged in PR #2; AP-002 provenance/package evidence is being completed in Experiment 008 and must merge before AP-003 begins.
+**Prerequisite evidence:** AP-001 and AP-002 are merged in PRs #2 and #4; AP-003 adapter evidence is being completed in Experiment 009 and must merge before AP-004 begins.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-003--implement-the-current-browser-registration-adapter).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-004--implement-private-same-origin-webmcp-rest-transport).
 
 ## Local development
 
