@@ -1,0 +1,24 @@
+{
+  "name": "agentpress",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Development and release tooling for the AgentPress WordPress plugin.",
+  "license": "GPL-2.0-or-later",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "wp-env": "wp-env",
+    "env:start": "wp-env start --update",
+    "env:stop": "wp-env stop",
+    "env:destroy": "wp-env destroy",
+    "env:activate": "wp-env run cli wp plugin activate agentpress",
+    "test:unit": "wp-env run cli --env-cwd=wp-content/plugins/agentpress composer test:unit",
+    "lint:php": "wp-env run cli --env-cwd=wp-content/plugins/agentpress composer lint",
+    "build:zip": "node scripts/build-zip.mjs"
+  },
+  "devDependencies": {
+    "@wordpress/env": "11.14.0",
+    "archiver": "7.0.1"
+  }
+}
