@@ -19,7 +19,7 @@
 
 ### AP-001 — Create the WordPress plugin scaffold
 
-- [ ] **Difficulty:** S
+- [x] **Difficulty:** S
 - **Depends on:** none
 - **Demo critical:** yes
 - **Deliverable:** plugin entrypoint, PSR-4 autoloading, minimum-version guard, npm/Composer scripts, PHPCS, PHPUnit, `wp-env`, build output policy, and an installable ZIP script.

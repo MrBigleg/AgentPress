@@ -14,7 +14,7 @@
 
 AgentPress is an open-source WordPress plugin project that will let ChatGPT work inside the WordPress session a human is already using. WordPress defines the user's maximum authority. AgentPress narrows that authority into actions the agent may perform automatically, actions requiring explicit human approval, and actions that remain unavailable.
 
-> **Project stage:** research and implementation planning. The PRD, implementation specification, and build checklist exist; the plugin scaffold does not. No production release or live challenge workflow has been verified yet.
+> **Project stage:** early implementation. The AP-001 plugin scaffold now activates on the supported runtime and fails closed on the two minimum-version controls. Abilities, Site Tools transport, product UI, production release, and the live challenge workflow remain unimplemented or unverified.
 
 ## Product thesis
 
@@ -147,22 +147,37 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Product scope | `OBSERVED` | [PRD v2](docs/PRD.md) |
 | Technical architecture | `DECIDED`, not implemented | [Implementation specification](docs/IMPLEMENTATION_SPEC.md) |
 | Engineering sequence | `PROPOSED`, acceptance tests defined | [Build checklist](docs/BUILD_CHECKLIST.md) |
-| WordPress plugin scaffold | `NOT_TESTED` | AP-001 is the next experiment |
+| WordPress plugin scaffold | `OBSERVED`, committed on task branch | [Experiment 005](docs/evidence/sessions/2026-08-30-exp-005-plugin-scaffold.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next implementation experiment is `AP-001 — Create the WordPress plugin scaffold`.
+The next dependency-ordered implementation experiment is `AP-002 — Pin and attribute the WebMCP bridge source`.
 
-**Hypothesis:** a minimal AgentPress plugin can install and activate on WordPress 6.9 with PHP 8.0, while failing closed with a single explanatory notice on unsupported versions.
+**Hypothesis:** the audited upstream bridge material can be pinned and attributed without shipping obsolete registration code, generic tools, public discovery, or upstream settings behavior.
 
-**Falsification condition:** any fatal error, partial Ability registration, unexpected mutation, or unsupported-version activation without a clear notice falsifies the hypothesis.
+**Falsification condition:** a missing or ambiguous license/pin, unrecorded adapted material, or any unrelated upstream runtime behavior in the AgentPress source or ZIP falsifies the hypothesis.
 
-**Required evidence:** clean-checkout setup commands, environment versions, activation result, unsupported-version result, exact commit, test output, and produced artifact path/hash.
+**Prerequisite evidence:** AP-001 is `SUPPORTED` in Experiment 005 and committed as `807275f`; merge, deployment, and release remain separate verification gates.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-001--create-the-wordpress-plugin-scaffold).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-002--pin-and-attribute-the-webmcp-bridge-source).
+
+## Local development
+
+Prerequisites are Node.js 20+, Docker Desktop, and Git. Host PHP and Composer are optional because `wp-env` supplies them inside the CLI container.
+
+```powershell
+npm install
+npm run env:start
+npm run env:activate
+npm run test:unit
+npm run lint:php
+npm run build:zip
+```
+
+The supported environment is WordPress 6.9 on PHP 8.0. Separate `.wp-env.wp68.json` and `.wp-env.php74.json` configurations preserve the two fail-closed controls. The generated ZIP is written to `dist/agentpress.zip`; it is intentionally ignored by Git and must not be treated as release evidence until AP-030.
 
 ## Product principles
 

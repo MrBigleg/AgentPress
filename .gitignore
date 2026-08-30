@@ -10,6 +10,7 @@ vendor/
 dist/
 build/
 coverage/
+agentpress/.phpunit.result.cache
 
 # Local WordPress and environment configuration
 .env
@@ -17,6 +18,9 @@ coverage/
 !.env.example
 wp-config.php
 wordpress/
+.wp-env.override.json
+.wp-env.*.override.json
+.playwright-cli/
 
 # Archives and logs
 *.zip

@@ -1,0 +1,68 @@
+<?php
+/**
+ * AgentPress runtime shell.
+ *
+ * @package AgentPress
+ */
+
+namespace AgentPress;
+
+/**
+ * Minimal supported-runtime shell for AgentPress.
+ */
+final class Plugin {
+	/**
+	 * Shared plugin instance.
+	 *
+	 * @var Plugin|null
+	 */
+	private static $instance;
+
+	/**
+	 * Whether the runtime shell has initialized.
+	 *
+	 * @var bool
+	 */
+	private $booted = false;
+
+	/**
+	 * Return the shared plugin instance.
+	 *
+	 * @return Plugin
+	 */
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Mark the supported runtime as initialized.
+	 *
+	 * @return void
+	 */
+	public function boot() {
+		if ( $this->booted ) {
+			return;
+		}
+
+		$this->booted = true;
+		do_action( 'agentpress_initialized', $this );
+	}
+
+	/**
+	 * Report whether the runtime shell initialized.
+	 *
+	 * @return bool
+	 */
+	public function is_booted() {
+		return $this->booted;
+	}
+
+	/**
+	 * Prevent direct construction.
+	 */
+	private function __construct() {}
+}

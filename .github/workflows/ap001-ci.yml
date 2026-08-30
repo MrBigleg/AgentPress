@@ -1,0 +1,65 @@
+name: AP-001 scaffold checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ap001-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scaffold:
+    name: Unit, standards, audit, and package
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      COMPOSER_ROOT_VERSION: 0.1.0
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: 22.23.2
+          cache: npm
+
+      - name: Report runner tools
+        run: |
+          node --version
+          npm --version
+          php --version
+          composer --version
+
+      - name: Install locked Node dependencies
+        run: npm ci
+
+      - name: Audit Node dependencies
+        run: npm audit --omit=optional
+
+      - name: Check packaging script syntax
+        run: node --check scripts/build-zip.mjs
+
+      - name: Install locked PHP development dependencies
+        run: composer --working-dir=agentpress install --no-interaction --prefer-dist --no-progress
+
+      - name: Run PHP unit tests
+        run: composer --working-dir=agentpress test:unit
+
+      - name: Run PHP coding standards
+        run: composer --working-dir=agentpress lint
+
+      - name: Verify deterministic ZIP output
+        run: |
+          npm run build:zip
+          sha256sum dist/agentpress.zip > /tmp/agentpress-first.sha256
+          npm run build:zip
+          sha256sum --check /tmp/agentpress-first.sha256
+          unzip -l dist/agentpress.zip

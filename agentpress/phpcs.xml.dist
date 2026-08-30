@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<ruleset name="AgentPress">
+    <description>AgentPress WordPress coding standards.</description>
+    <file>agentpress.php</file>
+    <file>includes</file>
+    <file>uninstall.php</file>
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <arg name="extensions" value="php"/>
+    <arg value="sp"/>
+    <rule ref="WordPress">
+        <exclude name="WordPress.Files.FileName"/>
+        <exclude name="Universal.NamingConventions.NoReservedKeywordParameterNames"/>
+    </rule>
+    <rule ref="WordPress-Extra"/>
+    <rule ref="PHPCompatibilityWP"/>
+    <config name="testVersion" value="8.0-"/>
+</ruleset>
