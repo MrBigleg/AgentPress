@@ -18,6 +18,11 @@ const files = [
   'includes/Compatibility.php',
   'includes/Plugin.php',
   'readme.txt',
+  'THIRD_PARTY_NOTICES.md',
+  'third-party/webmcp-abilities/LICENSE',
+  'third-party/webmcp-abilities/PINNED_COMMIT',
+  'third-party/webmcp-abilities/PROVENANCE.json',
+  'third-party/webmcp-abilities/README.md',
   'uninstall.php',
 ];
 

@@ -1,4 +1,4 @@
-name: AP-001 scaffold checks
+name: AgentPress repository checks
 
 on:
   pull_request:
@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   scaffold:
-    name: Unit, standards, audit, and package
+    name: Unit, standards, provenance, audit, and package
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -45,7 +45,12 @@ jobs:
         run: npm audit --omit=optional
 
       - name: Check packaging script syntax
-        run: node --check scripts/build-zip.mjs
+        run: |
+          node --check scripts/build-zip.mjs
+          node --check scripts/verify-third-party.mjs
+
+      - name: Verify third-party provenance and package boundary
+        run: npm run test:third-party
 
       - name: Install locked PHP development dependencies
         run: composer --working-dir=agentpress install --no-interaction --prefer-dist --no-progress
