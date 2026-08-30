@@ -63,4 +63,3 @@ jobs:
           npm run build:zip
           sha256sum --check /tmp/agentpress-first.sha256
           unzip -l dist/agentpress.zip
-
