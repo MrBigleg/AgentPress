@@ -6,16 +6,16 @@
 |---|---|
 | Experiment | `EXP-011` |
 | Related task | `AP-005`; GitHub issue #9 |
-| Status | `IN_PROGRESS` |
-| Result | `PENDING` |
+| Status | `COMPLETED` |
+| Result | `SUPPORTED` |
 | Started local | `2026-08-31T05:14:36+07:00` |
 | Started UTC | `2026-08-30T22:14:36Z` |
-| Ended local | `PENDING` |
-| Ended UTC | `PENDING` |
+| Ended local | `2026-08-31T05:39:47+07:00` |
+| Ended UTC | `2026-08-30T22:39:47Z` |
 | Agent/operator | Codex, implementation agent |
 | Branch | `ap-005-database-repositories` |
 | Baseline commit | `c0db4b8fe9f5f450d5c198daf1fd5902078ff981` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `2b1c5f30f5633bab63f8c661f1f32019914f367b` (implementation); evidence closeout follows |
 | Environment | Windows/PowerShell; Node.js 22.23.2; npm 10.9.8; wp-env WordPress 6.9/PHP 8.0 planned |
 
 ## Question
@@ -99,6 +99,7 @@ environment: Node.js 22.23.2; npm 10.9.8; WordPress/PHP runtime pending
 | timestamp not independently captured | Second and third AP-005 PHPCS runs | wp-env WordPress 6.9/PHP 8.0 | exit 1, then exit 0 | The second run isolated two unused codec parameters and a chained parser exception; after removal, all 16 production PHP files passed. |
 | timestamp not independently captured | Expanded AP-005 runtime and real deactivation controls | wp-env WordPress 6.9/PHP 8.0 | exit 0 | Activation plus guarded upgrade remained schema-idempotent; raw idempotency key rejected; explicit uninstall preserved a similarly named unowned table; real `wp plugin deactivate` preserved a synthetic row before reactivation. |
 | timestamp not independently captured | Browser, audit, provenance, package, and environment closeout | repository/wp-env | exit 0 | Browser 14/14; npm audit 0 vulnerabilities; provenance verified; 26-entry ZIP deterministic at `0B3BB13FC37DEA3603F7DD8D03D430917872A6706FFD280A69A8D1E815C78EFB`; wp-env stopped. |
+| 2026-08-31T05:39:47+07:00 | GitHub Actions implementation gate | PR #10 at `2b1c5f3` | exit 0 | Run [33339723834](https://github.com/MrBigleg/AgentPress/actions/runs/33339723834), job `99333039896`, passed unit, standards, provenance, audit, and package checks in 23 seconds. |
 
 ## Observation ledger
 
@@ -111,6 +112,7 @@ environment: Node.js 22.23.2; npm 10.9.8; WordPress/PHP runtime pending
 | O5 | `OBSERVED` | PHPUnit passed 10 tests/15 assertions; PHPCS found documentation/exception-output issues but no unsafe dynamic-value SQL. | first local PHP checks | Runtime and codec behavior are supported; production standards need correction. |
 | O6 | `OBSERVED` | Final local gates passed: PHPCS 16/16 files, PHPUnit 10/10, browser 14/14, audit clean, provenance clean, and deterministic 26-entry package. | local command outputs/package hash | Supports repository quality and reproducible packaging. |
 | O7 | `OBSERVED` | Real WordPress deactivation preserved the synthetic Change Set row; default uninstall preserved rows/version; explicit opt-in removed only the three tables and two version options while retaining an unowned sentinel table. | lifecycle harness and WP-CLI deactivate/check/reactivate | Supports the preserve-by-default and exact destructive-target claims. |
+| O8 | `OBSERVED` | The published implementation commit passed hosted unit, standards, provenance, audit, package determinism, and built-adapter scans. | GitHub run `33339723834` | Supports reproducibility outside the local workstation. |
 
 ## Contradictions and failures
 
@@ -138,22 +140,28 @@ environment: Node.js 22.23.2; npm 10.9.8; WordPress/PHP runtime pending
 | Runtime dynamic SQL values are prepared | Quoted SQL-like title fixture, raw-key/unknown-column rejection, PHPCS | `OBSERVED`, pass | title stored literally without status mutation; no unprepared-value finding |
 | Deactivation and default uninstall preserve rows | direct callback, real WP-CLI deactivate/check/reactivate, default `uninstall.php` include | `OBSERVED`, pass | synthetic rows and version option retained |
 | Explicit destructive uninstall removes only AgentPress data | opt-in uninstall with three target tables plus similarly named sentinel | `OBSERVED`, pass | exact tables/options removed; sentinel retained; schema restored |
+| Published implementation passes repository gates | GitHub Actions on `2b1c5f3` | `OBSERVED`, pass | run `33339723834`, job `99333039896` |
 
 ## Artifact inventory
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-08-31-exp-011-database-repositories.md` | evidence | untracked | `EXP-011` | Opened before database research or mutation. |
-| `agentpress/tests/integration/ap005-database-repositories.php` | executable evidence | untracked | SHA-256 `6B4A87C8258350A11172F30AEA456B81DA9FC917A5ECA50183FE6C67B4278970` | Main synthetic schema/repository/uninstall matrix. |
-| `agentpress/tests/integration/ap005-deactivation-setup.php` | executable evidence | untracked | SHA-256 `24E7C902FAE495CA1134900F08A6F52596208CB6CF62FBCECACFC7FA700712A2` | Creates one row before real deactivation. |
-| `agentpress/tests/integration/ap005-deactivation-check.php` | executable evidence | untracked | SHA-256 `032564C21BF74F3D3B646A8F113EB3227A2094B1A2FCFC01DC1531343E19F65E` | Verifies/removes row while plugin inactive. |
+| `docs/evidence/sessions/2026-08-31-exp-011-database-repositories.md` | evidence | committed at `2b1c5f3` | `EXP-011` | Opened before database research or mutation. |
+| `agentpress/tests/integration/ap005-database-repositories.php` | executable evidence | committed at `2b1c5f3` | SHA-256 `6B4A87C8258350A11172F30AEA456B81DA9FC917A5ECA50183FE6C67B4278970` | Main synthetic schema/repository/uninstall matrix. |
+| `agentpress/tests/integration/ap005-deactivation-setup.php` | executable evidence | committed at `2b1c5f3` | SHA-256 `24E7C902FAE495CA1134900F08A6F52596208CB6CF62FBCECACFC7FA700712A2` | Creates one row before real deactivation. |
+| `agentpress/tests/integration/ap005-deactivation-check.php` | executable evidence | committed at `2b1c5f3` | SHA-256 `032564C21BF74F3D3B646A8F113EB3227A2094B1A2FCFC01DC1531343E19F65E` | Verifies/removes row while plugin inactive. |
 | `dist/agentpress.zip` | generated package control | ignored/uncommitted | SHA-256 `0B3BB13FC37DEA3603F7DD8D03D430917872A6706FFD280A69A8D1E815C78EFB` | Deterministic across consecutive builds; 26 entries. |
+| GitHub Actions run | hosted command evidence | completed | `33339723834` / job `99333039896` | Published implementation gate; conclusion `success`. |
 
 ## Result
 
-`PENDING CI/PR CLOSEOUT`
+`SUPPORTED`
 
-Local evidence supports AP-005. The experiment remains open until the implementation is committed, published, and passes the hosted repository gate.
+`SOURCE_VERIFIED`: official WordPress migration, lifecycle, prepared-query, and UTC APIs support the selected implementation boundaries.
+
+`OBSERVED`: activation and guarded upgrades produce the three required idempotent schemas; repositories preserve bounded JSON and UTC dates through prepared operations; ordinary deactivation/default uninstall preserve rows; explicit opt-in cleanup targets only the exact AgentPress tables/options. Local and hosted repository gates passed.
+
+This result establishes v0.1 persistence mechanics only. It is not business-state, authorization, multisite, load, deployment, or live-workflow evidence.
 
 ## Limitations and `NOT_TESTED` boundaries
 
@@ -164,7 +172,7 @@ Local evidence supports AP-005. The experiment remains open until the implementa
 - work attributable to challenge period: baseline and timestamps recorded before material AP-005 work;
 - pre-existing work distinguished by: merged AP-004 baseline;
 - third-party material/license/pin: no new third-party material added; existing attribution/package boundary remains green;
-- commit/PR evidence: pending;
+- commit/PR evidence: implementation commit `2b1c5f3`, issue #9, draft PR #10, and successful run `33339723834`;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -179,9 +187,9 @@ Local evidence supports AP-005. The experiment remains open until the implementa
 ## End state
 
 ```text
-git status --short --branch: AP-005 implementation/evidence modified on ap-005-database-repositories
+git status --short --branch: clean at 2b1c5f3 before this evidence closeout
 tests/checks: local schema/lifecycle runtime, PHPCS, PHPUnit, browser, audit, provenance, and deterministic package build pass
-committed: no
-pushed: no
+committed: implementation 2b1c5f3; closeout pending
+pushed: implementation pushed; closeout pending
 deployed: no
 ```
