@@ -1,0 +1,23 @@
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Dependencies and generated artifacts
+node_modules/
+vendor/
+dist/
+build/
+coverage/
+
+# Local WordPress and environment configuration
+.env
+.env.*
+!.env.example
+wp-config.php
+wordpress/
+
+# Archives and logs
+*.zip
+*.log
