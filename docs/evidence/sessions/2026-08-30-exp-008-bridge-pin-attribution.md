@@ -15,7 +15,7 @@
 | Agent/operator | Codex, implementation agent |
 | Branch | `ap-002-bridge-attribution` |
 | Baseline commit | `09cf45c5a7b51ba9d99d422e5b5dadf5a3a43fbc` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `ac5d92467728b0ec945d8f18ccd6c67cc47f75a2` (implementation); evidence/format closeout follows |
 | Environment | Windows/PowerShell; Node.js 22.23.2; npm 10.9.8; local PHP and Composer unavailable; GitHub API inspection of pinned upstream commit/tree/blobs |
 
 ## Question
@@ -98,6 +98,7 @@ environment: Node.js 22.23.2; npm 10.9.8; PHP and Composer not available on the 
 | timestamp not independently captured | First local syntax/provenance/package command | repository | exit 1 | Node syntax passed, but the provenance script's package build hit sandbox `EPERM` replacing ignored `dist/agentpress.zip`; the subsequent build hit the same boundary and the old AP-001 ZIP/hash remained. Retry with workspace write authorization. |
 | timestamp not independently captured | Strengthened license equality check plus audit/provenance/package rerun | repository | exit 1 | npm audit found zero vulnerabilities; exact byte equality failed because the complete GPL copies differed only by terminal newline. Two explicit package builds still matched SHA-256 `7DC842E08377C804B3896D1E6160D887330A2E640A7B1A35E79485D63DDE1EB3`. Normalize line endings and trailing whitespace in the text-equivalence assertion. |
 | before 2026-08-30T16:36:25+07:00 | Corrected syntax/audit/provenance/package rerun | repository | exit 0 | Both licenses reported GPL-2.0-or-later; exact pin verified; 15 ZIP entries included notices and no upstream runtime code; npm audit found zero vulnerabilities; two ZIP hashes matched `7DC842E08377C804B3896D1E6160D887330A2E640A7B1A35E79485D63DDE1EB3`. |
+| 2026-08-30T16:41:19+07:00 | Remove two extra EOF blank lines reported by `git diff --cached --check`, then rerun provenance and two-build package controls | repository | exit 0 | License SHA-256 is now `8177F97513213526DF2CF6184D8FF986C675AFB514D4E68A404010521B880643`; both ZIP builds match `0CC9853EEBB645B7E74004C68DF1AF399F9321EDA77D9C2027247422590461B0`; `git diff --check` is clean. |
 
 ## Observation ledger
 
@@ -109,7 +110,7 @@ environment: Node.js 22.23.2; npm 10.9.8; PHP and Composer not available on the 
 | O4 | `SOURCE_VERIFIED` | Three independent files declare GPL-2.0-or-later, but the pinned tree lacks the README-linked license file. | S2, S3 | Supports compatibility while requiring precise wording about the supplied full license text. |
 | O5 | `SOURCE_VERIFIED` | The upstream runtime includes generic `wp/*` built-ins, settings/public-discovery options, permission-scoped caching, custom nonce behavior, and an obsolete `navigator.modelContext.provideContext` client. | S4 and inspected pinned REST/settings/built-in sources | Supports an explicit no-runtime-copy boundary for AP-002. |
 | O6 | `OBSERVED` | AgentPress provenance records three concept-only candidates, an empty copied/adapted-material list, and eight excluded runtime paths. | `PROVENANCE.json` | Prevents attribution from implying that unshipped code was copied. |
-| O7 | `OBSERVED` | The focused scan identifies both licenses as GPL-2.0-or-later; the 15-entry ZIP contains both notices/licenses and no upstream runtime source; two builds match SHA-256 `7DC842E...`. | local test and package output | Supports the AP-002 acceptance conditions locally. |
+| O7 | `OBSERVED` | The focused scan identifies both licenses as GPL-2.0-or-later; the 15-entry ZIP contains both notices/licenses and no upstream runtime source; two post-format builds match SHA-256 `0CC9853E...`. | local test and package output | Supports the AP-002 acceptance conditions locally. |
 
 ## Contradictions and failures
 
@@ -117,6 +118,7 @@ environment: Node.js 22.23.2; npm 10.9.8; PHP and Composer not available on the 
 |---|---|---|---|---|
 | C1 | The first provenance test reaches its assertions and produces the AP-002 ZIP. | The read-only sandbox prevented deletion of the existing ignored ZIP. | environment boundary, not a source failure | Preserved the output; retry the same command with workspace write authorization. |
 | C2 | Complete GPL copies compare as identical bytes. | They differ by one terminal newline while the license text is otherwise identical. | test defect / presentation variance | Compare normalized text, retaining the full packaged license unchanged. |
+| C3 | The initially committed license copy passes the staged whitespace check. | Two extra terminal blank lines produced a `new blank line at EOF` warning and changed package bytes. | formatting/evidence drift | Removed the blank lines without amending history; retained the pre-format hash above and recorded the new current hash. |
 
 ## Decisions
 
@@ -133,7 +135,7 @@ environment: Node.js 22.23.2; npm 10.9.8; PHP and Composer not available on the 
 | Exact machine-readable upstream pin | Pin/provenance consistency assertions | `PASS` | `PINNED_COMMIT`, `PROVENANCE.json`, O3 |
 | Complete GPL-compatible attribution | Notice, three declaration blobs, and normalized full-license equality | `PASS` | `THIRD_PARTY_NOTICES.md`, bundled license, O4 |
 | License scan identifies both projects | `npm run test:third-party` | `PASS` | AgentPress and upstream both reported `GPL-2.0-or-later` |
-| ZIP contains notices but no excluded upstream behavior | ZIP central-directory assertions and 15-entry listing | `PASS` | O7; SHA-256 `7DC842E08377C804B3896D1E6160D887330A2E640A7B1A35E79485D63DDE1EB3` |
+| ZIP contains notices but no excluded upstream behavior | ZIP central-directory assertions and 15-entry listing | `PASS` | O7; current SHA-256 `0CC9853EEBB645B7E74004C68DF1AF399F9321EDA77D9C2027247422590461B0` |
 
 ## Artifact inventory
 
@@ -141,9 +143,9 @@ environment: Node.js 22.23.2; npm 10.9.8; PHP and Composer not available on the 
 |---|---|---|---|---|
 | `docs/evidence/sessions/2026-08-30-exp-008-bridge-pin-attribution.md` | evidence | untracked | `EXP-008` | Opened before upstream research or product mutation. |
 | `agentpress/third-party/webmcp-abilities/PROVENANCE.json` | machine-readable provenance | untracked | SHA-256 `55764A64F3495E9E7E358B223DBF1776ED89C47B30ADA235789CB9915A17A281` | Exact pin/tree/blob mappings and exclusions. |
-| `agentpress/third-party/webmcp-abilities/LICENSE` | license | untracked | SHA-256 `6A64FD65EE9158E3ACC2A93F6522F2CFB8369C3AD9145A22FEF5FCF8C5E2FF4F` | Complete GPL v2 text supplied by AgentPress. |
+| `agentpress/third-party/webmcp-abilities/LICENSE` | license | committed pre-format; cleanup pending | current SHA-256 `8177F97513213526DF2CF6184D8FF986C675AFB514D4E68A404010521B880643`; pre-format `6A64FD65...` | Complete GPL v2 text supplied by AgentPress. |
 | `agentpress/THIRD_PARTY_NOTICES.md` | attribution | untracked | SHA-256 `1ED94CF4E76FFF4233A978999D309AFEFDE78DA08FF65D006CEFCA7803EB23A9` | Human-readable attribution and no-code boundary. |
-| `dist/agentpress.zip` | generated package control | ignored | SHA-256 `7DC842E08377C804B3896D1E6160D887330A2E640A7B1A35E79485D63DDE1EB3` | AP-002 test artifact, not release evidence. |
+| `dist/agentpress.zip` | generated package control | ignored | current SHA-256 `0CC9853EEBB645B7E74004C68DF1AF399F9321EDA77D9C2027247422590461B0`; pre-format `7DC842E...` | AP-002 test artifact, not release evidence. |
 
 ## Result
 
