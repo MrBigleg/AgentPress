@@ -15,7 +15,7 @@
 | Agent/operator | Codex with project-owner supplied URL |
 | Branch | `main` |
 | Baseline commit | `41c5e2617604ed97ae73f44b70079d9329977b31` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `7f4dc0039875078f4dde0fca3505d992edb7f1be` |
 | Environment | Windows 10.0.26200; PowerShell 7.6.3; Git 2.55.0.windows.3; public HTTPS page returned HTTP 200 |
 
 ## Question
@@ -131,7 +131,7 @@ Git emitted a sandbox permission warning for the user-level global ignore file d
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
 | `README.md` | source documentation | tracked, modified | SHA-256 `665e85a73ae1b17abf85f4a0919d0b4634b0c83ae974d386c1a2af0187c211b4` | Clickable approved wordmark and concept link |
-| `docs/evidence/sessions/2026-08-30-exp-004-public-hero-site.md` | evidence record | untracked | `UNCOMMITTED` | This session |
+| `docs/evidence/sessions/2026-08-30-exp-004-public-hero-site.md` | evidence record | tracked | content commit `7f4dc0039875078f4dde0fca3505d992edb7f1be` | This session; closeout amendment follows the content commit |
 | `https://agentpress-webmcp.bigleg.chatgpt.site/` | external presentation URL | external | URL | Not yet inspected; not a release ZIP or WordPress demo URL |
 
 ## Result
@@ -154,7 +154,7 @@ The public URL is reachable, represents AgentPress, and is now available above t
 - work attributable to challenge period: current dated documentation experiment;
 - pre-existing work distinguished by: baseline commit and existing EXP-001 through EXP-003 records;
 - third-party material/license/pin: `NOT_APPLICABLE` to the URL link itself;
-- commit/PR evidence: `UNCOMMITTED`; no issue or PR supplied;
+- commit/PR evidence: content commit `7f4dc0039875078f4dde0fca3505d992edb7f1be`; no issue or PR supplied;
 - live URL evidence: inspection pending;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -169,9 +169,9 @@ The public URL is reachable, represents AgentPress, and is now available above t
 ## End state
 
 ```text
-git status --short --branch: main ahead 1; README modified; EXP-004 record and evidence-index change uncommitted
+git status --short --branch: content committed on main; evidence closeout amendment pending
 tests/checks: public URL HTTP 200; hero image exists; README fences balanced; git diff --check passed
-committed: no
-pushed: no
+committed: yes, content commit 7f4dc0039875078f4dde0fca3505d992edb7f1be
+pushed: pending after evidence closeout commit
 deployed: no
 ```
