@@ -43,7 +43,7 @@
 
 ### AP-004 — Implement private same-origin WebMCP REST transport
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-001, AP-003
 - **Demo critical:** yes
 - **Deliverable:** private tool-list and execute routes, `wp_rest` nonce on every request, fixed AgentPress allowlist, same-origin credentials, no shared/localStorage tool cache, size caps, and one nonce-refresh retry.

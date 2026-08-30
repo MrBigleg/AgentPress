@@ -74,3 +74,5 @@ jobs:
           unzip -p dist/agentpress.zip agentpress/admin/build/webmcp-adapter.js > /tmp/webmcp-adapter.js
           ! grep -F 'navigator.modelContext' /tmp/webmcp-adapter.js
           ! grep -F 'provideContext' /tmp/webmcp-adapter.js
+          ! grep -F 'localStorage' /tmp/webmcp-adapter.js
+          ! grep -F 'sessionStorage' /tmp/webmcp-adapter.js
