@@ -7,6 +7,8 @@
 
 namespace AgentPress;
 
+use AgentPress\Storage\Migrator;
+
 /**
  * Minimal supported-runtime shell for AgentPress.
  */
@@ -58,6 +60,7 @@ final class Plugin {
 		$this->booted        = true;
 		$this->webmcp_routes = new \AgentPress\Rest\WebMCPRoutes();
 		$this->webmcp_routes->register_hooks();
+		add_action( 'plugins_loaded', array( Migrator::class, 'maybe_migrate' ) );
 		do_action( 'agentpress_initialized', $this );
 	}
 
