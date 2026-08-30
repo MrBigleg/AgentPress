@@ -26,6 +26,11 @@ const files = [
   'uninstall.php',
 ];
 
+const browserModule = {
+  source: 'admin/src/webmcp-adapter.mjs',
+  target: 'admin/build/webmcp-adapter.js',
+};
+
 rmSync(outputDirectory, { force: true, recursive: true });
 mkdirSync(outputDirectory, { recursive: true });
 
@@ -50,6 +55,13 @@ for (const relativePath of files.sort()) {
     mode: 0o644,
   });
 }
+
+// The adapter is native ESM and needs no transpilation for the target browser.
+archive.append(readFileSync(path.join(sourceRoot, browserModule.source)), {
+  name: `agentpress/${browserModule.target}`,
+  date: fixedDate,
+  mode: 0o644,
+});
 
 archive.append(readFileSync(path.join(projectRoot, 'LICENSE')), {
   name: 'agentpress/LICENSE',

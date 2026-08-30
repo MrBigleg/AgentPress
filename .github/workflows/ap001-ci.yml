@@ -52,6 +52,9 @@ jobs:
       - name: Verify third-party provenance and package boundary
         run: npm run test:third-party
 
+      - name: Run browser adapter unit tests
+        run: npm run test:browser
+
       - name: Install locked PHP development dependencies
         run: composer --working-dir=agentpress install --no-interaction --prefer-dist --no-progress
 
@@ -68,3 +71,6 @@ jobs:
           npm run build:zip
           sha256sum --check /tmp/agentpress-first.sha256
           unzip -l dist/agentpress.zip
+          unzip -p dist/agentpress.zip agentpress/admin/build/webmcp-adapter.js > /tmp/webmcp-adapter.js
+          ! grep -F 'navigator.modelContext' /tmp/webmcp-adapter.js
+          ! grep -F 'provideContext' /tmp/webmcp-adapter.js

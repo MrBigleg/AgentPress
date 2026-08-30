@@ -35,7 +35,7 @@
 
 ### AP-003 — Implement the current browser registration adapter
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-002
 - **Demo critical:** yes
 - **Deliverable:** feature-detected `document.modelContext.registerTool`, fixed Ability-to-WebMCP name map, per-tool AbortController, direct structured results, annotations, and cancellation passed to fetch.
