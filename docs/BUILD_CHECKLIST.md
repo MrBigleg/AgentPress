@@ -27,7 +27,7 @@
 
 ### AP-002 — Pin and attribute the WebMCP bridge source
 
-- [ ] **Difficulty:** XS
+- [x] **Difficulty:** XS
 - **Depends on:** AP-001
 - **Demo critical:** yes
 - **Deliverable:** pin audited upstream commit, list copied/adapted files or concepts, include GPL-2.0-or-later attribution in `THIRD_PARTY_NOTICES.md`, and exclude upstream built-ins/settings/public discovery.

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "name": "WebMCP Abilities for WordPress",
+  "upstream_repository": "https://github.com/code-atlantic/webmcp-abilities",
+  "upstream_commit": "ea5a2bcbe77dc13aafc95b4c83a18c9b11d85da6",
+  "upstream_tree": "232869b917e491b6c15b47b0cd58fc941dda9797",
+  "upstream_version": "0.6.1",
+  "license_expression": "GPL-2.0-or-later",
+  "license_evidence": [
+    {
+      "path": "composer.json",
+      "blob_sha1": "b7788091e0e9d4b89e94856858bb7f21251979a1"
+    },
+    {
+      "path": "webmcp-abilities.php",
+      "blob_sha1": "3db567e02cb6d9a89d6af49390c0b1c62171fcc1"
+    },
+    {
+      "path": "readme.txt",
+      "blob_sha1": "1d947049dd1fbdd1c77569bffd9742a15fe6deb8"
+    }
+  ],
+  "upstream_license_file_present": false,
+  "copied_or_adapted_material": [],
+  "concepts_reserved_for_later_adaptation": [
+    {
+      "concept": "fixed allowlist and current-user permission filtering",
+      "upstream_path": "includes/class-ability-bridge.php",
+      "blob_sha1": "a954ffc6969028a2c04bb913ab40de6429e68563",
+      "target_task": "AP-004"
+    },
+    {
+      "concept": "bounded schema depth, $ref rejection, and empty properties normalization",
+      "upstream_path": "includes/class-ability-bridge.php",
+      "blob_sha1": "a954ffc6969028a2c04bb913ab40de6429e68563",
+      "target_task": "AP-006"
+    },
+    {
+      "concept": "per-user per-tool rate limit with a global ceiling",
+      "upstream_path": "includes/class-rate-limiter.php",
+      "blob_sha1": "dee3d0124b9caaf5bbfff771bfe258aa373910d6",
+      "target_task": "AP-004"
+    }
+  ],
+  "excluded_upstream_runtime_paths": [
+    "webmcp-abilities.php",
+    "includes/class-admin-page.php",
+    "includes/class-builtin-tools.php",
+    "includes/class-plugin.php",
+    "includes/class-rest-api.php",
+    "includes/class-settings.php",
+    "src/webmcp-abilities.ts",
+    "dist/webmcp-abilities.js"
+  ],
+  "agentpress_integration_policy": "No upstream runtime code is included by AP-002. Later adaptations must add exact source-to-target mappings to copied_or_adapted_material and retain this license and notice."
+}

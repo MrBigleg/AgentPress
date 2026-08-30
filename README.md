@@ -145,24 +145,25 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Area | Status | Evidence |
 |---|---|---|
 | Product scope | `OBSERVED` | [PRD v2](docs/PRD.md) |
-| Technical architecture | `DECIDED`, not implemented | [Implementation specification](docs/IMPLEMENTATION_SPEC.md) |
+| Technical architecture | `DECIDED`, scaffold and provenance implemented | [Implementation specification](docs/IMPLEMENTATION_SPEC.md) |
 | Engineering sequence | `PROPOSED`, acceptance tests defined | [Build checklist](docs/BUILD_CHECKLIST.md) |
-| WordPress plugin scaffold | `OBSERVED`, committed on task branch | [Experiment 005](docs/evidence/sessions/2026-08-30-exp-005-plugin-scaffold.md) |
+| WordPress plugin scaffold | `OBSERVED`, merged in PR #2 | [Experiment 005](docs/evidence/sessions/2026-08-30-exp-005-plugin-scaffold.md) |
+| Bridge source provenance | `OBSERVED`, AP-002 task branch | [Experiment 008](docs/evidence/sessions/2026-08-30-exp-008-bridge-pin-attribution.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment is `AP-002 — Pin and attribute the WebMCP bridge source`.
+The next dependency-ordered implementation experiment after AP-002 merges is `AP-003 — Implement the current browser registration adapter`.
 
-**Hypothesis:** the audited upstream bridge material can be pinned and attributed without shipping obsolete registration code, generic tools, public discovery, or upstream settings behavior.
+**Hypothesis:** an AgentPress-owned adapter can register fixed definitions with `document.modelContext.registerTool`, return structured results directly, and cancel cleanly without loading the obsolete upstream client.
 
-**Falsification condition:** a missing or ambiguous license/pin, unrecorded adapted material, or any unrelated upstream runtime behavior in the AgentPress source or ZIP falsifies the hypothesis.
+**Falsification condition:** missing or slash-containing registrations, use of `navigator.modelContext`/`provideContext`, swallowed cancellation, or non-structured results falsify the hypothesis.
 
-**Prerequisite evidence:** AP-001 is `SUPPORTED` in Experiment 005 and committed as `807275f`; merge, deployment, and release remain separate verification gates.
+**Prerequisite evidence:** AP-001 is merged in PR #2; AP-002 provenance/package evidence is being completed in Experiment 008 and must merge before AP-003 begins.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-002--pin-and-attribute-the-webmcp-bridge-source).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-003--implement-the-current-browser-registration-adapter).
 
 ## Local development
 
