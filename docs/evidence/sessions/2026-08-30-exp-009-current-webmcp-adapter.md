@@ -6,16 +6,16 @@
 |---|---|
 | Experiment | `EXP-009` |
 | Related task | `AP-003`; GitHub issue #5 |
-| Status | `IN_PROGRESS` |
-| Result | `PENDING` |
+| Status | `COMPLETED` |
+| Result | `SUPPORTED` |
 | Started local | `2026-08-30T16:46:12+07:00` |
 | Started UTC | `2026-08-30T09:46:12Z` |
-| Ended local | `PENDING` |
-| Ended UTC | `PENDING` |
+| Ended local | `2026-08-30T16:57:04+07:00` |
+| Ended UTC | `2026-08-30T09:57:04Z` |
 | Agent/operator | Codex, implementation agent |
 | Branch | `ap-003-webmcp-adapter` |
 | Baseline commit | `d9d0a09c2fc04fe73dc0ba294eb17526fb6e9973` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `9897f379f228dcb14ab7aae0541538102444ed2a` (implementation); evidence closeout follows |
 | Environment | Windows/PowerShell; Node.js 22.23.2; npm 10.9.8; WebMCP specification commit `41d12f0`; current Chrome imperative API documentation |
 
 ## Question
@@ -96,6 +96,7 @@ environment: Node.js 22.23.2; npm 10.9.8
 | timestamp not independently captured | Inspect current WebMCP specification IDL/algorithms and live Chrome imperative documentation | official spec/Chrome docs | success | Confirmed separate registration and execution AbortSignals, direct arbitrary structured result, two annotations, and current `document.modelContext.registerTool` API. |
 | 2026-08-30T16:53:14+07:00 | Run Node syntax, 7 browser-contract tests, npm audit, provenance scan, two-build ZIP control, 16-entry listing, built-identifier scan, and whitespace check | repository | exit 0 | All 7 adapter tests passed; zero npm vulnerabilities; provenance remained green; both ZIP builds matched SHA-256 `DB3EBB1AFA48251A3CD9883857A5BB55B77232109149C4AE2151E719E039522A`; built adapter contains neither prohibited identifier. |
 | 2026-08-30T16:55:08+07:00 | Add failed-registration batch cleanup and null request-init hardening; rerun all local controls | repository | exit 0 | All 8 tests passed, including abort of every attempted registration after a browser rejection; both current ZIP builds matched `8098D47E37971D5145B4FB1D2A28B74C392E45B0F5BE4AC70DFF35BA0B542EBE`; audit/provenance/built scans remained green. |
+| 2026-08-30T16:56:28+07:00 to 2026-08-30T16:56:48+07:00 | GitHub Actions run `33305257104` on commit `9897f379f228dcb14ab7aae0541538102444ed2a` | PR #6 | success | Job `99240541249` completed dependency installs, audit, syntax, provenance, 8 browser tests, PHPUnit, PHPCS, and deterministic package/built scans successfully in 17 seconds. |
 
 ## Observation ledger
 
@@ -110,6 +111,7 @@ environment: Node.js 22.23.2; npm 10.9.8
 | O7 | `OBSERVED` | The browser execution signal reached the exact fetch options signal and produced an `AbortError`; a successful response returned the parsed object by identity. | focused tests 4–5 | Supports cancellation propagation and direct structured results. |
 | O8 | `OBSERVED` | Unsupported API returns a stable no-op handle; duplicate/unknown definitions fail before any registration; production and packaged code contain no obsolete API identifiers. | focused tests 2, 6, 8; ZIP scan | Supports fail-closed feature detection and excluded-client boundary. |
 | O9 | `OBSERVED` | If the browser rejects a registration mid-batch, the adapter aborts every signal attempted in that batch before rethrowing. | focused test 7 | Prevents a partially registered private tool set after initialization failure. |
+| O10 | `OBSERVED` | The first GitHub-hosted execution passed every repository and adapter gate on the published implementation commit. | [run 33305257104](https://github.com/MrBigleg/AgentPress/actions/runs/33305257104), [job 99240541249](https://github.com/MrBigleg/AgentPress/actions/runs/33305257104/job/99240541249) | Supports the hypothesis in a clean hosted environment. |
 
 ## Contradictions and failures
 
@@ -134,32 +136,38 @@ environment: Node.js 22.23.2; npm 10.9.8
 | Structured result and annotations pass through | direct-identity and definition assertions | `PASS` | O4, O7 |
 | Unsupported API is graceful | no-op handle test | `PASS` | O8 |
 | Built production code has no obsolete API identifiers | source assertion and extracted ZIP scan | `PASS` | O8 |
+| Published branch passes repository gates | GitHub Actions on `9897f37` | `PASS` | run `33305257104`, job `99240541249` |
 
 ## Artifact inventory
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-08-30-exp-009-current-webmcp-adapter.md` | evidence | untracked | `EXP-009` | Opened before API research or product mutation. |
-| `agentpress/admin/src/webmcp-adapter.mjs` | production source | untracked | SHA-256 `58BA6424A2B77C8506A49D685022CF4DDC93FC9140E8D454BEF9706282FA24B2` | AgentPress-original current-WebMCP adapter; no upstream runtime copy. |
-| `agentpress/tests/js/webmcp-adapter.test.mjs` | unit test | untracked | SHA-256 `0D91C2AAF28FA8A85DF896F25AB3F656A60269B33B19781E81E22695F8E53945` | Synthetic browser/fetch fixtures only. |
+| `docs/evidence/sessions/2026-08-30-exp-009-current-webmcp-adapter.md` | evidence | closeout pending | `EXP-009` | Opened before API research or product mutation. |
+| `agentpress/admin/src/webmcp-adapter.mjs` | production source | committed | SHA-256 `58BA6424A2B77C8506A49D685022CF4DDC93FC9140E8D454BEF9706282FA24B2` | AgentPress-original current-WebMCP adapter; no upstream runtime copy. |
+| `agentpress/tests/js/webmcp-adapter.test.mjs` | unit test | committed | SHA-256 `0D91C2AAF28FA8A85DF896F25AB3F656A60269B33B19781E81E22695F8E53945` | Synthetic browser/fetch fixtures only. |
 | `dist/agentpress.zip` | generated package control | ignored | current SHA-256 `8098D47E37971D5145B4FB1D2A28B74C392E45B0F5BE4AC70DFF35BA0B542EBE`; prior 7-test source `DB3EBB1A...` | 16-entry AP-003 test artifact, not release evidence. |
+| GitHub Actions run | hosted command evidence | completed | `33305257104` / job `99240541249` | First published implementation run; conclusion `success`. |
 
 ## Result
 
-`PENDING`
+`SUPPORTED`
 
-No AP-003 acceptance claim exists yet.
+`SOURCE_VERIFIED`: the current specification and Chrome documentation require separate registration and execution signals, direct promise results, current annotations, and `document.modelContext.registerTool`.
+
+`OBSERVED`: the AgentPress adapter registers all 15 supplied known definitions with fixed names, preserves schemas/annotations, propagates cancellation into fetch, returns structured JSON directly, cleans up registration batches, degrades safely when unsupported, and packages no obsolete API identifier. Local and GitHub-hosted gates passed.
+
+This result establishes the isolated adapter contract only. It is not live-browser, WordPress transport, authentication, authorization, or ChatGPT acceptance evidence.
 
 ## Limitations and `NOT_TESTED` boundaries
 
-- `NOT_TESTED`: authoritative GitHub CI, WordPress enqueue/REST behavior, live browser implementation, ChatGPT, deployment, and AP-004+ behavior.
+- `NOT_TESTED`: WordPress enqueue/REST behavior, live Chrome/WebMCP behavior, ChatGPT, deployment, and AP-004+ behavior.
 
 ## Competition evidence statement
 
 - work attributable to challenge period: baseline and timestamps recorded before material AP-003 work;
 - pre-existing work distinguished by: merged AP-002 baseline and its concept-only provenance;
-- third-party material/license/pin: no upstream runtime code planned; provenance remains under EXP-008;
-- commit/PR evidence: issue #5; implementation commit and PR pending;
+- third-party material/license/pin: no upstream runtime code copied; AP-003 source is AgentPress-original and EXP-008 provenance remains unchanged;
+- commit/PR evidence: implementation commit `9897f37`, issue #5, draft PR #6, and successful run `33305257104`;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -174,9 +182,9 @@ No AP-003 acceptance claim exists yet.
 ## End state
 
 ```text
-git status --short --branch: EXP-009 and evidence index modified on ap-003-webmcp-adapter
-tests/checks: local syntax, 8 browser tests, npm audit, provenance, deterministic ZIP, and built identifier scan PASS; GitHub CI pending
-committed: no
-pushed: no
+git status --short --branch: clean at 9897f37 before this evidence closeout
+tests/checks: local syntax, 8 browser tests, npm audit, provenance, deterministic ZIP, and built identifier scan PASS; GitHub run 33305257104 PASS
+committed: implementation 9897f37; closeout pending
+pushed: implementation pushed; closeout pending
 deployed: no
 ```
