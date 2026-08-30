@@ -4,7 +4,9 @@ Thank you for helping build AgentPress.
 
 ## Before contributing
 
-Read the [V0.1 PRD](docs/PRD.md), especially its security requirements, explicit non-goals, build order, and definition of done. V0.1 is deadline-driven; additions outside that scope should begin as a discussion rather than an implementation pull request.
+Read the [V0.1 PRD](docs/PRD.md), [implementation specification](docs/IMPLEMENTATION_SPEC.md), [build checklist](docs/BUILD_CHECKLIST.md), and [evidence index](docs/EVIDENCE_INDEX.md). Pay particular attention to security requirements, explicit non-goals, dependency order, and the definition of done. V0.1 is deadline-driven; additions outside that scope should begin as a discussion rather than an implementation pull request.
+
+Material research, implementation, test, release, or submission work must use the scientific-method evidence protocol in [AGENTS.md](AGENTS.md), even when the contributor is human rather than an automated agent. Start from the [experiment template](docs/evidence/EXPERIMENT_TEMPLATE.md) and preserve failures as well as successful reruns.
 
 ## Ways to contribute
 
@@ -21,6 +23,8 @@ Read the [V0.1 PRD](docs/PRD.md), especially its security requirements, explicit
 3. Add or update tests for behavior and authorization boundaries.
 4. Document user-visible behavior and compatibility constraints.
 5. Confirm that logs and fixtures contain no credentials, cookies, nonces, or private site data.
+6. Link the experiment record and state which claims are observed, source-verified, inferred, decided, proposed, or not tested.
+7. Record the baseline and resulting commit, verification commands, outcomes, and relevant artifact hashes.
 
 All contributions must be compatible with the project's GPL-2.0-or-later license.
 
