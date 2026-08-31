@@ -152,22 +152,22 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Current WebMCP browser adapter | `OBSERVED`, merged in PR #6 | [Experiment 009](docs/evidence/sessions/2026-08-30-exp-009-current-webmcp-adapter.md) |
 | Private WordPress-session transport | `OBSERVED`, PR #8; local runtime and hosted repository gates pass | [Experiment 010](docs/evidence/sessions/2026-08-30-exp-010-private-rest-transport.md) |
 | Versioned database and repositories | `OBSERVED`, PR #10; local runtime and hosted repository gates pass | [Experiment 011](docs/evidence/sessions/2026-08-31-exp-011-database-repositories.md) |
-| Common schemas and error normalization | `OBSERVED`, local WordPress/error/transport and repository gates pass; hosted CI/merge pending | [Experiment 012](docs/evidence/sessions/2026-08-31-exp-012-common-schemas-errors.md) |
+| Common schemas and error normalization | `OBSERVED`, merged in PR #12; local WordPress/error/transport and hosted repository gates pass | [Experiment 012](docs/evidence/sessions/2026-08-31-exp-012-common-schemas-errors.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
-## Active experiment
+## Next experiment
 
-The active publication gate is `AP-006 — Implement common schemas and error normalization`. Its implementation and local acceptance evidence are committed; the isolated branch still requires hosted CI and merge before AP-007 begins.
+The next dependency-ordered implementation experiment is `AP-007 — Implement Safe Mode and discovery policy`. AP-001 through AP-006 are merged; AP-006 passed its local WordPress matrices and hosted repository gate.
 
-**Hypothesis:** shared closed-schema builders, success envelopes, and a safe `AP_*` error factory can reject every invalid input class and serialize every documented error consistently before the Ability catalog is registered.
+**Hypothesis:** Safe Mode classification, actual-capability checks, and coarse discovery rules can keep every advertised and executable operation no broader than the current WordPress user's real authority.
 
-**Falsification condition:** unknown fields, wrong types/ranges, oversized content, unsupported enums, or invalid operation combinations pass validation; or any declared error leaks unsafe detail or serializes outside the documented shape.
+**Falsification condition:** any role or capability-mutated user discovers or directly executes an operation beyond its current capabilities, or any R3 users/plugins/themes/code/settings surface is registered or reachable by route guessing.
 
-**Prerequisite evidence:** AP-001 through AP-005 are merged. Experiment 011 records AP-005's local runtime/lifecycle evidence and hosted repository gate.
+**Prerequisite evidence:** AP-006 is merged in PR #12. Experiment 012 records its local runtime matrices, safe error boundary, and hosted repository gate.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-006--implement-common-schemas-and-error-normalization).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-007--implement-safe-mode-and-discovery-policy).
 
 ## Local development
 
