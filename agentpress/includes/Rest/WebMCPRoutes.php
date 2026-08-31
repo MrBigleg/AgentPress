@@ -7,6 +7,7 @@
 
 namespace AgentPress\Rest;
 
+use AgentPress\Audit\AuditLogger;
 use AgentPress\Errors\ErrorFactory;
 use AgentPress\Policy\DiscoveryPolicy;
 use AgentPress\WebMCP\AbilityMap;
@@ -53,14 +54,22 @@ final class WebMCPRoutes {
 	private $discovery_policy;
 
 	/**
+	 * Sanitized execution audit logger.
+	 *
+	 * @var AuditLogger
+	 */
+	private $audit_logger;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param RequestGuard|null    $guard               Optional guard.
 	 * @param callable|null        $definition_provider Optional definition provider.
 	 * @param callable|null        $ability_resolver    Optional Ability resolver.
 	 * @param DiscoveryPolicy|null $discovery_policy   Optional discovery policy.
+	 * @param AuditLogger|null     $audit_logger       Optional execution audit logger.
 	 */
-	public function __construct( $guard = null, $definition_provider = null, $ability_resolver = null, $discovery_policy = null ) {
+	public function __construct( $guard = null, $definition_provider = null, $ability_resolver = null, $discovery_policy = null, $audit_logger = null ) {
 		$this->guard               = $guard ?? new RequestGuard();
 		$this->definition_provider = $definition_provider ?? array( $this, 'default_definitions' );
 		$this->ability_resolver    = $ability_resolver ?? static function ( $ability_name ) {
@@ -74,6 +83,7 @@ final class WebMCPRoutes {
 			return function_exists( 'wp_get_ability' ) ? wp_get_ability( $ability_name ) : null;
 		};
 		$this->discovery_policy    = $discovery_policy ?? new DiscoveryPolicy();
+		$this->audit_logger        = $audit_logger ?? new AuditLogger();
 	}
 
 	/**
@@ -189,32 +199,34 @@ final class WebMCPRoutes {
 	 * @return \WP_REST_Response|\WP_Error
 	 */
 	public function execute( $request ) {
-		$params = $request->get_json_params();
+		$request_id = $this->audit_logger->request_id();
+		$started_at = microtime( true );
+		$params     = $request->get_json_params();
 		if (
 			! is_array( $params ) ||
 			2 !== count( $params ) ||
 			! array_key_exists( 'ability', $params ) ||
 			! array_key_exists( 'input', $params )
 		) {
-			return ErrorFactory::make( 'AP_SCHEMA_INVALID' );
+			return $this->audited_error( 'AP_SCHEMA_INVALID', $request_id, 'agentpress/unknown', array(), $started_at, 'DENIED' );
 		}
 
 		$ability_name = is_string( $params['ability'] ) ? $params['ability'] : '';
 		if ( ! AbilityMap::contains( $ability_name ) ) {
-			return ErrorFactory::make( 'AP_PERMISSION_DENIED' );
+			return $this->audited_error( 'AP_PERMISSION_DENIED', $request_id, $ability_name, is_array( $params['input'] ) ? $params['input'] : array(), $started_at, 'DENIED' );
 		}
 
 		if ( ! is_array( $params['input'] ) ) {
-			return ErrorFactory::make( 'AP_SCHEMA_INVALID' );
+			return $this->audited_error( 'AP_SCHEMA_INVALID', $request_id, $ability_name, array(), $started_at, 'DENIED' );
 		}
 
 		if ( ! $this->allows_content_body( $ability_name ) && strlen( (string) $request->get_body() ) > RequestGuard::DEFAULT_MAX_BYTES ) {
-			return ErrorFactory::make( 'AP_SCHEMA_INVALID' );
+			return $this->audited_error( 'AP_SCHEMA_INVALID', $request_id, $ability_name, $params['input'], $started_at, 'DENIED' );
 		}
 
 		$ability_rate = $this->guard->authorize_ability( $ability_name );
 		if ( is_wp_error( $ability_rate ) ) {
-			return $ability_rate;
+			return $this->audited_error( $ability_rate, $request_id, $ability_name, $params['input'], $started_at, 'DENIED' );
 		}
 
 		/**
@@ -225,26 +237,90 @@ final class WebMCPRoutes {
 		do_action( 'agentpress_webmcp_before_ability_resolve', $ability_name );
 		$ability = call_user_func( $this->ability_resolver, $ability_name );
 		if ( ! is_object( $ability ) || ! is_callable( array( $ability, 'check_permissions' ) ) || ! is_callable( array( $ability, 'execute' ) ) ) {
-			return ErrorFactory::make( 'AP_INTERNAL_ERROR' );
+			return $this->audited_error( 'AP_INTERNAL_ERROR', $request_id, $ability_name, $params['input'], $started_at, 'FAILED' );
 		}
 		if ( is_callable( array( $ability, 'validate_input' ) ) ) {
 			$valid = $ability->validate_input( $params['input'] );
 			if ( true !== $valid ) {
-				return ErrorFactory::make( 'AP_SCHEMA_INVALID' );
+				return $this->audited_error( 'AP_SCHEMA_INVALID', $request_id, $ability_name, $params['input'], $started_at, 'DENIED' );
 			}
 		}
 
 		$permission = $ability->check_permissions( $params['input'] );
 		if ( true !== $permission ) {
-			return ErrorFactory::make( 'AP_PERMISSION_DENIED' );
+			return $this->audited_error( 'AP_PERMISSION_DENIED', $request_id, $ability_name, $params['input'], $started_at, 'DENIED' );
 		}
 
-		$result = $ability->execute( $params['input'] );
+		try {
+			$result = $ability->execute( $params['input'] );
+		} catch ( \Throwable $throwable ) {
+			return $this->audited_error( 'AP_INTERNAL_ERROR', $request_id, $ability_name, $params['input'], $started_at, 'FAILED' );
+		}
 		if ( is_wp_error( $result ) ) {
-			return ErrorFactory::normalize( $result );
+			return $this->audited_error( $result, $request_id, $ability_name, $params['input'], $started_at, 'FAILED' );
+		}
+		if ( is_array( $result ) && array_key_exists( 'request_id', $result ) ) {
+			$result['request_id'] = $request_id;
+		}
+		if ( ! $this->record_audit( $request_id, $ability_name, $params['input'], 'SUCCESS', '', $started_at ) ) {
+			return ErrorFactory::make( 'AP_INTERNAL_ERROR', array(), $request_id );
 		}
 
 		return $this->private_response( $result );
+	}
+
+	/**
+	 * Normalize and durably audit one execution error.
+	 *
+	 * @param string|\WP_Error     $error        Error code or object.
+	 * @param string               $request_id   Correlation UUID.
+	 * @param string               $ability_name Requested Ability.
+	 * @param array<string, mixed> $arguments    Parsed arguments only.
+	 * @param float                $started_at   Start timestamp.
+	 * @param string               $result       Audit result.
+	 * @return \WP_Error
+	 */
+	private function audited_error( $error, $request_id, $ability_name, $arguments, $started_at, $result ) {
+		$error      = is_wp_error( $error ) ? ErrorFactory::normalize( $error, $request_id ) : ErrorFactory::make( $error, array(), $request_id );
+		$error_code = $error->get_error_code();
+
+		if ( ! $this->record_audit( $request_id, $ability_name, $arguments, $result, $error_code, $started_at ) ) {
+			return ErrorFactory::make( 'AP_INTERNAL_ERROR', array(), $request_id );
+		}
+
+		return $error;
+	}
+
+	/**
+	 * Persist one WebMCP audit row without leaking logger failures.
+	 *
+	 * @param string               $request_id   Correlation UUID.
+	 * @param string               $ability_name Requested Ability.
+	 * @param array<string, mixed> $arguments    Parsed arguments only.
+	 * @param string               $result       Audit result.
+	 * @param string               $error_code   Safe public error code.
+	 * @param float                $started_at   Start timestamp.
+	 * @return bool
+	 */
+	private function record_audit( $request_id, $ability_name, $arguments, $result, $error_code, $started_at ) {
+		try {
+			$this->audit_logger->record(
+				array(
+					'request_id'  => $request_id,
+					'actor_type'  => 'webmcp',
+					'user_id'     => get_current_user_id(),
+					'ability'     => $ability_name,
+					'result'      => $result,
+					'error_code'  => $error_code,
+					'arguments'   => $arguments,
+					'duration_ms' => max( 0, (int) round( ( microtime( true ) - $started_at ) * 1000 ) ),
+				)
+			);
+		} catch ( \Throwable $throwable ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

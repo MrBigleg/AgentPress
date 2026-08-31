@@ -83,7 +83,7 @@
 
 ### AP-009 — Implement sanitized audit logging
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-005, AP-006
 - **Demo critical:** yes
 - **Deliverable:** request IDs, argument sanitizer, authenticated denial/success/failure/replay events, bounded content previews/hashes, and explicit no-secret list.
