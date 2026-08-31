@@ -15,7 +15,7 @@
 | Agent/operator | Codex, implementation and verification agent |
 | Branch | `ap-010-change-set-coordinator` |
 | Baseline commit | `6b6631958ebf8197fb92de1685788fb51276c326` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `b3422fd693d0633ecad29ed3b0df43992a271f0d` |
 | Environment | Windows; PowerShell 7; Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; WordPress 6.9; PHP 8.0.30 |
 
 ## Question
@@ -146,11 +146,11 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; exact baseline run 3340
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-08-31-exp-016-change-set-coordinator.md` | evidence | uncommitted | `EXP-016` | Opened before AP-010 implementation inspection or product-code mutation. |
-| `agentpress/includes/Changes/ChangeCoordinator.php` | source | uncommitted | pending commit | Protocol-independent R1/R2 coordination and semantic results. |
-| `agentpress/includes/Changes/ChangeSetStateReducer.php` | source | uncommitted | pending commit | Fixed deterministic parent reducer including recorded C1 decision. |
-| `agentpress/includes/Changes/StateHasher.php` | source | uncommitted | pending commit | Recursive canonical JSON and SHA-256 contracts. |
-| `agentpress/tests/integration/ap010-change-set-coordinator.php` | executable evidence | uncommitted | pending commit | Real WordPress/MySQL mutation, replay, failure, proposal, privacy, and audit matrix. |
+| `docs/evidence/sessions/2026-08-31-exp-016-change-set-coordinator.md` | evidence | committed | `EXP-016`; `b3422fd` | Opened before AP-010 implementation inspection or product-code mutation. |
+| `agentpress/includes/Changes/ChangeCoordinator.php` | source | committed | `b3422fd` | Protocol-independent R1/R2 coordination and semantic results. |
+| `agentpress/includes/Changes/ChangeSetStateReducer.php` | source | committed | `b3422fd` | Fixed deterministic parent reducer including recorded C1 decision. |
+| `agentpress/includes/Changes/StateHasher.php` | source | committed | `b3422fd` | Recursive canonical JSON and SHA-256 contracts. |
+| `agentpress/tests/integration/ap010-change-set-coordinator.php` | executable evidence | committed | `b3422fd` | Real WordPress/MySQL mutation, replay, failure, proposal, privacy, and audit matrix. |
 | `dist/agentpress.zip` | ignored release candidate | generated | `32E9366F63F1ADCBF98D9C1F67F01E8D664CD75EBD54BCE1343E9937BB84C980` | Two deterministic local builds; not release/deployment evidence. |
 
 ## Result
@@ -169,7 +169,7 @@ Under the controlled WordPress 6.9/PHP 8.0.30/MySQL fixture, the AP-010 coordina
 - work attributable to challenge period: baseline/timestamps captured before AP-010 product-code mutation;
 - pre-existing work distinguished by: synchronized AP-009 closeout baseline;
 - third-party material/license/pin: no new third-party runtime; existing GPL pin/provenance gate passed with 45 ZIP entries and no upstream runtime code;
-- commit/PR evidence: `UNCOMMITTED`; issue #19 exists; PR pending;
+- commit/PR evidence: implementation/evidence commit `b3422fd693d0633ecad29ed3b0df43992a271f0d`; issue #19 exists; PR pending;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -184,9 +184,9 @@ Under the controlled WordPress 6.9/PHP 8.0.30/MySQL fixture, the AP-010 coordina
 ## End state
 
 ```text
-git status --short --branch: AP-010 source/tests/docs uncommitted on ap-010-change-set-coordinator; no unrelated changes observed
+git status --short --branch: AP-010 implementation committed on ap-010-change-set-coordinator; evidence SHA closeout pending; no unrelated changes observed
 tests/checks: AP-010 MySQL matrix pass; AP-004–AP-009 regressions pass; unit 65/579; PHPCS 35/35; browser 14/14; provenance 45 entries; npm audit 0; deterministic ZIP SHA-256 32E9366F63F1ADCBF98D9C1F67F01E8D664CD75EBD54BCE1343E9937BB84C980
-committed: no
+committed: yes, implementation/evidence `b3422fd693d0633ecad29ed3b0df43992a271f0d`
 pushed: no
 deployed: no
 ```
