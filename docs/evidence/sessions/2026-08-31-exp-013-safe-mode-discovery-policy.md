@@ -105,6 +105,7 @@ environment: Node.js 22.23.2; npm 11.7.0; WordPress/PHP runtime pending
 | timestamp not independently captured | Two consecutive `npm run build:zip` runs and SHA-256 checks | repository | exit 0 | Both release builds produced `2CF45FB1492F7458F9272B2BB17CF5820B07E41EC0A7262CE8344E3354AC0770`. |
 | 2026-08-31T12:44:03+07:00 | Stage exact AP-007 manifest, run `git diff --cached --check`, and commit | repository | exit 0 | 14-file implementation/evidence package committed as `c51071361e044dfd60326ccf37f76c5497cfa727`; worktree clean immediately afterward. |
 | 2026-08-31T12:47:14+07:00 | Push branch, open PR #14, and watch hosted repository gate | GitHub | exit 0 | [PR #14](https://github.com/MrBigleg/AgentPress/pull/14) links issue #13; [run 33361719090, job 99394212994](https://github.com/MrBigleg/AgentPress/actions/runs/33361719090/job/99394212994) passed in 28 seconds. |
+| 2026-08-31T16:14:13+07:00 | Verify the latest PR head, merge PR #14, confirm issue closure, and fast-forward local main | GitHub/repository | exit 0 | Latest head `c3ea8ef` passed [run 33361850959, job 99394583177](https://github.com/MrBigleg/AgentPress/actions/runs/33361850959/job/99394583177); PR #14 merged as `6206e53a2d376e847e70c6601934f1546a95fe70`; issue #13 closed; local main clean and synchronized. |
 
 ## Observation ledger
 
@@ -115,6 +116,7 @@ environment: Node.js 22.23.2; npm 11.7.0; WordPress/PHP runtime pending
 | O3 | `OBSERVED` | The fixed transport map contains exactly the 15 v0.1 operations and none of the R3 users/plugins/themes/code/settings surfaces. | `AbilityMap.php`; implementation specification section 4 | Discovery can filter the fixed map, while execution must still deny unknown route guesses. |
 | O4 | `OBSERVED` | The corrected real WordPress matrix passed for Administrator, Editor, Author, Subscriber, logged-out, and a capability-mutated Subscriber, including object ownership/status controls. | AP-007 integration harness exit 0 | The tested effective envelope follows live capabilities and exact target authority. |
 | O5 | `OBSERVED` | Administrator discovery remained exactly the fixed 15-map while seven representative R3/unknown route guesses returned `AP_POLICY_BLOCKED`. | AP-007 integration harness exit 0 | The tested forbidden surfaces are absent from the fixed map and fail closed at direct execution policy. |
+| O6 | `OBSERVED` | The latest PR head passed hosted checks before merge, PR #14 merged, and its linked issue closed. | run `33361850959`; merge `6206e53`; issue #13 | AP-007 is now a merged dependency for AP-008. |
 
 ## Contradictions and failures
 
@@ -169,7 +171,7 @@ The local repository evidence supports the hypothesis: AP-007's fixed classifier
 - work attributable to challenge period: baseline and timestamps recorded before material AP-007 work;
 - pre-existing work distinguished by: merged AP-006 baseline;
 - third-party material/license/pin: no new third-party material planned;
-- commit/PR evidence: issue #13, implementation commit `c51071361e044dfd60326ccf37f76c5497cfa727`, [PR #14](https://github.com/MrBigleg/AgentPress/pull/14), and hosted run `33361719090` passed;
+- commit/PR evidence: issue #13 closed; implementation commit `c51071361e044dfd60326ccf37f76c5497cfa727`; [PR #14](https://github.com/MrBigleg/AgentPress/pull/14) merged as `6206e53a2d376e847e70c6601934f1546a95fe70`; latest hosted run `33361850959` passed;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -187,6 +189,6 @@ The local repository evidence supports the hypothesis: AP-007's fixed classifier
 git status --short --branch: AP-007-only source, tests, package manifest, checklist, README, index, and EXP-013 changes on ap-007-safe-mode-discovery-policy
 tests/checks: AP-007 WordPress matrix pass; AP-004/AP-006 regressions pass; unit 42/219; PHPCS 28/28; browser 14/14; provenance 38 entries; npm audit 0; deterministic ZIP SHA-256 2CF45FB1492F7458F9272B2BB17CF5820B07E41EC0A7262CE8344E3354AC0770
 committed: yes, implementation/evidence commit c51071361e044dfd60326ccf37f76c5497cfa727; this append-only commit-reference update pending
-pushed: yes, origin/ap-007-safe-mode-discovery-policy; PR #14 hosted gate passed
+pushed: yes; PR #14 merged after latest hosted gate passed; local main synchronized at 6206e53
 deployed: no
 ```
