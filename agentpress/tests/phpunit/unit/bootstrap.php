@@ -24,6 +24,11 @@ if ( ! function_exists( 'wp_json_encode' ) ) {
 		return json_encode( $value, $flags, $depth );
 	}
 }
+if ( ! function_exists( 'wp_strip_all_tags' ) ) {
+	function wp_strip_all_tags( $text ) {
+		return strip_tags( $text );
+	}
+}
 if ( ! function_exists( 'wp_generate_uuid4' ) ) {
 	function wp_generate_uuid4() {
 		return '00000000-0000-4000-8000-000000000006';
