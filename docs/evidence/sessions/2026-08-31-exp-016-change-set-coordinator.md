@@ -103,6 +103,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; exact baseline run 3340
 | timestamp not independently captured | Rerun provenance with workspace artifact access; run dependency, script-syntax, and diff gates | repository | exit 0 | Provenance verified GPL licenses/pin, 45 ZIP entries, and no upstream runtime code. `npm audit --omit=optional` found zero vulnerabilities; both package scripts passed syntax; `git diff --check` passed. |
 | timestamp not independently captured | Build final release ZIP twice from identical source and hash each result | repository | exit 0 | Both builds produced SHA-256 `32E9366F63F1ADCBF98D9C1F67F01E8D664CD75EBD54BCE1343E9937BB84C980`. |
 | timestamp not independently captured | Commit/push AP-010, open PR #20, and verify its exact hosted head | repository/GitHub | exit 0 | Implementation `b3422fd693d0633ecad29ed3b0df43992a271f0d`; evidence SHA commit `c27e912c711e02854994fb2c212bf56bb70c555d`; [PR #20](https://github.com/MrBigleg/AgentPress/pull/20) links issue #19 and exact head passed [run 33411177779, job 99550827486](https://github.com/MrBigleg/AgentPress/actions/runs/33411177779/job/99550827486). |
+| 2026-08-31T22:59:07+07:00 | Verify latest evidence head, merge PR #20, confirm issue closure, fast-forward main, and verify merge-head CI | repository/GitHub | exit 0 | Final PR head `7ad2e0ba862df2e3e44a79d17cce3281959f5faa` passed [run 33411438312, job 99551700972](https://github.com/MrBigleg/AgentPress/actions/runs/33411438312/job/99551700972); merge `a1b3d4de22fd56a660ba476b4a145c589f8925cc`; issue #19 closed; exact merge head passed [run 33411536951, job 99552035408](https://github.com/MrBigleg/AgentPress/actions/runs/33411536951/job/99552035408). |
 
 ## Observation ledger
 
@@ -158,7 +159,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; exact baseline run 3340
 
 `SUPPORTED`
 
-Under the controlled WordPress 6.9/PHP 8.0.30/MySQL fixture, the AP-010 coordinator durably recorded and atomically claimed R1 work before one mutation, replayed identical requests without a second mutation, rejected changed-payload key reuse, prevented mutation on storage/claim failure, staged immutable 24-hour R2 proposals without mutation, and deterministically reduced all tested child-state classes. The exact pushed PR head also passed the hosted repository gate. Merge evidence remains pending and will be appended without rewriting this result.
+Under the controlled WordPress 6.9/PHP 8.0.30/MySQL fixture, the AP-010 coordinator durably recorded and atomically claimed R1 work before one mutation, replayed identical requests without a second mutation, rejected changed-payload key reuse, prevented mutation on storage/claim failure, staged immutable 24-hour R2 proposals without mutation, and deterministically reduced all tested child-state classes. The final PR head and exact merge head also passed the hosted repository gate; AP-010 is merged and issue #19 is closed.
 
 ## Limitations and `NOT_TESTED` boundaries
 
@@ -170,7 +171,7 @@ Under the controlled WordPress 6.9/PHP 8.0.30/MySQL fixture, the AP-010 coordina
 - work attributable to challenge period: baseline/timestamps captured before AP-010 product-code mutation;
 - pre-existing work distinguished by: synchronized AP-009 closeout baseline;
 - third-party material/license/pin: no new third-party runtime; existing GPL pin/provenance gate passed with 45 ZIP entries and no upstream runtime code;
-- commit/PR evidence: implementation `b3422fd693d0633ecad29ed3b0df43992a271f0d`; evidence commit `c27e912c711e02854994fb2c212bf56bb70c555d`; issue #19; PR #20; exact head hosted run `33411177779` passed;
+- commit/PR evidence: implementation `b3422fd693d0633ecad29ed3b0df43992a271f0d`; final PR head `7ad2e0ba862df2e3e44a79d17cce3281959f5faa`; merged PR #20 at `a1b3d4de22fd56a660ba476b4a145c589f8925cc`; issue #19 closed; exact merge-head run `33411536951` passed;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -185,9 +186,9 @@ Under the controlled WordPress 6.9/PHP 8.0.30/MySQL fixture, the AP-010 coordina
 ## End state
 
 ```text
-git status --short --branch: AP-010 implementation/evidence committed and pushed on ap-010-change-set-coordinator; hosted-gate evidence update pending; no unrelated changes observed
+git status --short --branch: clean synchronized main at a1b3d4de22fd56a660ba476b4a145c589f8925cc before this merge-evidence append; no unrelated changes observed
 tests/checks: AP-010 MySQL matrix pass; AP-004–AP-009 regressions pass; unit 65/579; PHPCS 35/35; browser 14/14; provenance 45 entries; npm audit 0; deterministic ZIP SHA-256 32E9366F63F1ADCBF98D9C1F67F01E8D664CD75EBD54BCE1343E9937BB84C980
 committed: yes, implementation/evidence `b3422fd693d0633ecad29ed3b0df43992a271f0d`
-pushed: yes, PR #20; exact head c27e912 passed hosted run 33411177779
+pushed: yes; PR #20 merged; final PR head and exact merge head passed hosted gates
 deployed: no
 ```
