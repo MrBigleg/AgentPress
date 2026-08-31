@@ -15,7 +15,8 @@
 | Agent/operator | Codex, implementation agent |
 | Branch | `ap-006-common-schemas-errors` |
 | Baseline commit | `9952e76c00790ee739612dd5a8e35e7a3b386b61` |
-| Ending commit | `UNCOMMITTED` |
+| Checkpoint commit | `59066ea3992cd2d6ddc67874efcb9fd5037cd777` |
+| Ending commit | `PENDING`; experiment remains open |
 | Environment | Windows/PowerShell; Node.js 22.23.2; npm 10.9.8; wp-env WordPress 6.9/PHP 8.0 planned |
 
 ## Question
@@ -100,6 +101,7 @@ environment: Node.js 22.23.2; npm 10.9.8; WordPress/PHP runtime pending
 | 2026-08-31 checkpoint | `npm run lint:php` rerun 2 | repository | exit 0 | PHPCS passed 20/20 scanned PHP files in 19.69 seconds. |
 | 2026-08-31 checkpoint | `npm run test:unit` | repository | exit 0 | Existing suite passed 10 tests and 15 assertions; it contains no AP-006-specific coverage yet. |
 | 2026-08-31 checkpoint | `npm run env:stop` | repository | exit 0 | Temporary WordPress environment stopped after verification. |
+| 2026-08-31 checkpoint | Commit verified six-file checkpoint | repository | exit 0 | `59066ea3992cd2d6ddc67874efcb9fd5037cd777`; 449 insertions; branch one commit ahead of `origin/main`; not pushed. |
 
 ## Observation ledger
 
@@ -142,11 +144,11 @@ environment: Node.js 22.23.2; npm 10.9.8; WordPress/PHP runtime pending
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-08-31-exp-012-common-schemas-errors.md` | evidence | untracked | `EXP-012` | Opened before AP-006 specification extraction or mutation. |
-| `agentpress/includes/Schemas/SchemaBuilder.php` | source | checkpoint candidate | pending commit | Shared inline closed-schema fragments and success-output schema. |
-| `agentpress/includes/Schemas/SchemaValidator.php` | source | checkpoint candidate | pending commit | WordPress core validation wrapper plus cross-field callbacks. |
-| `agentpress/includes/Schemas/CombinationRules.php` | source | checkpoint candidate | pending commit | At-least-one and classic navigation-operation rules. |
-| `agentpress/includes/Results/ResultFactory.php` | source | checkpoint candidate | pending commit | Common successful result envelope. |
+| `docs/evidence/sessions/2026-08-31-exp-012-common-schemas-errors.md` | evidence | checkpoint committed | `EXP-012`; `59066ea` | Opened before AP-006 specification extraction or mutation. |
+| `agentpress/includes/Schemas/SchemaBuilder.php` | source | checkpoint committed | `59066ea` | Shared inline closed-schema fragments and success-output schema. |
+| `agentpress/includes/Schemas/SchemaValidator.php` | source | checkpoint committed | `59066ea` | WordPress core validation wrapper plus cross-field callbacks. |
+| `agentpress/includes/Schemas/CombinationRules.php` | source | checkpoint committed | `59066ea` | At-least-one and classic navigation-operation rules. |
+| `agentpress/includes/Results/ResultFactory.php` | source | checkpoint committed | `59066ea` | Common successful result envelope. |
 | `agentpress/includes/Errors/` | source | absent | not applicable | Error factory and bounded safe details remain to be implemented. |
 
 ## Result
@@ -179,9 +181,9 @@ environment: Node.js 22.23.2; npm 10.9.8; WordPress/PHP runtime pending
 ## End state
 
 ```text
-git status --short --branch: AP-006 checkpoint files modified/untracked on ap-006-common-schemas-errors
+git status --short --branch: expected clean after the documentation closeout on ap-006-common-schemas-errors
 tests/checks: PHP standards 20/20 pass; existing PHPUnit 10 tests/15 assertions pass; AP-006 acceptance matrix remains NOT_TESTED
-committed: checkpoint pending
+committed: source checkpoint 59066ea; documentation closeout is the commit containing this record
 pushed: no
 deployed: no
 ```
