@@ -102,6 +102,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; exact baseline run 3340
 | timestamp not independently captured | Run browser and first provenance gate | repository | browser exit 0; provenance exit 1 | Browser passed 14/14. Provenance stopped before inspection because its build child received Windows `EPERM` unlinking ignored `dist/agentpress.zip`; this is the same bounded artifact-access condition observed in EXP-015 and requires an authorized isolated rerun. |
 | timestamp not independently captured | Rerun provenance with workspace artifact access; run dependency, script-syntax, and diff gates | repository | exit 0 | Provenance verified GPL licenses/pin, 45 ZIP entries, and no upstream runtime code. `npm audit --omit=optional` found zero vulnerabilities; both package scripts passed syntax; `git diff --check` passed. |
 | timestamp not independently captured | Build final release ZIP twice from identical source and hash each result | repository | exit 0 | Both builds produced SHA-256 `32E9366F63F1ADCBF98D9C1F67F01E8D664CD75EBD54BCE1343E9937BB84C980`. |
+| timestamp not independently captured | Commit/push AP-010, open PR #20, and verify its exact hosted head | repository/GitHub | exit 0 | Implementation `b3422fd693d0633ecad29ed3b0df43992a271f0d`; evidence SHA commit `c27e912c711e02854994fb2c212bf56bb70c555d`; [PR #20](https://github.com/MrBigleg/AgentPress/pull/20) links issue #19 and exact head passed [run 33411177779, job 99550827486](https://github.com/MrBigleg/AgentPress/actions/runs/33411177779/job/99550827486). |
 
 ## Observation ledger
 
@@ -157,7 +158,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; exact baseline run 3340
 
 `SUPPORTED`
 
-Under the controlled WordPress 6.9/PHP 8.0.30/MySQL fixture, the AP-010 coordinator durably recorded and atomically claimed R1 work before one mutation, replayed identical requests without a second mutation, rejected changed-payload key reuse, prevented mutation on storage/claim failure, staged immutable 24-hour R2 proposals without mutation, and deterministically reduced all tested child-state classes. This supports AP-010 locally; hosted CI and merge evidence remain pending and will be appended without rewriting this result.
+Under the controlled WordPress 6.9/PHP 8.0.30/MySQL fixture, the AP-010 coordinator durably recorded and atomically claimed R1 work before one mutation, replayed identical requests without a second mutation, rejected changed-payload key reuse, prevented mutation on storage/claim failure, staged immutable 24-hour R2 proposals without mutation, and deterministically reduced all tested child-state classes. The exact pushed PR head also passed the hosted repository gate. Merge evidence remains pending and will be appended without rewriting this result.
 
 ## Limitations and `NOT_TESTED` boundaries
 
@@ -169,7 +170,7 @@ Under the controlled WordPress 6.9/PHP 8.0.30/MySQL fixture, the AP-010 coordina
 - work attributable to challenge period: baseline/timestamps captured before AP-010 product-code mutation;
 - pre-existing work distinguished by: synchronized AP-009 closeout baseline;
 - third-party material/license/pin: no new third-party runtime; existing GPL pin/provenance gate passed with 45 ZIP entries and no upstream runtime code;
-- commit/PR evidence: implementation/evidence commit `b3422fd693d0633ecad29ed3b0df43992a271f0d`; issue #19 exists; PR pending;
+- commit/PR evidence: implementation `b3422fd693d0633ecad29ed3b0df43992a271f0d`; evidence commit `c27e912c711e02854994fb2c212bf56bb70c555d`; issue #19; PR #20; exact head hosted run `33411177779` passed;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -184,9 +185,9 @@ Under the controlled WordPress 6.9/PHP 8.0.30/MySQL fixture, the AP-010 coordina
 ## End state
 
 ```text
-git status --short --branch: AP-010 implementation committed on ap-010-change-set-coordinator; evidence SHA closeout pending; no unrelated changes observed
+git status --short --branch: AP-010 implementation/evidence committed and pushed on ap-010-change-set-coordinator; hosted-gate evidence update pending; no unrelated changes observed
 tests/checks: AP-010 MySQL matrix pass; AP-004–AP-009 regressions pass; unit 65/579; PHPCS 35/35; browser 14/14; provenance 45 entries; npm audit 0; deterministic ZIP SHA-256 32E9366F63F1ADCBF98D9C1F67F01E8D664CD75EBD54BCE1343E9937BB84C980
 committed: yes, implementation/evidence `b3422fd693d0633ecad29ed3b0df43992a271f0d`
-pushed: no
+pushed: yes, PR #20; exact head c27e912 passed hosted run 33411177779
 deployed: no
 ```
