@@ -7,6 +7,7 @@
 
 namespace AgentPress;
 
+use AgentPress\Abilities\AbilityRegistrar;
 use AgentPress\Storage\Migrator;
 
 /**
@@ -19,6 +20,13 @@ final class Plugin {
 	 * @var \AgentPress\Rest\WebMCPRoutes|null
 	 */
 	private $webmcp_routes;
+
+	/**
+	 * Fixed WordPress Ability registrar.
+	 *
+	 * @var AbilityRegistrar|null
+	 */
+	private $ability_registrar;
 
 	/**
 	 * Shared plugin instance.
@@ -57,7 +65,9 @@ final class Plugin {
 			return;
 		}
 
-		$this->booted        = true;
+		$this->booted            = true;
+		$this->ability_registrar = new AbilityRegistrar();
+		$this->ability_registrar->register_hooks();
 		$this->webmcp_routes = new \AgentPress\Rest\WebMCPRoutes();
 		$this->webmcp_routes->register_hooks();
 		add_action( 'plugins_loaded', array( Migrator::class, 'maybe_migrate' ) );

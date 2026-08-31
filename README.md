@@ -14,7 +14,7 @@
 
 AgentPress is an open-source WordPress plugin project that will let ChatGPT work inside the WordPress session a human is already using. WordPress defines the user's maximum authority. AgentPress narrows that authority into actions the agent may perform automatically, actions requiring explicit human approval, and actions that remain unavailable.
 
-> **Project stage:** early implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, and versioned persistence layer are implemented. The production Ability catalog, product UI, release, and live challenge workflow remain unimplemented or unverified.
+> **Project stage:** early implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, versioned persistence, policy layer, and fixed 15-Ability catalog are implemented. Ability services, product UI, release, and live challenge workflow remain unimplemented or unverified.
 
 ## Product thesis
 
@@ -154,21 +154,22 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Versioned database and repositories | `OBSERVED`, PR #10; local runtime and hosted repository gates pass | [Experiment 011](docs/evidence/sessions/2026-08-31-exp-011-database-repositories.md) |
 | Common schemas and error normalization | `OBSERVED`, merged in PR #12; local WordPress/error/transport and hosted repository gates pass | [Experiment 012](docs/evidence/sessions/2026-08-31-exp-012-common-schemas-errors.md) |
 | Safe Mode and capability-aware discovery | `OBSERVED`, merged in PR #14; local role/capability/object/R3 matrices and hosted repository gates pass | [Experiment 013](docs/evidence/sessions/2026-08-31-exp-013-safe-mode-discovery-policy.md) |
+| Fixed WordPress Ability catalog | `OBSERVED`, PR #16; local exact-contract/native-REST/bridge-role matrices and hosted repository gate pass | [Experiment 014](docs/evidence/sessions/2026-08-31-exp-014-ability-registry.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment is `AP-008 — Register the 15 Abilities and fixed tool-name map`. AP-001 through AP-007 are merged; AP-007 passed its local matrices and latest hosted PR gate.
+The next dependency-ordered implementation experiment after AP-008 merges is `AP-009 — Implement sanitized audit logging`. AP-001 through AP-007 are merged; AP-008 has passed its local matrices and hosted PR gate and awaits merge.
 
-**Hypothesis:** exactly 15 `agentpress/*` Abilities can register with the fixed category, callbacks, schemas, annotations, and collision-free WebMCP names while native REST listing/execution remains unavailable.
+**Hypothesis:** every AgentPress execution and human approval attempt can emit a bounded, redacted audit event without retaining credentials, nonces, raw headers, or full content payloads.
 
-**Falsification condition:** the runtime registry differs from the fixed 15-operation catalog; any schema, callback, category, annotation, or mapping differs from the binding specification; native Abilities REST lists or executes an AgentPress Ability; or the bridge exposes anything outside the filtered current-user map.
+**Falsification condition:** any secret/private raw value reaches durable audit storage; required event identity/result/timing fields are missing; visibility exceeds the actor or `manage_options`; or audit failure creates an unauthorized product mutation.
 
-**Prerequisite evidence:** AP-006 is merged in PR #12 and AP-007 is merged in PR #14. Experiment 013 records AP-007's local policy, role/capability, object-specific, discovery, forbidden-surface, and hosted repository gates.
+**Prerequisite evidence:** AP-005 is merged in PR #10 and provides the audit repository/table. Experiment 014 records AP-008's local exact catalog, callback, REST-absence, bridge-filtering, and zero-mutation matrices; AP-008 merge remains required before downstream catalog consumers proceed.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-008--register-the-15-abilities-and-fixed-tool-name-map).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-009--implement-sanitized-audit-logging).
 
 ## Local development
 

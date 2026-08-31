@@ -8,6 +8,7 @@
 namespace AgentPress\Rest;
 
 use AgentPress\Errors\ErrorFactory;
+use AgentPress\Policy\DiscoveryPolicy;
 use AgentPress\WebMCP\AbilityMap;
 
 /**
@@ -45,13 +46,21 @@ final class WebMCPRoutes {
 	private $ability_resolver;
 
 	/**
+	 * Coarse current-user discovery policy.
+	 *
+	 * @var DiscoveryPolicy
+	 */
+	private $discovery_policy;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param RequestGuard|null $guard               Optional guard.
-	 * @param callable|null     $definition_provider Optional definition provider.
-	 * @param callable|null     $ability_resolver    Optional Ability resolver.
+	 * @param RequestGuard|null    $guard               Optional guard.
+	 * @param callable|null        $definition_provider Optional definition provider.
+	 * @param callable|null        $ability_resolver    Optional Ability resolver.
+	 * @param DiscoveryPolicy|null $discovery_policy   Optional discovery policy.
 	 */
-	public function __construct( $guard = null, $definition_provider = null, $ability_resolver = null ) {
+	public function __construct( $guard = null, $definition_provider = null, $ability_resolver = null, $discovery_policy = null ) {
 		$this->guard               = $guard ?? new RequestGuard();
 		$this->definition_provider = $definition_provider ?? array( $this, 'default_definitions' );
 		$this->ability_resolver    = $ability_resolver ?? static function ( $ability_name ) {
@@ -64,6 +73,7 @@ final class WebMCPRoutes {
 
 			return function_exists( 'wp_get_ability' ) ? wp_get_ability( $ability_name ) : null;
 		};
+		$this->discovery_policy    = $discovery_policy ?? new DiscoveryPolicy();
 	}
 
 	/**
@@ -217,6 +227,12 @@ final class WebMCPRoutes {
 		if ( ! is_object( $ability ) || ! is_callable( array( $ability, 'check_permissions' ) ) || ! is_callable( array( $ability, 'execute' ) ) ) {
 			return ErrorFactory::make( 'AP_INTERNAL_ERROR' );
 		}
+		if ( is_callable( array( $ability, 'validate_input' ) ) ) {
+			$valid = $ability->validate_input( $params['input'] );
+			if ( true !== $valid ) {
+				return ErrorFactory::make( 'AP_SCHEMA_INVALID' );
+			}
+		}
 
 		$permission = $ability->check_permissions( $params['input'] );
 		if ( true !== $permission ) {
@@ -329,19 +345,26 @@ final class WebMCPRoutes {
 		$definitions = array();
 
 		foreach ( AbilityMap::all() as $ability_name => $tool_name ) {
+			if ( ! $this->discovery_policy->can_discover( $ability_name ) ) {
+				continue;
+			}
 			do_action( 'agentpress_webmcp_before_ability_resolve', $ability_name );
 			$ability = call_user_func( $this->ability_resolver, $ability_name );
-			if ( ! is_object( $ability ) || true !== $ability->check_permissions() ) {
+			if ( ! is_object( $ability ) ) {
 				continue;
 			}
 
 			$meta          = is_callable( array( $ability, 'get_meta' ) ) ? $ability->get_meta() : array();
+			$annotations   = isset( $meta['annotations'] ) && is_array( $meta['annotations'] ) ? $meta['annotations'] : array();
 			$definitions[] = array(
 				'ability'     => $ability_name,
 				'name'        => $tool_name,
 				'description' => $ability->get_description(),
 				'inputSchema' => $ability->get_input_schema(),
-				'annotations' => isset( $meta['annotations'] ) && is_array( $meta['annotations'] ) ? $meta['annotations'] : array(),
+				'annotations' => array(
+					'readOnlyHint'         => ! empty( $annotations['readOnlyHint'] ),
+					'untrustedContentHint' => ! empty( $annotations['untrustedContentHint'] ),
+				),
 			);
 		}
 

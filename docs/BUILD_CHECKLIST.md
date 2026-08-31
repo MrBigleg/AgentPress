@@ -75,7 +75,7 @@
 
 ### AP-008 — Register the 15 Abilities and fixed tool-name map
 
-- [ ] **Difficulty:** S
+- [x] **Difficulty:** S
 - **Depends on:** AP-006, AP-007
 - **Demo critical:** yes
 - **Deliverable:** category at `wp_abilities_api_categories_init`, Abilities at `wp_abilities_api_init`, exact descriptions/schemas/meta, `meta.show_in_rest=false`, and explicit collision-free WebMCP names.

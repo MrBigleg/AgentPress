@@ -14,6 +14,8 @@ const files = [
   'composer.json',
   'composer.lock',
   'includes/Activation.php',
+  'includes/Abilities/AbilityCatalog.php',
+  'includes/Abilities/AbilityRegistrar.php',
   'includes/Audit/AuditEventRepository.php',
   'includes/Autoloader.php',
   'includes/Changes/ChangeRepository.php',
