@@ -84,7 +84,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; main run 33383116316 pa
 | ID | Evidence class | Source/version | Accessed | Claim supported | Notes |
 |---|---|---|---|---|---|
 | S1 | `DECIDED` | `docs/IMPLEMENTATION_SPEC.md` sections 2, 7, 8.3, and 9.3 at baseline `22649d5` | 2026-08-31 | Durable audit begins only after authentication/nonce validation; authenticated denials and outcomes are recorded; the row schema and explicit no-secret/content-summary contract are fixed. | Project contract, not external runtime proof. |
-| S2 | `OBSERVED` | `docs/BUILD_CHECKLIST.md` AP-009 at baseline `22649d5` | 2026-08-31 | Acceptance requires secret fixtures plus a 200 KB body, authenticated denial rows, and zero rows for logged-out/invalid-nonce traffic. | Executable evidence pending. |
+| S2 | `OBSERVED` | `docs/BUILD_CHECKLIST.md` AP-009 at baseline `22649d5` | 2026-08-31 | Acceptance requires secret fixtures plus a 200 KB body, authenticated denial rows, and zero rows for logged-out/invalid-nonce traffic. | Executable evidence completed in the verification matrix below. |
 | S3 | `OBSERVED` | Controlled wp-env WordPress 6.9 / PHP 8.0.30 runtime | 2026-08-31 | WordPress UUID generation produced four unique request IDs accepted by the exact audit-table constraint; current-user identity and UTC repository clock persisted through the existing AP-005 boundary. | Runtime observation, not a deployment claim. |
 
 ## Execution log
@@ -112,6 +112,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; main run 33383116316 pa
 | timestamp not independently captured | Correct and rerun changed-document structural verifier | repository | exit 0 | Balanced fences and all local targets passed for README (33 links), checklist (one), evidence index (25), and EXP-015 (two); `git diff --check` passed. |
 | 2026-08-31T21:45:22+07:00 | Stage exact AP-009 manifest, inspect cached name/status/stat, run `git diff --cached --check`, and commit | repository | exit 0 | Ten-file implementation/evidence package committed as `b416060b2c46acdff5c30e809e773652ba19e950`; worktree clean immediately afterward. |
 | 2026-08-31T21:49:48+07:00 | Push branch, open PR #18, and watch hosted repository gate | GitHub | exit 0 | [PR #18](https://github.com/MrBigleg/AgentPress/pull/18) links issue #17; exact head `a18dd10a0c346e4648fafd06ce8b97af05aad6cd` passed [run 33404819589, job 99529667267](https://github.com/MrBigleg/AgentPress/actions/runs/33404819589/job/99529667267) in 25 seconds. |
+| 2026-08-31T21:55:38+07:00 | Verify latest PR head, merge PR #18, verify issue closure, fast-forward local main, and inspect merge CI | GitHub/repository | exit 0 | Exact head `5fa36ca04b0dda82f7bf34caa5c047302faac191` passed [run 33405208910, job 99530983695](https://github.com/MrBigleg/AgentPress/actions/runs/33405208910/job/99530983695); PR #18 merged at `2026-08-31T14:54:16Z` as `ce3d30ab3576545da61a0d46b28bbaf838af087b`; issue #17 closed; clean local main fast-forwarded; exact merge run `33405348098` passed. |
 
 ## Observation ledger
 
@@ -125,6 +126,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; main run 33383116316 pa
 | O6 | `OBSERVED` | A 204,800-byte content value became an exact byte count, SHA-256, and escaped preview within a 368-byte JSON field; the full body was absent. | final AP-009 content assertions | Large semantic content remains bounded and auditable without duplication. |
 | O7 | `OBSERVED` | Invalid nonce and logged-out requests produced zero rows; a denied execution with a failing audit repository returned `AP_INTERNAL_ERROR` and executed the Ability zero times. | final AP-009 negative controls | Pre-auth traffic is not durable and audit failure does not open an unauthorized execution path. |
 | O8 | `OBSERVED` | AP-004 through AP-008, unit, standards, browser, provenance, dependency audit, and deterministic packaging all passed after the AP-009 changes. | execution log | The tested implementation preserves prerequisite behavior and repository gates. |
+| O9 | `OBSERVED` | The exact final PR head passed its hosted gate before merge; issue #17 closed; synchronized main and its successful workflow resolve to merge SHA `ce3d30a`. | run `33405208910`; merge run `33405348098`; GitHub/local verification | AP-009 is merged with traceable latest-green and merge-main evidence. |
 
 ## Contradictions and failures
 
@@ -184,7 +186,7 @@ The local evidence supports the hypothesis. Authenticated WebMCP attempts produc
 - work attributable to challenge period: baseline, branch, issue, experiment, failures, and ending timestamps captured around AP-009 work;
 - pre-existing work distinguished by: synchronized AP-008 closeout baseline;
 - third-party material/license/pin: no new third-party runtime; existing pin/provenance gate passed with 42 ZIP entries and no upstream runtime code;
-- commit/PR evidence: [issue #17](https://github.com/MrBigleg/AgentPress/issues/17); implementation commit `b416060b2c46acdff5c30e809e773652ba19e950`; [PR #18](https://github.com/MrBigleg/AgentPress/pull/18); hosted run `33404819589` passed;
+- commit/PR evidence: issue #17 closed; implementation commit `b416060b2c46acdff5c30e809e773652ba19e950`; final head `5fa36ca04b0dda82f7bf34caa5c047302faac191`; [PR #18](https://github.com/MrBigleg/AgentPress/pull/18) merged as `ce3d30ab3576545da61a0d46b28bbaf838af087b` after hosted run `33405208910` passed; merge run `33405348098` passed;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -194,14 +196,14 @@ The local evidence supports the hypothesis. Authenticated WebMCP attempts produc
 
 - proposed experiment ID/task: EXP-016 / AP-010 Change Set coordinator and idempotency;
 - next falsifiable question: can one coordinator prevent mutation before durable intent, deduplicate identical keys, conflict on changed payloads, and reduce every child transition deterministically?;
-- required prerequisites: AP-005, AP-007, and AP-009 merged with green storage/policy/audit evidence.
+- required prerequisites: satisfied by merged AP-005/AP-007 evidence and AP-009 merge `ce3d30a` with latest-green run `33405208910`.
 
 ## End state
 
 ```text
-git status --short --branch: AP-009-only sanitizer/logger, transport wiring, tests, package manifest, checklist, README, index, and EXP-015 changes on ap-009-sanitized-audit-logging
+git status --short --branch: clean synchronized main at AP-009 merge ce3d30a before this documentation-only merge-evidence append
 tests/checks: AP-009 WordPress matrix pass; AP-004–AP-008 regressions pass; unit 51/561; PHPCS 32/32; browser 14/14; provenance 42 entries; npm audit 0; deterministic final ZIP SHA-256 74E3DA585264C8046B1B6EAF0FCD2D6F591E07ACDCB86B931DCF29859876DC21
-committed: yes, implementation/evidence commit b416060b2c46acdff5c30e809e773652ba19e950; this append-only commit-reference update pending
-pushed: yes, origin/ap-009-sanitized-audit-logging; PR #18 hosted gate passed
+committed: yes, implementation/evidence commit b416060b2c46acdff5c30e809e773652ba19e950; final branch head 5fa36ca04b0dda82f7bf34caa5c047302faac191; merge ce3d30ab3576545da61a0d46b28bbaf838af087b; this documentation-only merge-evidence append pending
+pushed: yes; PR #18 merged after latest hosted run 33405208910 passed; merge run 33405348098 passed
 deployed: no
 ```
