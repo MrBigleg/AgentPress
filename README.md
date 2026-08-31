@@ -154,14 +154,14 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Versioned database and repositories | `OBSERVED`, PR #10; local runtime and hosted repository gates pass | [Experiment 011](docs/evidence/sessions/2026-08-31-exp-011-database-repositories.md) |
 | Common schemas and error normalization | `OBSERVED`, merged in PR #12; local WordPress/error/transport and hosted repository gates pass | [Experiment 012](docs/evidence/sessions/2026-08-31-exp-012-common-schemas-errors.md) |
 | Safe Mode and capability-aware discovery | `OBSERVED`, merged in PR #14; local role/capability/object/R3 matrices and hosted repository gates pass | [Experiment 013](docs/evidence/sessions/2026-08-31-exp-013-safe-mode-discovery-policy.md) |
-| Fixed WordPress Ability catalog | `OBSERVED`, AP-008 feature branch; local exact-contract/native-REST/bridge-role matrices and repository gates pass; hosted PR gate `NOT_TESTED` | [Experiment 014](docs/evidence/sessions/2026-08-31-exp-014-ability-registry.md) |
+| Fixed WordPress Ability catalog | `OBSERVED`, PR #16; local exact-contract/native-REST/bridge-role matrices and hosted repository gate pass | [Experiment 014](docs/evidence/sessions/2026-08-31-exp-014-ability-registry.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment after AP-008 merges is `AP-009 — Implement sanitized audit logging`. AP-001 through AP-007 are merged; AP-008 has passed its local matrices and awaits its hosted PR gate and merge.
+The next dependency-ordered implementation experiment after AP-008 merges is `AP-009 — Implement sanitized audit logging`. AP-001 through AP-007 are merged; AP-008 has passed its local matrices and hosted PR gate and awaits merge.
 
 **Hypothesis:** every AgentPress execution and human approval attempt can emit a bounded, redacted audit event without retaining credentials, nonces, raw headers, or full content payloads.
 

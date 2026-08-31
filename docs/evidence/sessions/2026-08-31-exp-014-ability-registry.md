@@ -109,6 +109,7 @@ environment: Node.js 22.23.2; accessible npm 10.9.8; PowerShell access to the ro
 | timestamp not independently captured | Final unit, standards, browser, provenance, and audit gates | repository/wp-env | exit 0 | 44 tests/532 assertions; PHPCS 30/30; browser 14/14; provenance 40 ZIP entries with pinned GPL source and no upstream runtime; npm audit found zero vulnerabilities. |
 | timestamp not independently captured | Two consecutive `npm run build:zip` runs and SHA-256 checks | repository | exit 0 | Both release builds produced `D91EC6104CCC57CB6C5F4F781C2DAA8A696456238A9F199F0B9CF63727CAD094`. |
 | 2026-08-31T17:22:59+07:00 | Stage exact AP-008 manifest, run `git diff --cached --check`, and commit | repository | exit 0 | 12-file implementation/evidence package committed as `6c037ba22204351b506fad0fb979b6c2b1d51250`; worktree clean immediately afterward. |
+| 2026-08-31T17:26:23+07:00 | Push branch, open PR #16, and watch hosted repository gate | GitHub | exit 0 | [PR #16](https://github.com/MrBigleg/AgentPress/pull/16) links issue #15; [run 33382353529, job 99457341540](https://github.com/MrBigleg/AgentPress/actions/runs/33382353529/job/99457341540) passed in 25 seconds. |
 
 ## Observation ledger
 
@@ -172,7 +173,7 @@ The local evidence supports the hypothesis: exactly 15 fixed AgentPress Abilitie
 
 ## Limitations and `NOT_TESTED` boundaries
 
-- `NOT_TESTED`: hosted PR/CI execution, real browser/WebMCP discovery using the production catalog, ChatGPT, deployment, and AP-011+ service behavior.
+- `NOT_TESTED`: real browser/WebMCP discovery using the production catalog, ChatGPT, deployment, and AP-011+ service behavior.
 - The browser suite is a transport regression, not live browser acceptance of the newly registered PHP catalog.
 
 ## Competition evidence statement
@@ -180,7 +181,7 @@ The local evidence supports the hypothesis: exactly 15 fixed AgentPress Abilitie
 - work attributable to challenge period: baseline and timestamps recorded before material AP-008 work;
 - pre-existing work distinguished by: merged AP-007/main baseline;
 - third-party material/license/pin: pending source inspection; no new third-party runtime planned;
-- commit/PR evidence: issue #15 and implementation commit `6c037ba22204351b506fad0fb979b6c2b1d51250`; push and PR pending;
+- commit/PR evidence: issue #15, implementation commit `6c037ba22204351b506fad0fb979b6c2b1d51250`, [PR #16](https://github.com/MrBigleg/AgentPress/pull/16), and hosted run `33382353529` passed;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -198,6 +199,6 @@ The local evidence supports the hypothesis: exactly 15 fixed AgentPress Abilitie
 git status --short --branch: AP-008-only catalog, registrar, plugin/bridge wiring, AP-004 fixture isolation, tests, package manifest, checklist, README, index, and EXP-014 changes on ap-008-ability-registry
 tests/checks: AP-008 WordPress matrix pass; AP-004/AP-006/AP-007 regressions pass; unit 44/532; PHPCS 30/30; browser 14/14; provenance 40 entries; npm audit 0; deterministic ZIP SHA-256 D91EC6104CCC57CB6C5F4F781C2DAA8A696456238A9F199F0B9CF63727CAD094
 committed: yes, implementation/evidence commit 6c037ba22204351b506fad0fb979b6c2b1d51250; this append-only commit-reference update pending
-pushed: no
+pushed: yes, origin/ap-008-ability-registry; PR #16 hosted gate passed
 deployed: no
 ```
