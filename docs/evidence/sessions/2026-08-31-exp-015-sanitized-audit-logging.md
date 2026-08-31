@@ -111,6 +111,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; main run 33383116316 pa
 | timestamp not independently captured | Stop controlled wp-env and run Markdown fence/link plus diff checks | repository | stop/fence/diff exit 0; first link check invalid | wp-env stopped cleanly; all four changed Markdown files had balanced fences. The link checker treated root-level README's empty parent path as invalid and emitted false missing-link reports before any file lookup. |
 | timestamp not independently captured | Correct and rerun changed-document structural verifier | repository | exit 0 | Balanced fences and all local targets passed for README (33 links), checklist (one), evidence index (25), and EXP-015 (two); `git diff --check` passed. |
 | 2026-08-31T21:45:22+07:00 | Stage exact AP-009 manifest, inspect cached name/status/stat, run `git diff --cached --check`, and commit | repository | exit 0 | Ten-file implementation/evidence package committed as `b416060b2c46acdff5c30e809e773652ba19e950`; worktree clean immediately afterward. |
+| 2026-08-31T21:49:48+07:00 | Push branch, open PR #18, and watch hosted repository gate | GitHub | exit 0 | [PR #18](https://github.com/MrBigleg/AgentPress/pull/18) links issue #17; exact head `a18dd10a0c346e4648fafd06ce8b97af05aad6cd` passed [run 33404819589, job 99529667267](https://github.com/MrBigleg/AgentPress/actions/runs/33404819589/job/99529667267) in 25 seconds. |
 
 ## Observation ledger
 
@@ -183,7 +184,7 @@ The local evidence supports the hypothesis. Authenticated WebMCP attempts produc
 - work attributable to challenge period: baseline, branch, issue, experiment, failures, and ending timestamps captured around AP-009 work;
 - pre-existing work distinguished by: synchronized AP-008 closeout baseline;
 - third-party material/license/pin: no new third-party runtime; existing pin/provenance gate passed with 42 ZIP entries and no upstream runtime code;
-- commit/PR evidence: [issue #17](https://github.com/MrBigleg/AgentPress/issues/17); implementation commit `b416060b2c46acdff5c30e809e773652ba19e950`; PR pending;
+- commit/PR evidence: [issue #17](https://github.com/MrBigleg/AgentPress/issues/17); implementation commit `b416060b2c46acdff5c30e809e773652ba19e950`; [PR #18](https://github.com/MrBigleg/AgentPress/pull/18); hosted run `33404819589` passed;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -201,6 +202,6 @@ The local evidence supports the hypothesis. Authenticated WebMCP attempts produc
 git status --short --branch: AP-009-only sanitizer/logger, transport wiring, tests, package manifest, checklist, README, index, and EXP-015 changes on ap-009-sanitized-audit-logging
 tests/checks: AP-009 WordPress matrix pass; AP-004–AP-008 regressions pass; unit 51/561; PHPCS 32/32; browser 14/14; provenance 42 entries; npm audit 0; deterministic final ZIP SHA-256 74E3DA585264C8046B1B6EAF0FCD2D6F591E07ACDCB86B931DCF29859876DC21
 committed: yes, implementation/evidence commit b416060b2c46acdff5c30e809e773652ba19e950; this append-only commit-reference update pending
-pushed: no; PR pending
+pushed: yes, origin/ap-009-sanitized-audit-logging; PR #18 hosted gate passed
 deployed: no
 ```
