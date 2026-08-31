@@ -155,14 +155,14 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Common schemas and error normalization | `OBSERVED`, merged in PR #12; local WordPress/error/transport and hosted repository gates pass | [Experiment 012](docs/evidence/sessions/2026-08-31-exp-012-common-schemas-errors.md) |
 | Safe Mode and capability-aware discovery | `OBSERVED`, merged in PR #14; local role/capability/object/R3 matrices and hosted repository gates pass | [Experiment 013](docs/evidence/sessions/2026-08-31-exp-013-safe-mode-discovery-policy.md) |
 | Fixed WordPress Ability catalog | `OBSERVED`, merged in PR #16; local exact-contract/native-REST/bridge-role matrices and hosted repository gates pass | [Experiment 014](docs/evidence/sessions/2026-08-31-exp-014-ability-registry.md) |
-| Sanitized execution audit | `OBSERVED`, local secret/size/outcome/unauthenticated matrices pass; merge and hosted gate pending | [Experiment 015](docs/evidence/sessions/2026-08-31-exp-015-sanitized-audit-logging.md) |
+| Sanitized execution audit | `OBSERVED`, committed locally; secret/size/outcome/unauthenticated matrices pass; hosted gate and merge pending | [Experiment 015](docs/evidence/sessions/2026-08-31-exp-015-sanitized-audit-logging.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment after AP-009 merges is `AP-010 — Implement Change Set coordinator and idempotency`. AP-001 through AP-008 are merged; AP-009 has passed its local security matrix and repository gates but still requires commit, hosted PR verification, and merge.
+The next dependency-ordered implementation experiment after AP-009 merges is `AP-010 — Implement Change Set coordinator and idempotency`. AP-001 through AP-008 are merged; AP-009 has passed its local security matrix and repository gates and is committed, but still requires hosted PR verification and merge.
 
 **Hypothesis:** automatic R1 writes and staged R2 proposals can use one Change Set coordinator to enforce intent-before-mutation, immutable proposal hashes, deterministic state reduction, expiry, and per-user idempotency without duplicate WordPress mutation.
 

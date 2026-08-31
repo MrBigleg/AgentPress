@@ -15,7 +15,7 @@
 | Agent/operator | Codex, implementation and verification agent |
 | Branch | `ap-009-sanitized-audit-logging` |
 | Baseline commit | `22649d5d3d814134c8bb86c8d9126b904b145c20` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `b416060b2c46acdff5c30e809e773652ba19e950` |
 | Environment | Windows; PowerShell 7; Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; controlled wp-env WordPress 6.9 and PHP 8.0.30 |
 
 ## Question
@@ -110,6 +110,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; main run 33383116316 pa
 | timestamp not independently captured | Final provenance and two deterministic builds after error-code correction | repository | exit 0 | Provenance again verified 42 ZIP entries and no upstream runtime; both exact-final-source builds produced SHA-256 `74E3DA585264C8046B1B6EAF0FCD2D6F591E07ACDCB86B931DCF29859876DC21`. |
 | timestamp not independently captured | Stop controlled wp-env and run Markdown fence/link plus diff checks | repository | stop/fence/diff exit 0; first link check invalid | wp-env stopped cleanly; all four changed Markdown files had balanced fences. The link checker treated root-level README's empty parent path as invalid and emitted false missing-link reports before any file lookup. |
 | timestamp not independently captured | Correct and rerun changed-document structural verifier | repository | exit 0 | Balanced fences and all local targets passed for README (33 links), checklist (one), evidence index (25), and EXP-015 (two); `git diff --check` passed. |
+| 2026-08-31T21:45:22+07:00 | Stage exact AP-009 manifest, inspect cached name/status/stat, run `git diff --cached --check`, and commit | repository | exit 0 | Ten-file implementation/evidence package committed as `b416060b2c46acdff5c30e809e773652ba19e950`; worktree clean immediately afterward. |
 
 ## Observation ledger
 
@@ -158,12 +159,12 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; main run 33383116316 pa
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-08-31-exp-015-sanitized-audit-logging.md` | evidence | uncommitted | `EXP-015` | Opened before AP-009 implementation inspection or code mutation. |
-| `agentpress/includes/Audit/ArgumentSanitizer.php` | source | uncommitted | recursive no-secret/bounded sanitizer | Explicit secret/session/header/metadata exclusion plus content summary. |
-| `agentpress/includes/Audit/AuditLogger.php` | source | uncommitted | fixed event writer | UUID/actor/result/identifier validation and repository boundary. |
-| `agentpress/includes/Rest/WebMCPRoutes.php` | source | uncommitted | authenticated audit integration | One request ID across response/event; durable outcomes only after guard authorization. |
-| `agentpress/tests/phpunit/unit/AuditSanitizerTest.php` | executable evidence | uncommitted | 51-suite contribution | Recursive removal, content bounds, global bounds, logger metadata validation. |
-| `agentpress/tests/integration/ap009-sanitized-audit-logging.php` | executable evidence | uncommitted | real WordPress/MySQL matrix | Outcome, secret, size, unauthenticated, and storage-failure controls. |
+| `docs/evidence/sessions/2026-08-31-exp-015-sanitized-audit-logging.md` | evidence | committed | `EXP-015`; `b416060` | Opened before AP-009 implementation inspection or code mutation. |
+| `agentpress/includes/Audit/ArgumentSanitizer.php` | source | committed | recursive no-secret/bounded sanitizer; `b416060` | Explicit secret/session/header/metadata exclusion plus content summary. |
+| `agentpress/includes/Audit/AuditLogger.php` | source | committed | fixed event writer; `b416060` | UUID/actor/result/identifier validation and repository boundary. |
+| `agentpress/includes/Rest/WebMCPRoutes.php` | source | committed | authenticated audit integration; `b416060` | One request ID across response/event; durable outcomes only after guard authorization. |
+| `agentpress/tests/phpunit/unit/AuditSanitizerTest.php` | executable evidence | committed | 51-suite contribution; `b416060` | Recursive removal, content bounds, global bounds, logger metadata validation. |
+| `agentpress/tests/integration/ap009-sanitized-audit-logging.php` | executable evidence | committed | real WordPress/MySQL matrix; `b416060` | Outcome, secret, size, unauthenticated, and storage-failure controls. |
 | `dist/agentpress.zip` | generated release candidate | ignored/uncommitted | `74E3DA585264C8046B1B6EAF0FCD2D6F591E07ACDCB86B931DCF29859876DC21` | Two deterministic builds from final source; not a published release artifact. |
 
 ## Result
@@ -182,7 +183,7 @@ The local evidence supports the hypothesis. Authenticated WebMCP attempts produc
 - work attributable to challenge period: baseline, branch, issue, experiment, failures, and ending timestamps captured around AP-009 work;
 - pre-existing work distinguished by: synchronized AP-008 closeout baseline;
 - third-party material/license/pin: no new third-party runtime; existing pin/provenance gate passed with 42 ZIP entries and no upstream runtime code;
-- commit/PR evidence: [issue #17](https://github.com/MrBigleg/AgentPress/issues/17); implementation `UNCOMMITTED`; PR pending;
+- commit/PR evidence: [issue #17](https://github.com/MrBigleg/AgentPress/issues/17); implementation commit `b416060b2c46acdff5c30e809e773652ba19e950`; PR pending;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -199,7 +200,7 @@ The local evidence supports the hypothesis. Authenticated WebMCP attempts produc
 ```text
 git status --short --branch: AP-009-only sanitizer/logger, transport wiring, tests, package manifest, checklist, README, index, and EXP-015 changes on ap-009-sanitized-audit-logging
 tests/checks: AP-009 WordPress matrix pass; AP-004–AP-008 regressions pass; unit 51/561; PHPCS 32/32; browser 14/14; provenance 42 entries; npm audit 0; deterministic final ZIP SHA-256 74E3DA585264C8046B1B6EAF0FCD2D6F591E07ACDCB86B931DCF29859876DC21
-committed: no; implementation/evidence package pending
+committed: yes, implementation/evidence commit b416060b2c46acdff5c30e809e773652ba19e950; this append-only commit-reference update pending
 pushed: no; PR pending
 deployed: no
 ```
