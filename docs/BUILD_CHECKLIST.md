@@ -59,7 +59,7 @@
 
 ### AP-006 — Implement common schemas and error normalization
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-001
 - **Demo critical:** yes
 - **Deliverable:** closed schema builders, successful result envelope, `AP_*` error factory/HTTP map, safe message policy, and output validation for every registered Ability.

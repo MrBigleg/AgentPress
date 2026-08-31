@@ -7,6 +7,8 @@
 
 namespace AgentPress\Rest;
 
+use AgentPress\Errors\ErrorFactory;
+
 /**
  * Applies size, rate, origin, identity, and nonce controls before callbacks.
  */
@@ -58,11 +60,7 @@ final class RequestGuard {
 
 		$nonce = $request->get_header( 'X-WP-Nonce' );
 		if ( ! is_string( $nonce ) || '' === $nonce || ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
-			return new \WP_Error(
-				'AP_NONCE_INVALID',
-				__( 'A valid WordPress REST nonce is required.', 'agentpress' ),
-				array( 'status' => 403 )
-			);
+			return ErrorFactory::make( 'AP_NONCE_INVALID' );
 		}
 
 		return true;
@@ -83,11 +81,7 @@ final class RequestGuard {
 	 */
 	public function authorize_session( $body, $bucket, $max_bytes, $origin = null, $sec_fetch_site = null, $rate_limit = 120 ) {
 		if ( strlen( $body ) > $max_bytes ) {
-			return new \WP_Error(
-				'AP_REQUEST_TOO_LARGE',
-				__( 'The request body is too large.', 'agentpress' ),
-				array( 'status' => 413 )
-			);
+			return ErrorFactory::make( 'AP_SCHEMA_INVALID' );
 		}
 
 		if ( ! $this->rate_limiter->allow( $bucket, $this->client_key(), $rate_limit ) ) {
@@ -95,19 +89,11 @@ final class RequestGuard {
 		}
 
 		if ( ! $this->is_same_origin( $origin, $sec_fetch_site ) ) {
-			return new \WP_Error(
-				'AP_ORIGIN_FORBIDDEN',
-				__( 'Cross-origin AgentPress requests are not allowed.', 'agentpress' ),
-				array( 'status' => 403 )
-			);
+			return ErrorFactory::make( 'AP_POLICY_BLOCKED' );
 		}
 
 		if ( ! is_user_logged_in() ) {
-			return new \WP_Error(
-				'AP_AUTH_REQUIRED',
-				__( 'WordPress authentication is required.', 'agentpress' ),
-				array( 'status' => 401 )
-			);
+			return ErrorFactory::make( 'AP_NOT_AUTHENTICATED' );
 		}
 
 		return true;
@@ -149,13 +135,9 @@ final class RequestGuard {
 	 * @return \WP_Error
 	 */
 	private function rate_limit_error() {
-		return new \WP_Error(
+		return ErrorFactory::make(
 			'AP_RATE_LIMITED',
-			__( 'Too many AgentPress requests.', 'agentpress' ),
-			array(
-				'status'      => 429,
-				'retry_after' => RequestRateLimiter::retry_after(),
-			)
+			array( 'retry_after' => RequestRateLimiter::retry_after() )
 		);
 	}
 

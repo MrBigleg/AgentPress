@@ -152,19 +152,20 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Current WebMCP browser adapter | `OBSERVED`, merged in PR #6 | [Experiment 009](docs/evidence/sessions/2026-08-30-exp-009-current-webmcp-adapter.md) |
 | Private WordPress-session transport | `OBSERVED`, PR #8; local runtime and hosted repository gates pass | [Experiment 010](docs/evidence/sessions/2026-08-30-exp-010-private-rest-transport.md) |
 | Versioned database and repositories | `OBSERVED`, PR #10; local runtime and hosted repository gates pass | [Experiment 011](docs/evidence/sessions/2026-08-31-exp-011-database-repositories.md) |
+| Common schemas and error normalization | `OBSERVED`, local WordPress/error/transport and repository gates pass; hosted CI/merge pending | [Experiment 012](docs/evidence/sessions/2026-08-31-exp-012-common-schemas-errors.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
-## Next experiment
+## Active experiment
 
-The next dependency-ordered implementation experiment after AP-005 merges is `AP-006 — Implement common schemas and error normalization`.
+The active publication gate is `AP-006 — Implement common schemas and error normalization`. Its implementation and local acceptance evidence are committed; the isolated branch still requires hosted CI and merge before AP-007 begins.
 
 **Hypothesis:** shared closed-schema builders, success envelopes, and a safe `AP_*` error factory can reject every invalid input class and serialize every documented error consistently before the Ability catalog is registered.
 
 **Falsification condition:** unknown fields, wrong types/ranges, oversized content, unsupported enums, or invalid operation combinations pass validation; or any declared error leaks unsafe detail or serializes outside the documented shape.
 
-**Prerequisite evidence:** AP-001 through AP-004 are merged; AP-005 has local runtime/lifecycle evidence in Experiment 011 and must merge before the next branch begins.
+**Prerequisite evidence:** AP-001 through AP-005 are merged. Experiment 011 records AP-005's local runtime/lifecycle evidence and hosted repository gate.
 
 The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-006--implement-common-schemas-and-error-normalization).
 

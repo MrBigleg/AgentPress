@@ -239,7 +239,11 @@ test('a repeated nonce failure stops after one refresh and two requests', async 
     },
     fetchImpl: async () => {
       requestCount += 1;
-      return jsonResponse(403, { code: 'AP_NONCE_INVALID', message: 'Still invalid.' });
+      return jsonResponse(403, {
+        ok: false,
+        request_id: '00000000-0000-4000-8000-000000000012',
+        error: { code: 'AP_NONCE_INVALID', message: 'Still invalid.', retryable: true, details: {} },
+      });
     },
   });
 
@@ -261,7 +265,11 @@ test('non-nonce denials are never retried', async () => {
     },
     fetchImpl: async () => {
       requestCount += 1;
-      return jsonResponse(403, { code: 'AP_PERMISSION_DENIED', message: 'Denied.' });
+      return jsonResponse(403, {
+        ok: false,
+        request_id: '00000000-0000-4000-8000-000000000012',
+        error: { code: 'AP_PERMISSION_DENIED', message: 'Denied.', retryable: false, details: {} },
+      });
     },
   });
 
