@@ -91,7 +91,7 @@
 
 ### AP-010 — Implement Change Set coordinator and idempotency
 
-- [ ] **Difficulty:** L
+- [x] **Difficulty:** L
 - **Depends on:** AP-005, AP-007, AP-009
 - **Demo critical:** yes
 - **Deliverable:** default/reused Change Sets, R1 intent-before-mutation, R2 immutable proposals, state reducer, idempotency scope, target/proposal hashes, expiry, and failure recovery.
