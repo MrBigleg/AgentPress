@@ -16,7 +16,7 @@
 | Branch | `ap-006-common-schemas-errors` |
 | Baseline commit | `9952e76c00790ee739612dd5a8e35e7a3b386b61` |
 | Checkpoint commit | `59066ea3992cd2d6ddc67874efcb9fd5037cd777` |
-| Ending commit | `UNCOMMITTED`; implementation commit follows this record |
+| Ending commit | `9f584f146fdb2a8b1fc16c171522849b8325c429` |
 | Environment | Windows/PowerShell; Node.js 22.23.2; npm 10.9.8; wp-env WordPress 6.9/PHP 8.0 observed |
 
 ## Question
@@ -116,6 +116,7 @@ environment: Node.js 22.23.2; npm 10.9.8; WordPress/PHP runtime pending
 | 2026-08-31 continuation | Final AP-006 WordPress matrix | wp-env WordPress 6.9/PHP 8.0 | exit 0 | 13 invalid-input classes, four invalid outputs, all 17 error contracts, unknown-message suppression, and 4,096-byte safe-detail bound passed. |
 | 2026-08-31 continuation | Final standards, unit, browser, provenance, audit, and package gates | repository/wp-env | exit 0 | PHPCS 21/21; PHPUnit 33 tests/188 assertions; browser 14/14; provenance 31 ZIP entries; npm audit 0 vulnerabilities; deterministic ZIP SHA-256 `21EA19FDBFF711E6F3E21114A4D366916DEB08972971B65626AA936EC66A6649`. |
 | 2026-08-31T12:04:46+07:00 | `npm run env:stop` and close experiment | repository | exit 0 | Temporary WordPress environment stopped; hosted CI/PR verification remains a separate publication gate. |
+| 2026-08-31 continuation | Commit verified AP-006 implementation/evidence package | repository | exit 0 | `9f584f146fdb2a8b1fc16c171522849b8325c429`; 18 files, 921 insertions, 116 deletions; branch one commit ahead of its remote checkpoint. |
 
 ## Observation ledger
 
@@ -169,13 +170,13 @@ environment: Node.js 22.23.2; npm 10.9.8; WordPress/PHP runtime pending
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
 | `docs/evidence/sessions/2026-08-31-exp-012-common-schemas-errors.md` | evidence | checkpoint committed | `EXP-012`; `59066ea` | Opened before AP-006 specification extraction or mutation. |
-| `agentpress/includes/Schemas/SchemaBuilder.php` | source | modified after checkpoint; implementation commit pending | `59066ea` checkpoint | Shared inline closed-schema fragments, typed enum enforcement, and success-output schema. |
-| `agentpress/includes/Schemas/SchemaValidator.php` | source | modified after checkpoint; implementation commit pending | `59066ea` checkpoint | Strict type preflight, WordPress core validation, output boundary, and cross-field callbacks. |
+| `agentpress/includes/Schemas/SchemaBuilder.php` | source | committed | `9f584f1` | Shared inline closed-schema fragments, typed enum enforcement, and success-output schema. |
+| `agentpress/includes/Schemas/SchemaValidator.php` | source | committed | `9f584f1` | Strict type preflight, WordPress core validation, output boundary, and cross-field callbacks. |
 | `agentpress/includes/Schemas/CombinationRules.php` | source | checkpoint committed | `59066ea` | At-least-one and classic navigation-operation rules. |
-| `agentpress/includes/Results/ResultFactory.php` | source | modified after checkpoint; implementation commit pending | `59066ea` checkpoint | Common successful result envelope with UUIDv4 enforcement. |
-| `agentpress/includes/Errors/ErrorFactory.php` | source | implementation commit pending | SHA-256 `1AB8D8CF1D5177AFDA876BD1DB03D6269F9CD26C56BB2A9E7A1EC3C901E984FF` | 17-code canonical map, safe normalization, envelope, and bounded details. |
-| `agentpress/tests/integration/ap006-common-schemas-errors.php` | executable evidence | implementation commit pending | SHA-256 `924ED33E67633AA02E03066905B112282F8A6EB09ECDCF0E538FA37505664581` | Synthetic WordPress acceptance matrix; excluded from release ZIP. |
-| `agentpress/tests/phpunit/unit/ErrorFactoryTest.php` and `SchemaResultTest.php` | executable evidence | implementation commit pending | PHPUnit 33 tests/188 assertions repository total | Parameterized declared-error and primitive contract coverage. |
+| `agentpress/includes/Results/ResultFactory.php` | source | committed | `9f584f1` | Common successful result envelope with UUIDv4 enforcement. |
+| `agentpress/includes/Errors/ErrorFactory.php` | source | committed at `9f584f1` | SHA-256 `1AB8D8CF1D5177AFDA876BD1DB03D6269F9CD26C56BB2A9E7A1EC3C901E984FF` | 17-code canonical map, safe normalization, envelope, and bounded details. |
+| `agentpress/tests/integration/ap006-common-schemas-errors.php` | executable evidence | committed at `9f584f1` | SHA-256 `924ED33E67633AA02E03066905B112282F8A6EB09ECDCF0E538FA37505664581` | Synthetic WordPress acceptance matrix; excluded from release ZIP. |
+| `agentpress/tests/phpunit/unit/ErrorFactoryTest.php` and `SchemaResultTest.php` | executable evidence | committed at `9f584f1` | PHPUnit 33 tests/188 assertions repository total | Parameterized declared-error and primitive contract coverage. |
 | `dist/agentpress.zip` | generated package control | ignored/uncommitted | SHA-256 `21EA19FDBFF711E6F3E21114A4D366916DEB08972971B65626AA936EC66A6649` | 54,503 bytes; 31 deterministic entries; all five common runtime files present. |
 
 ## Result
@@ -198,7 +199,7 @@ The hypothesis is supported locally. Hosted CI and merge state are publication e
 - work attributable to challenge period: baseline and timestamps recorded before material AP-006 work;
 - pre-existing work distinguished by: merged AP-005 baseline;
 - third-party material/license/pin: no new third-party material; existing pinned provenance gate passed with 31 packaged entries;
-- commit/PR evidence: implementation commit/PR pending after this record;
+- commit/PR evidence: implementation commit `9f584f1`; push/PR/hosted CI pending;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -213,9 +214,9 @@ The hypothesis is supported locally. Hosted CI and merge state are publication e
 ## End state
 
 ```text
-git status --short --branch: AP-006 implementation, tests, bridge integration, evidence, checklist, and package manifest modified/untracked on ap-006-common-schemas-errors
+git status --short --branch: clean after implementation commit; documentation closeout is the commit containing this record
 tests/checks: AP-004 and AP-006 WordPress matrices pass; PHPCS 21/21; PHPUnit 33/188; browser 14/14; provenance/audit/package gates pass
-committed: checkpoint 59066ea and checkpoint docs ba77856; final implementation commit pending
-pushed: checkpoint branch observed on origin; final implementation not pushed
+committed: checkpoint 59066ea; checkpoint docs ba77856; implementation 9f584f1; documentation closeout is the commit containing this record
+pushed: checkpoint branch observed on origin; implementation/closeout not yet pushed
 deployed: no
 ```

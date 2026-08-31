@@ -159,7 +159,7 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 
 ## Active experiment
 
-The active publication gate is `AP-006 — Implement common schemas and error normalization`. Its implementation and local acceptance evidence are complete; the isolated branch still requires its final commit, hosted CI, and merge before AP-007 begins.
+The active publication gate is `AP-006 — Implement common schemas and error normalization`. Its implementation and local acceptance evidence are committed; the isolated branch still requires hosted CI and merge before AP-007 begins.
 
 **Hypothesis:** shared closed-schema builders, success envelopes, and a safe `AP_*` error factory can reject every invalid input class and serialize every documented error consistently before the Ability catalog is registered.
 
