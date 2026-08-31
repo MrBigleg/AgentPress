@@ -90,8 +90,13 @@ try {
 	agentpress_ap008_assert( is_wp_error( $missing_target ) && 'AP_CONTENT_NOT_FOUND' === $missing_target->get_error_code(), 'Object-specific callback did not fail closed.' );
 
 	$post_count_before = (int) $GLOBALS['wpdb']->get_var( "SELECT COUNT(*) FROM {$GLOBALS['wpdb']->posts}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-	$placeholder       = wp_get_ability( 'agentpress/get-context' )->execute( array() );
-	agentpress_ap008_assert( is_wp_error( $placeholder ) && 'AP_INTERNAL_ERROR' === $placeholder->get_error_code(), 'Unimplemented service callback did not fail closed.' );
+	$https_home_filter = static function () {
+		return 'https://agentpress-ap008.example.test/';
+	};
+	add_filter( 'home_url', $https_home_filter, 10, 4 );
+	$context_result    = wp_get_ability( 'agentpress/get-context' )->execute( array() );
+	remove_filter( 'home_url', $https_home_filter, 10 );
+	agentpress_ap008_assert( is_array( $context_result ) && true === $context_result['ok'], 'Implemented get-context callback failed.' );
 
 	$rest_list     = rest_do_request( new WP_REST_Request( 'GET', '/wp-abilities/v1/abilities' ) );
 	$listed_names  = array();

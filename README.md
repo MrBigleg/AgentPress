@@ -157,21 +157,22 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Fixed WordPress Ability catalog | `OBSERVED`, merged in PR #16; local exact-contract/native-REST/bridge-role matrices and hosted repository gates pass | [Experiment 014](docs/evidence/sessions/2026-08-31-exp-014-ability-registry.md) |
 | Sanitized execution audit | `OBSERVED`, merged in PR #18; local secret/size/outcome/unauthenticated matrices and hosted repository gates pass | [Experiment 015](docs/evidence/sessions/2026-08-31-exp-015-sanitized-audit-logging.md) |
 | Change Set coordinator and idempotency | `OBSERVED`, merged in PR #20; local coordinator/state/hash/runtime and hosted repository gates pass | [Experiment 016](docs/evidence/sessions/2026-08-31-exp-016-change-set-coordinator.md) |
+| Safe bootstrap context | `OBSERVED`, PR #22; local role/schema/privacy and hosted repository gates pass | [Experiment 017](docs/evidence/sessions/2026-08-31-exp-017-get-context.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment is `AP-011 — Implement get-context`. AP-001 through AP-010 are merged; AP-010 passes its local coordinator, state, idempotency, failure, regression, package, PR-head, and merge-head hosted gates.
+The next dependency-ordered implementation experiment is `AP-012 — Implement get-site-structure`. AP-001 through AP-010 are merged; AP-011 passes its local role, schema, privacy, capability-mutation, regression, package, and hosted PR gates.
 
-**Hypothesis:** one bounded read service can derive a safe site/user/bootstrap context and effective operation envelope from the AP-007 policy and AP-008 catalog without exposing private identity, raw capabilities, session material, paths, configuration, or environment details.
+**Hypothesis:** one bounded read service can derive a page hierarchy, post/page counts, category/tag definitions, and classic menu-location summary from live WordPress state while filtering every object by current read authority and exposing no full content or menu destinations.
 
-**Falsification condition:** any fixture role receives an incorrect operation state; logged-out access succeeds; or output contains email, raw capabilities, cookies, nonces, filesystem paths, plugin configuration, or environment details.
+**Falsification condition:** a private or unreadable object appears for a restricted user; hierarchy/counts differ from the controlled fixture; output exceeds its cap without `truncated=true`; full content or menu destinations leak; or the registered output violates its exact untrusted-content schema.
 
-**Prerequisite evidence:** AP-007 and AP-008 are merged. Experiment 013 records the role/capability/object policy matrix, and Experiment 014 records the exact 15-Ability catalog and policy-filtered discovery matrix.
+**Prerequisite evidence:** AP-008 is merged, and Experiment 014 records the exact registered schema and policy-filtered discovery matrix. Experiment 017 records the first implemented read-service dispatch pattern and live role-sensitive registered Ability output.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-011--implement-get-context).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-012--implement-get-site-structure).
 
 ## Local development
 

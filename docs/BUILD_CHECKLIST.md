@@ -99,7 +99,7 @@
 
 ### AP-011 — Implement `get-context`
 
-- [ ] **Difficulty:** S
+- [x] **Difficulty:** S
 - **Depends on:** AP-008
 - **Demo critical:** yes
 - **Deliverable:** safe site/user/bootstrap output and effective operation envelope.
