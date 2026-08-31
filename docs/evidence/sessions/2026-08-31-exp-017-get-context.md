@@ -15,7 +15,7 @@
 | Agent/operator | Codex, implementation and verification agent |
 | Branch | `ap-011-get-context` |
 | Baseline commit | `bb497b54a994fabe86618b85ed44a1af58541c0d` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `f66788a11c9836e8b5ec0f542e41b63ba56c34cd` |
 | Environment | Windows; PowerShell 7; Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; WordPress 6.9; PHP 8.0.30 |
 
 ## Question
@@ -141,10 +141,10 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; exact baseline run 3341
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-08-31-exp-017-get-context.md` | evidence | uncommitted | `EXP-017` | Opened before AP-011 product-code inspection or mutation. |
-| `agentpress/includes/Context/ContextService.php` | source | uncommitted | pending commit | Fixed five-field site, three-field user, policy-envelope bootstrap service. |
-| `agentpress/tests/integration/ap011-get-context.php` | executable evidence | uncommitted | pending commit | Real role/schema/privacy/capability/logged-out matrix. |
-| `agentpress/tests/phpunit/unit/ContextServiceTest.php` | executable evidence | uncommitted | pending commit | Pure mapper bounds, allowlist, and denial controls. |
+| `docs/evidence/sessions/2026-08-31-exp-017-get-context.md` | evidence | committed | `EXP-017`; `f66788a` | Opened before AP-011 product-code inspection or mutation. |
+| `agentpress/includes/Context/ContextService.php` | source | committed | `f66788a` | Fixed five-field site, three-field user, policy-envelope bootstrap service. |
+| `agentpress/tests/integration/ap011-get-context.php` | executable evidence | committed | `f66788a` | Real role/schema/privacy/capability/logged-out matrix. |
+| `agentpress/tests/phpunit/unit/ContextServiceTest.php` | executable evidence | committed | `f66788a` | Pure mapper bounds, allowlist, and denial controls. |
 | `dist/agentpress.zip` | ignored release candidate | generated | `438C7FE4DD65BFB627013406498CA7B93C5F15A2632B36AA1577CDE5E5382BFB` | Two deterministic local builds; not release/deployment evidence. |
 
 ## Result
@@ -162,7 +162,7 @@ Under controlled WordPress 6.9/PHP 8.0.30 fixtures, `agentpress/get-context` ret
 - work attributable to challenge period: baseline/timestamps captured before AP-011 product-code inspection or mutation;
 - pre-existing work distinguished by: synchronized AP-010 closeout baseline;
 - third-party material/license/pin: no new third-party runtime; existing GPL pin/provenance gate passed with 46 ZIP entries and no upstream runtime code;
-- commit/PR evidence: `UNCOMMITTED`; issue #21; PR pending;
+- commit/PR evidence: implementation/evidence `f66788a11c9836e8b5ec0f542e41b63ba56c34cd`; issue #21; PR pending;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -177,9 +177,9 @@ Under controlled WordPress 6.9/PHP 8.0.30 fixtures, `agentpress/get-context` ret
 ## End state
 
 ```text
-git status --short --branch: AP-011 source/tests/docs uncommitted on ap-011-get-context; no unrelated changes observed
+git status --short --branch: AP-011 implementation/evidence committed on ap-011-get-context; SHA closeout pending; no unrelated changes observed
 tests/checks: AP-011 WordPress matrix pass; AP-004–AP-010 regressions pass; unit 68/593; PHPCS 36/36; browser 14/14; provenance 46 entries; npm audit 0; deterministic ZIP SHA-256 438C7FE4DD65BFB627013406498CA7B93C5F15A2632B36AA1577CDE5E5382BFB
-committed: no
+committed: yes, implementation/evidence f66788a11c9836e8b5ec0f542e41b63ba56c34cd
 pushed: no
 deployed: no
 ```
