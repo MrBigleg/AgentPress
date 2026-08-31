@@ -8,6 +8,7 @@
 namespace AgentPress\Abilities;
 
 use AgentPress\Context\ContextService;
+use AgentPress\Context\SiteStructureService;
 use AgentPress\Errors\ErrorFactory;
 use AgentPress\Policy\ExecutionPolicy;
 
@@ -38,9 +39,16 @@ final class AbilityRegistrar {
 	public function __construct( $policy = null, $executor = null ) {
 		$this->policy = $policy ?? new ExecutionPolicy();
 		if ( null === $executor ) {
-			$context  = new ContextService();
-			$executor = static function ( $ability ) use ( $context ) {
-				return 'agentpress/get-context' === $ability ? $context->execute() : ErrorFactory::make( 'AP_INTERNAL_ERROR' );
+			$context   = new ContextService();
+			$structure = new SiteStructureService();
+			$executor  = static function ( $ability ) use ( $context, $structure ) {
+				if ( 'agentpress/get-context' === $ability ) {
+					return $context->execute();
+				}
+				if ( 'agentpress/get-site-structure' === $ability ) {
+					return $structure->execute();
+				}
+				return ErrorFactory::make( 'AP_INTERNAL_ERROR' );
 			};
 		}
 		$this->executor = $executor;

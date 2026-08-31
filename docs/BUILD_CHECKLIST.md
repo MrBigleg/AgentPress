@@ -107,7 +107,7 @@
 
 ### AP-012 — Implement `get-site-structure`
 
-- [ ] **Difficulty:** S
+- [x] **Difficulty:** S
 - **Depends on:** AP-008
 - **Demo critical:** yes
 - **Deliverable:** bounded page hierarchy, counts, category/tag definitions, classic menu locations, truncation indicator, and object visibility filtering.
