@@ -15,7 +15,7 @@
 | Agent/operator | Codex, implementation agent |
 | Branch | `ap-007-safe-mode-discovery-policy` |
 | Baseline commit | `87703a03ab7079d73b12ede5bcb3096d9f1637f4` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `c51071361e044dfd60326ccf37f76c5497cfa727` |
 | Environment | Windows/PowerShell; Node.js 22.23.2; npm 11.7.0; wp-env WordPress 6.9/PHP 8.0 planned |
 
 ## Question
@@ -103,6 +103,7 @@ environment: Node.js 22.23.2; npm 11.7.0; WordPress/PHP runtime pending
 | timestamp not independently captured | AP-004 and AP-006 live regressions | repository/wp-env CLI | exit 0 | AP-004: one valid execution plus 14 forbidden zero-side-effect controls; AP-006: 13 invalid input classes, four invalid outputs, 17 declared errors, and 4,096-byte unsafe-detail bound. |
 | timestamp not independently captured | Unit, standards, browser, provenance, and audit release gates | repository | exit 0 | 42 tests/219 assertions; PHPCS 28/28; browser 14/14; provenance 38 ZIP entries with pinned GPL source and no upstream runtime; npm audit found zero vulnerabilities. |
 | timestamp not independently captured | Two consecutive `npm run build:zip` runs and SHA-256 checks | repository | exit 0 | Both release builds produced `2CF45FB1492F7458F9272B2BB17CF5820B07E41EC0A7262CE8344E3354AC0770`. |
+| 2026-08-31T12:44:03+07:00 | Stage exact AP-007 manifest, run `git diff --cached --check`, and commit | repository | exit 0 | 14-file implementation/evidence package committed as `c51071361e044dfd60326ccf37f76c5497cfa727`; worktree clean immediately afterward. |
 
 ## Observation ledger
 
@@ -145,10 +146,10 @@ environment: Node.js 22.23.2; npm 11.7.0; WordPress/PHP runtime pending
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-08-31-exp-013-safe-mode-discovery-policy.md` | evidence | untracked | `EXP-013` | Opened before AP-007 source research or product-code mutation. |
-| `agentpress/includes/Policy/` | source | untracked | 7 policy classes | Resolver, risk, Safe Mode, discovery, envelope, execution, and durable draft-authority lookup. |
-| `agentpress/tests/phpunit/unit/PolicyTest.php` | executable evidence | untracked | unit policy matrix | Fixed risk, contextual R1/R2, live capability mutation, discovery, envelope, and direct execution controls. |
-| `agentpress/tests/integration/ap007-safe-mode-discovery-policy.php` | executable evidence | untracked | WordPress matrix | Four default roles, logged out, capability mutation, object-specific ownership/state, and seven R3 route guesses. |
+| `docs/evidence/sessions/2026-08-31-exp-013-safe-mode-discovery-policy.md` | evidence | committed | `EXP-013`; `c510713` | Opened before AP-007 source research or product-code mutation. |
+| `agentpress/includes/Policy/` | source | committed | 7 policy classes; `c510713` | Resolver, risk, Safe Mode, discovery, envelope, execution, and durable draft-authority lookup. |
+| `agentpress/tests/phpunit/unit/PolicyTest.php` | executable evidence | committed | unit policy matrix; `c510713` | Fixed risk, contextual R1/R2, live capability mutation, discovery, envelope, and direct execution controls. |
+| `agentpress/tests/integration/ap007-safe-mode-discovery-policy.php` | executable evidence | committed | WordPress matrix; `c510713` | Four default roles, logged out, capability mutation, object-specific ownership/state, and seven R3 route guesses. |
 | `dist/agentpress.zip` | generated release candidate | ignored/uncommitted | `2CF45FB1492F7458F9272B2BB17CF5820B07E41EC0A7262CE8344E3354AC0770` | Two consecutive deterministic builds; not a published release artifact. |
 
 ## Result
@@ -167,7 +168,7 @@ The local repository evidence supports the hypothesis: AP-007's fixed classifier
 - work attributable to challenge period: baseline and timestamps recorded before material AP-007 work;
 - pre-existing work distinguished by: merged AP-006 baseline;
 - third-party material/license/pin: no new third-party material planned;
-- commit/PR evidence: issue #13 exists; commit and PR pending after this local closeout;
+- commit/PR evidence: issue #13 and implementation commit `c51071361e044dfd60326ccf37f76c5497cfa727`; push and PR pending;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -184,7 +185,7 @@ The local repository evidence supports the hypothesis: AP-007's fixed classifier
 ```text
 git status --short --branch: AP-007-only source, tests, package manifest, checklist, README, index, and EXP-013 changes on ap-007-safe-mode-discovery-policy
 tests/checks: AP-007 WordPress matrix pass; AP-004/AP-006 regressions pass; unit 42/219; PHPCS 28/28; browser 14/14; provenance 38 entries; npm audit 0; deterministic ZIP SHA-256 2CF45FB1492F7458F9272B2BB17CF5820B07E41EC0A7262CE8344E3354AC0770
-committed: no
+committed: yes, implementation/evidence commit c51071361e044dfd60326ccf37f76c5497cfa727; this append-only commit-reference update pending
 pushed: no
 deployed: no
 ```
