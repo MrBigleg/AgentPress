@@ -153,21 +153,22 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Private WordPress-session transport | `OBSERVED`, PR #8; local runtime and hosted repository gates pass | [Experiment 010](docs/evidence/sessions/2026-08-30-exp-010-private-rest-transport.md) |
 | Versioned database and repositories | `OBSERVED`, PR #10; local runtime and hosted repository gates pass | [Experiment 011](docs/evidence/sessions/2026-08-31-exp-011-database-repositories.md) |
 | Common schemas and error normalization | `OBSERVED`, merged in PR #12; local WordPress/error/transport and hosted repository gates pass | [Experiment 012](docs/evidence/sessions/2026-08-31-exp-012-common-schemas-errors.md) |
+| Safe Mode and capability-aware discovery | `OBSERVED`, PR #14; local role/capability/object/R3 matrices and hosted repository gate pass | [Experiment 013](docs/evidence/sessions/2026-08-31-exp-013-safe-mode-discovery-policy.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment is `AP-007 — Implement Safe Mode and discovery policy`. AP-001 through AP-006 are merged; AP-006 passed its local WordPress matrices and hosted repository gate.
+The next dependency-ordered implementation experiment is `AP-008 — Register the 15 Abilities and fixed tool-name map`. AP-001 through AP-006 are merged; AP-007 has passed its local matrices and hosted PR gate and awaits merge.
 
-**Hypothesis:** Safe Mode classification, actual-capability checks, and coarse discovery rules can keep every advertised and executable operation no broader than the current WordPress user's real authority.
+**Hypothesis:** exactly 15 `agentpress/*` Abilities can register with the fixed category, callbacks, schemas, annotations, and collision-free WebMCP names while native REST listing/execution remains unavailable.
 
-**Falsification condition:** any role or capability-mutated user discovers or directly executes an operation beyond its current capabilities, or any R3 users/plugins/themes/code/settings surface is registered or reachable by route guessing.
+**Falsification condition:** the runtime registry differs from the fixed 15-operation catalog; any schema, callback, category, annotation, or mapping differs from the binding specification; native Abilities REST lists or executes an AgentPress Ability; or the bridge exposes anything outside the filtered current-user map.
 
-**Prerequisite evidence:** AP-006 is merged in PR #12. Experiment 012 records its local runtime matrices, safe error boundary, and hosted repository gate.
+**Prerequisite evidence:** AP-006 is merged in PR #12. Experiment 013 records AP-007's local policy, role/capability, object-specific, discovery, and forbidden-surface matrices; AP-007 merge remains required before AP-008 starts.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-007--implement-safe-mode-and-discovery-policy).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-008--register-the-15-abilities-and-fixed-tool-name-map).
 
 ## Local development
 
