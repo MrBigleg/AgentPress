@@ -15,7 +15,7 @@
 | Agent/operator | Codex, implementation and verification agent |
 | Branch | `ap-012-site-structure` |
 | Baseline commit | `e6ec207df6ca5156de83b5714e4abbdbe1746dff` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `dca847fd47b6792f6522818ff861cffb85d88743` |
 | Environment | Windows; PowerShell 7; Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; WordPress 6.9; PHP 8.0.30 |
 
 ## Question
@@ -143,8 +143,8 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; baseline run 3343839581
 | Artifact | Type | State | Identifier | Notes |
 |---|---|---|---|---|
 | `docs/evidence/sessions/2026-09-01-exp-018-site-structure.md` | evidence | uncommitted | EXP-018 | Opened before source inspection/mutation. |
-| `agentpress/includes/Context/SiteStructureService.php` | implementation | uncommitted | AP-012 | Bounded capability-filtered structural reader. |
-| `agentpress/tests/integration/ap012-site-structure.php` | executable evidence | uncommitted | AP-012 matrix | Synthetic roles, hierarchy, visibility, cap, schema, sentinel, denial, and mutation controls. |
+| `agentpress/includes/Context/SiteStructureService.php` | implementation | committed | `dca847f` | Bounded capability-filtered structural reader. |
+| `agentpress/tests/integration/ap012-site-structure.php` | executable evidence | committed | `dca847f` | Synthetic roles, hierarchy, visibility, cap, schema, sentinel, denial, and mutation controls. |
 | `dist/agentpress.zip` | generated package | uncommitted/excluded | SHA-256 `2E14A5C689332B654CF21C40235145FE16599A7FBD909F57D605BA90BCEB497D` | Two consecutive builds matched; 47 entries. |
 
 ## Result
@@ -163,7 +163,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; baseline run 3343839581
 - work attributable: pre-mutation baseline/timestamps recorded;
 - pre-existing distinguished by: synchronized AP-011 closeout baseline;
 - third-party: `NOT_APPLICABLE` pending inspection;
-- commit/PR: `UNCOMMITTED`; issue #23; PR pending at experiment conclusion;
+- commit/PR: implementation `dca847fd47b6792f6522818ff861cffb85d88743`; issue #23; PR pending;
 - live URL: `NOT_TESTED`;
 - ChatGPT: `NOT_TESTED`;
 - five-run: `NOT_TESTED`;
@@ -180,7 +180,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; baseline run 3343839581
 ```text
 git status: AP-012 implementation, integration evidence, EXP-018, index, build manifest, and dispatcher uncommitted on ap-012-site-structure
 tests: AP-012 matrix pass; AP-004–AP-011 regressions pass; PHPUnit 68/593; PHPCS 37 files; browser 14/14; provenance 47 entries; audit 0; deterministic ZIP pass
-committed: no
+committed: implementation/evidence `dca847fd47b6792f6522818ff861cffb85d88743`
 pushed: no
 deployed: no
 ```
