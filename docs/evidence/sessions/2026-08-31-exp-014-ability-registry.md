@@ -15,7 +15,7 @@
 | Agent/operator | Codex, implementation agent |
 | Branch | `ap-008-ability-registry` |
 | Baseline commit | `dd82e82ddf5d0572b2fa01f46e7349d08443fafe` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `6c037ba22204351b506fad0fb979b6c2b1d51250` |
 | Environment | Windows/PowerShell; Node.js 22.23.2; accessible npm 10.9.8; repository wp-env WordPress/PHP versions pending runtime capture |
 
 ## Question
@@ -108,6 +108,7 @@ environment: Node.js 22.23.2; accessible npm 10.9.8; PowerShell access to the ro
 | timestamp not independently captured | Final AP-004/AP-006/AP-007 dependency regressions | repository/wp-env | exit 0 | AP-004: one valid execution and 14 forbidden controls; AP-006: 13 invalid input classes, four invalid outputs, 17 errors, 4,096-byte detail bound; AP-007: four roles, logged out, mutation, 16 envelope operations, 15 abilities, seven forbidden guesses, four object controls. |
 | timestamp not independently captured | Final unit, standards, browser, provenance, and audit gates | repository/wp-env | exit 0 | 44 tests/532 assertions; PHPCS 30/30; browser 14/14; provenance 40 ZIP entries with pinned GPL source and no upstream runtime; npm audit found zero vulnerabilities. |
 | timestamp not independently captured | Two consecutive `npm run build:zip` runs and SHA-256 checks | repository | exit 0 | Both release builds produced `D91EC6104CCC57CB6C5F4F781C2DAA8A696456238A9F199F0B9CF63727CAD094`. |
+| 2026-08-31T17:22:59+07:00 | Stage exact AP-008 manifest, run `git diff --cached --check`, and commit | repository | exit 0 | 12-file implementation/evidence package committed as `6c037ba22204351b506fad0fb979b6c2b1d51250`; worktree clean immediately afterward. |
 
 ## Observation ledger
 
@@ -156,11 +157,11 @@ environment: Node.js 22.23.2; accessible npm 10.9.8; PowerShell access to the ro
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-08-31-exp-014-ability-registry.md` | evidence | untracked | `EXP-014` | Opened before AP-008 source research or product-code mutation. |
-| `agentpress/includes/Abilities/AbilityCatalog.php` | source | untracked | fixed 15-entry catalog | Closed input/output schemas, labels, descriptions, core annotations, WebMCP hints, and REST-off metadata. |
-| `agentpress/includes/Abilities/AbilityRegistrar.php` | source | untracked | lifecycle registrar | Category/Ability hooks, exact policy callbacks, and fail-closed AP-011+ dispatcher boundary. |
-| `agentpress/tests/phpunit/unit/AbilityCatalogTest.php` | executable evidence | untracked | catalog unit controls | Exact 15-map, closed schemas, REST-off metadata, and annotations. |
-| `agentpress/tests/integration/ap008-ability-registry.php` | executable evidence | untracked | real WordPress matrix | Runtime objects, callbacks, native REST, bridge roles, R3 absence, and zero-mutation controls. |
+| `docs/evidence/sessions/2026-08-31-exp-014-ability-registry.md` | evidence | committed | `EXP-014`; `6c037ba` | Opened before AP-008 source research or product-code mutation. |
+| `agentpress/includes/Abilities/AbilityCatalog.php` | source | committed | fixed 15-entry catalog; `6c037ba` | Closed input/output schemas, labels, descriptions, core annotations, WebMCP hints, and REST-off metadata. |
+| `agentpress/includes/Abilities/AbilityRegistrar.php` | source | committed | lifecycle registrar; `6c037ba` | Category/Ability hooks, exact policy callbacks, and fail-closed AP-011+ dispatcher boundary. |
+| `agentpress/tests/phpunit/unit/AbilityCatalogTest.php` | executable evidence | committed | catalog unit controls; `6c037ba` | Exact 15-map, closed schemas, REST-off metadata, and annotations. |
+| `agentpress/tests/integration/ap008-ability-registry.php` | executable evidence | committed | real WordPress matrix; `6c037ba` | Runtime objects, callbacks, native REST, bridge roles, R3 absence, and zero-mutation controls. |
 | `dist/agentpress.zip` | generated release candidate | ignored/uncommitted | `D91EC6104CCC57CB6C5F4F781C2DAA8A696456238A9F199F0B9CF63727CAD094` | Two consecutive deterministic builds; not a published release artifact. |
 
 ## Result
@@ -179,7 +180,7 @@ The local evidence supports the hypothesis: exactly 15 fixed AgentPress Abilitie
 - work attributable to challenge period: baseline and timestamps recorded before material AP-008 work;
 - pre-existing work distinguished by: merged AP-007/main baseline;
 - third-party material/license/pin: pending source inspection; no new third-party runtime planned;
-- commit/PR evidence: issue #15 exists; commit and PR pending after local closeout;
+- commit/PR evidence: issue #15 and implementation commit `6c037ba22204351b506fad0fb979b6c2b1d51250`; push and PR pending;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -196,7 +197,7 @@ The local evidence supports the hypothesis: exactly 15 fixed AgentPress Abilitie
 ```text
 git status --short --branch: AP-008-only catalog, registrar, plugin/bridge wiring, AP-004 fixture isolation, tests, package manifest, checklist, README, index, and EXP-014 changes on ap-008-ability-registry
 tests/checks: AP-008 WordPress matrix pass; AP-004/AP-006/AP-007 regressions pass; unit 44/532; PHPCS 30/30; browser 14/14; provenance 40 entries; npm audit 0; deterministic ZIP SHA-256 D91EC6104CCC57CB6C5F4F781C2DAA8A696456238A9F199F0B9CF63727CAD094
-committed: no
+committed: yes, implementation/evidence commit 6c037ba22204351b506fad0fb979b6c2b1d51250; this append-only commit-reference update pending
 pushed: no
 deployed: no
 ```
