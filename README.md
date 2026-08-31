@@ -157,14 +157,14 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Fixed WordPress Ability catalog | `OBSERVED`, merged in PR #16; local exact-contract/native-REST/bridge-role matrices and hosted repository gates pass | [Experiment 014](docs/evidence/sessions/2026-08-31-exp-014-ability-registry.md) |
 | Sanitized execution audit | `OBSERVED`, merged in PR #18; local secret/size/outcome/unauthenticated matrices and hosted repository gates pass | [Experiment 015](docs/evidence/sessions/2026-08-31-exp-015-sanitized-audit-logging.md) |
 | Change Set coordinator and idempotency | `OBSERVED`, merged in PR #20; local coordinator/state/hash/runtime and hosted repository gates pass | [Experiment 016](docs/evidence/sessions/2026-08-31-exp-016-change-set-coordinator.md) |
-| Safe bootstrap context | `OBSERVED`, PR #22; local role/schema/privacy and hosted repository gates pass | [Experiment 017](docs/evidence/sessions/2026-08-31-exp-017-get-context.md) |
+| Safe bootstrap context | `OBSERVED`, merged in PR #22; local role/schema/privacy and hosted repository gates pass | [Experiment 017](docs/evidence/sessions/2026-08-31-exp-017-get-context.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment is `AP-012 — Implement get-site-structure`. AP-001 through AP-010 are merged; AP-011 passes its local role, schema, privacy, capability-mutation, regression, package, and hosted PR gates.
+The next dependency-ordered implementation experiment is `AP-012 — Implement get-site-structure`. AP-001 through AP-011 are merged; AP-011 passes its local role, schema, privacy, capability-mutation, regression, package, PR-head, and merge-head hosted gates.
 
 **Hypothesis:** one bounded read service can derive a page hierarchy, post/page counts, category/tag definitions, and classic menu-location summary from live WordPress state while filtering every object by current read authority and exposing no full content or menu destinations.
 
