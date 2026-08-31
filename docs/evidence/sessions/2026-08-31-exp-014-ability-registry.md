@@ -110,6 +110,7 @@ environment: Node.js 22.23.2; accessible npm 10.9.8; PowerShell access to the ro
 | timestamp not independently captured | Two consecutive `npm run build:zip` runs and SHA-256 checks | repository | exit 0 | Both release builds produced `D91EC6104CCC57CB6C5F4F781C2DAA8A696456238A9F199F0B9CF63727CAD094`. |
 | 2026-08-31T17:22:59+07:00 | Stage exact AP-008 manifest, run `git diff --cached --check`, and commit | repository | exit 0 | 12-file implementation/evidence package committed as `6c037ba22204351b506fad0fb979b6c2b1d51250`; worktree clean immediately afterward. |
 | 2026-08-31T17:26:23+07:00 | Push branch, open PR #16, and watch hosted repository gate | GitHub | exit 0 | [PR #16](https://github.com/MrBigleg/AgentPress/pull/16) links issue #15; [run 33382353529, job 99457341540](https://github.com/MrBigleg/AgentPress/actions/runs/33382353529/job/99457341540) passed in 25 seconds. |
+| 2026-08-31T17:32:53+07:00 | Verify latest PR head, merge PR #16, verify issue closure, and fast-forward local main | GitHub/repository | exit 0 | Exact head `8c7875090606a3bde730b173958887033960ff22` passed [run 33382573988, job 99458023981](https://github.com/MrBigleg/AgentPress/actions/runs/33382573988/job/99458023981); PR #16 merged at `2026-08-31T10:31:44Z` as `fe7f39e3b681763382fe4da3735b62c45024f060`; issue #15 closed; clean local main fast-forwarded to the merge. |
 
 ## Observation ledger
 
@@ -122,6 +123,7 @@ environment: Node.js 22.23.2; accessible npm 10.9.8; PowerShell access to the ro
 | O5 | `OBSERVED` | The clean real WordPress matrix retrieved exactly 15 catalog-identical runtime objects, with `show_in_rest=false`, callable policy/service boundaries, and exact metadata. | AP-008 harness exit 0 | The tested registry contract matches the fixed catalog. |
 | O6 | `OBSERVED` | Native REST listed zero AgentPress Abilities and both correct read/write run routes returned 404 `rest_ability_not_found`; post count remained unchanged. | AP-008 harness exit 0 | The tested generic REST surface is not a second AgentPress execution path. |
 | O7 | `OBSERVED` | Bridge discovery returned 15 tools for Administrator, eight exactly AP-007-discoverable tools for Subscriber, and zero logged-out tools; seven R3 names remained absent. | AP-008 harness exit 0 | The tested bridge surface is fixed-map and current-capability filtered. |
+| O8 | `OBSERVED` | The exact final PR head passed its hosted repository gate before PR #16 merged, issue #15 closed, and synchronized main resolved to the recorded merge SHA. | run `33382573988`; merge `fe7f39e`; GitHub/local verification | AP-008 is merged with a traceable latest-green gate rather than only branch-local evidence. |
 
 ## Contradictions and failures
 
@@ -181,7 +183,7 @@ The local evidence supports the hypothesis: exactly 15 fixed AgentPress Abilitie
 - work attributable to challenge period: baseline and timestamps recorded before material AP-008 work;
 - pre-existing work distinguished by: merged AP-007/main baseline;
 - third-party material/license/pin: pending source inspection; no new third-party runtime planned;
-- commit/PR evidence: issue #15, implementation commit `6c037ba22204351b506fad0fb979b6c2b1d51250`, [PR #16](https://github.com/MrBigleg/AgentPress/pull/16), and hosted run `33382353529` passed;
+- commit/PR evidence: issue #15 closed; implementation commit `6c037ba22204351b506fad0fb979b6c2b1d51250`; final head `8c7875090606a3bde730b173958887033960ff22`; [PR #16](https://github.com/MrBigleg/AgentPress/pull/16) merged as `fe7f39e3b681763382fe4da3735b62c45024f060` after hosted run `33382573988` passed;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -191,14 +193,14 @@ The local evidence supports the hypothesis: exactly 15 fixed AgentPress Abilitie
 
 - proposed experiment ID/task: EXP-015 / AP-009 sanitized audit logging;
 - next falsifiable question: can every AgentPress attempt emit a bounded, redacted audit record without secrets or raw private payloads?;
-- required prerequisites: AP-008 merged with green registry/REST/discovery evidence.
+- required prerequisites: satisfied by AP-005 merge evidence and AP-008 merge `fe7f39e` with latest-green run `33382573988`.
 
 ## End state
 
 ```text
-git status --short --branch: AP-008-only catalog, registrar, plugin/bridge wiring, AP-004 fixture isolation, tests, package manifest, checklist, README, index, and EXP-014 changes on ap-008-ability-registry
+git status --short --branch: clean synchronized main at AP-008 merge fe7f39e before this documentation-only merge-evidence append
 tests/checks: AP-008 WordPress matrix pass; AP-004/AP-006/AP-007 regressions pass; unit 44/532; PHPCS 30/30; browser 14/14; provenance 40 entries; npm audit 0; deterministic ZIP SHA-256 D91EC6104CCC57CB6C5F4F781C2DAA8A696456238A9F199F0B9CF63727CAD094
-committed: yes, implementation/evidence commit 6c037ba22204351b506fad0fb979b6c2b1d51250; this append-only commit-reference update pending
-pushed: yes, origin/ap-008-ability-registry; PR #16 hosted gate passed
+committed: yes, implementation/evidence commit 6c037ba22204351b506fad0fb979b6c2b1d51250; final branch head 8c7875090606a3bde730b173958887033960ff22; merge fe7f39e3b681763382fe4da3735b62c45024f060; this documentation-only merge-evidence append pending
+pushed: yes; PR #16 merged after latest hosted run 33382573988 passed
 deployed: no
 ```
