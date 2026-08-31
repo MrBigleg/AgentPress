@@ -9,6 +9,7 @@
  */
 
 use AgentPress\Rest\WebMCPRoutes;
+use AgentPress\WebMCP\AbilityMap;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	throw new RuntimeException( 'WordPress must be loaded.' );
@@ -102,6 +103,12 @@ add_action(
 
 $category_registry = WP_Ability_Categories_Registry::get_instance();
 $ability_registry  = WP_Abilities_Registry::get_instance();
+
+foreach ( array_keys( AbilityMap::all() ) as $registered_agentpress_ability ) {
+	if ( wp_has_ability( $registered_agentpress_ability ) ) {
+		wp_unregister_ability( $registered_agentpress_ability );
+	}
+}
 
 if ( ! $category_registry->is_registered( 'agentpress-test' ) ) {
 	$category_registry->register(
