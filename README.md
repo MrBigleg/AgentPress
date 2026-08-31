@@ -14,7 +14,7 @@
 
 AgentPress is an open-source WordPress plugin project that will let ChatGPT work inside the WordPress session a human is already using. WordPress defines the user's maximum authority. AgentPress narrows that authority into actions the agent may perform automatically, actions requiring explicit human approval, and actions that remain unavailable.
 
-> **Project stage:** early implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, versioned persistence, policy layer, and fixed 15-Ability catalog are implemented. Ability services, product UI, release, and live challenge workflow remain unimplemented or unverified.
+> **Project stage:** early implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, versioned persistence, policy layer, fixed 15-Ability catalog, and sanitized execution audit are implemented. Ability services, product UI, release, and live challenge workflow remain unimplemented or unverified.
 
 ## Product thesis
 
@@ -155,21 +155,22 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Common schemas and error normalization | `OBSERVED`, merged in PR #12; local WordPress/error/transport and hosted repository gates pass | [Experiment 012](docs/evidence/sessions/2026-08-31-exp-012-common-schemas-errors.md) |
 | Safe Mode and capability-aware discovery | `OBSERVED`, merged in PR #14; local role/capability/object/R3 matrices and hosted repository gates pass | [Experiment 013](docs/evidence/sessions/2026-08-31-exp-013-safe-mode-discovery-policy.md) |
 | Fixed WordPress Ability catalog | `OBSERVED`, merged in PR #16; local exact-contract/native-REST/bridge-role matrices and hosted repository gates pass | [Experiment 014](docs/evidence/sessions/2026-08-31-exp-014-ability-registry.md) |
+| Sanitized execution audit | `OBSERVED`, PR #18; local secret/size/outcome/unauthenticated matrices and hosted repository gate pass; merge pending | [Experiment 015](docs/evidence/sessions/2026-08-31-exp-015-sanitized-audit-logging.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment is `AP-009 — Implement sanitized audit logging`. AP-001 through AP-008 are merged; AP-008 passed its local matrices and the latest hosted PR gate before merge.
+The next dependency-ordered implementation experiment after AP-009 merges is `AP-010 — Implement Change Set coordinator and idempotency`. AP-001 through AP-008 are merged; AP-009 has passed its local security matrix and hosted PR gate and now awaits merge.
 
-**Hypothesis:** every AgentPress execution and human approval attempt can emit a bounded, redacted audit event without retaining credentials, nonces, raw headers, or full content payloads.
+**Hypothesis:** automatic R1 writes and staged R2 proposals can use one Change Set coordinator to enforce intent-before-mutation, immutable proposal hashes, deterministic state reduction, expiry, and per-user idempotency without duplicate WordPress mutation.
 
-**Falsification condition:** any secret/private raw value reaches durable audit storage; required event identity/result/timing fields are missing; visibility exceeds the actor or `manage_options`; or audit failure creates an unauthorized product mutation.
+**Falsification condition:** a storage failure permits mutation; an identical idempotency key repeats mutation; the same key with a different payload does not conflict; proposal/state hashes fail to detect change; or a child transition yields a Change Set state outside the documented reducer.
 
-**Prerequisite evidence:** AP-005 is merged in PR #10 and provides the audit repository/table. AP-008 is merged in PR #16, and Experiment 014 records its exact catalog, callback, REST-absence, bridge-filtering, and zero-mutation matrices.
+**Prerequisite evidence:** AP-005 and AP-007 are merged. Experiment 015 records AP-009's local bounded sanitizer, durable outcome, invalid-nonce/logged-out absence, and zero-unauthorized-execution matrices; AP-009 merge remains required before its coordinator consumer proceeds.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-009--implement-sanitized-audit-logging).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-010--implement-change-set-coordinator-and-idempotency).
 
 ## Local development
 
