@@ -156,21 +156,22 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Safe Mode and capability-aware discovery | `OBSERVED`, merged in PR #14; local role/capability/object/R3 matrices and hosted repository gates pass | [Experiment 013](docs/evidence/sessions/2026-08-31-exp-013-safe-mode-discovery-policy.md) |
 | Fixed WordPress Ability catalog | `OBSERVED`, merged in PR #16; local exact-contract/native-REST/bridge-role matrices and hosted repository gates pass | [Experiment 014](docs/evidence/sessions/2026-08-31-exp-014-ability-registry.md) |
 | Sanitized execution audit | `OBSERVED`, merged in PR #18; local secret/size/outcome/unauthenticated matrices and hosted repository gates pass | [Experiment 015](docs/evidence/sessions/2026-08-31-exp-015-sanitized-audit-logging.md) |
+| Change Set coordinator and idempotency | `OBSERVED`, local coordinator/state/hash/runtime matrices pass; hosted gate pending | [Experiment 016](docs/evidence/sessions/2026-08-31-exp-016-change-set-coordinator.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment is `AP-010 — Implement Change Set coordinator and idempotency`. AP-001 through AP-009 are merged; AP-009 passed its local security matrix and latest hosted PR gate before merge.
+The next dependency-ordered implementation experiment is `AP-011 — Implement get-context`. AP-001 through AP-009 are merged; AP-010 passes its local coordinator, state, idempotency, failure, regression, and package gates, with hosted verification pending.
 
-**Hypothesis:** automatic R1 writes and staged R2 proposals can use one Change Set coordinator to enforce intent-before-mutation, immutable proposal hashes, deterministic state reduction, expiry, and per-user idempotency without duplicate WordPress mutation.
+**Hypothesis:** one bounded read service can derive a safe site/user/bootstrap context and effective operation envelope from the AP-007 policy and AP-008 catalog without exposing private identity, raw capabilities, session material, paths, configuration, or environment details.
 
-**Falsification condition:** a storage failure permits mutation; an identical idempotency key repeats mutation; the same key with a different payload does not conflict; proposal/state hashes fail to detect change; or a child transition yields a Change Set state outside the documented reducer.
+**Falsification condition:** any fixture role receives an incorrect operation state; logged-out access succeeds; or output contains email, raw capabilities, cookies, nonces, filesystem paths, plugin configuration, or environment details.
 
-**Prerequisite evidence:** AP-005 and AP-007 are merged. AP-009 is merged in PR #18, and Experiment 015 records its bounded sanitizer, durable outcome, invalid-nonce/logged-out absence, and zero-unauthorized-execution matrices.
+**Prerequisite evidence:** AP-007 and AP-008 are merged. Experiment 013 records the role/capability/object policy matrix, and Experiment 014 records the exact 15-Ability catalog and policy-filtered discovery matrix.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-010--implement-change-set-coordinator-and-idempotency).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-011--implement-get-context).
 
 ## Local development
 

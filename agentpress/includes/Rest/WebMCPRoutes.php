@@ -262,7 +262,8 @@ final class WebMCPRoutes {
 		if ( is_array( $result ) && array_key_exists( 'request_id', $result ) ) {
 			$result['request_id'] = $request_id;
 		}
-		if ( ! $this->record_audit( $request_id, $ability_name, $params['input'], 'SUCCESS', '', $started_at ) ) {
+		$audit_context = $this->success_audit_context( $result );
+		if ( ! $this->record_audit( $request_id, $ability_name, $params['input'], $audit_context['result'], '', $started_at, $audit_context ) ) {
 			return ErrorFactory::make( 'AP_INTERNAL_ERROR', array(), $request_id );
 		}
 
@@ -300,20 +301,24 @@ final class WebMCPRoutes {
 	 * @param string               $result       Audit result.
 	 * @param string               $error_code   Safe public error code.
 	 * @param float                $started_at   Start timestamp.
+	 * @param array<string, mixed> $context      Safe Change Set context.
 	 * @return bool
 	 */
-	private function record_audit( $request_id, $ability_name, $arguments, $result, $error_code, $started_at ) {
+	private function record_audit( $request_id, $ability_name, $arguments, $result, $error_code, $started_at, $context = array() ) {
 		try {
 			$this->audit_logger->record(
-				array(
-					'request_id'  => $request_id,
-					'actor_type'  => 'webmcp',
-					'user_id'     => get_current_user_id(),
-					'ability'     => $ability_name,
-					'result'      => $result,
-					'error_code'  => $error_code,
-					'arguments'   => $arguments,
-					'duration_ms' => max( 0, (int) round( ( microtime( true ) - $started_at ) * 1000 ) ),
+				array_merge(
+					array(
+						'request_id'  => $request_id,
+						'actor_type'  => 'webmcp',
+						'user_id'     => get_current_user_id(),
+						'ability'     => $ability_name,
+						'result'      => $result,
+						'error_code'  => $error_code,
+						'arguments'   => $arguments,
+						'duration_ms' => max( 0, (int) round( ( microtime( true ) - $started_at ) * 1000 ) ),
+					),
+					array_intersect_key( $context, array_flip( array( 'change_set_id', 'change_id', 'object_type', 'object_id' ) ) )
 				)
 			);
 		} catch ( \Throwable $throwable ) {
@@ -321,6 +326,24 @@ final class WebMCPRoutes {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Classify one successful service result for the single transport audit row.
+	 *
+	 * @param mixed $result Valid Ability result.
+	 * @return array<string, mixed>
+	 */
+	private function success_audit_context( $result ) {
+		$data    = is_array( $result ) && isset( $result['data'] ) && is_array( $result['data'] ) ? $result['data'] : $result;
+		$data    = is_array( $data ) ? $data : array();
+		$context = array(
+			'result'        => ! empty( $data['replayed'] ) ? 'REPLAYED' : ( isset( $data['status'] ) && 'PENDING_APPROVAL' === $data['status'] ? 'PENDING' : 'SUCCESS' ),
+			'change_set_id' => isset( $data['change_set_id'] ) ? max( 0, (int) $data['change_set_id'] ) : 0,
+			'change_id'     => isset( $data['change_id'] ) ? max( 0, (int) $data['change_id'] ) : 0,
+			'object_id'     => isset( $data['object_id'] ) ? max( 0, (int) $data['object_id'] ) : 0,
+		);
+		return $context;
 	}
 
 	/**

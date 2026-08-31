@@ -148,6 +148,41 @@ final class RecordStore {
 	}
 
 	/**
+	 * Atomically update a row only when one allowlisted column has an expected value.
+	 *
+	 * @param int                  $id              Record ID.
+	 * @param string               $expected_column Allowlisted compare column.
+	 * @param mixed                $expected_value  Required current value.
+	 * @param array<string, mixed> $changes         Changed columns.
+	 * @return bool
+	 * @throws \InvalidArgumentException When inputs are empty or unknown.
+	 * @throws \RuntimeException When the update fails.
+	 */
+	public function update_if( $id, $expected_column, $expected_value, $changes ) {
+		if ( empty( $changes ) || ! in_array( $expected_column, $this->columns, true ) ) {
+			throw new \InvalidArgumentException( 'AgentPress conditional record update is invalid.' );
+		}
+
+		$prepared = $this->prepare_record( $changes );
+		$result   = $this->wpdb->update(
+			$this->table,
+			$prepared,
+			array(
+				'id'             => $id,
+				$expected_column => $expected_value,
+			),
+			$this->formats( $prepared ),
+			array( '%d', in_array( $expected_column, $this->integer_columns, true ) ? '%d' : '%s' )
+		);
+
+		if ( false === $result ) {
+			throw new \RuntimeException( 'AgentPress could not conditionally update the database record.' );
+		}
+
+		return 1 === $result;
+	}
+
+	/**
 	 * Delete one record by ID.
 	 *
 	 * @param int $id Record ID.
