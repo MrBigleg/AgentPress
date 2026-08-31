@@ -67,7 +67,7 @@
 
 ### AP-007 — Implement Safe Mode and discovery policy
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-006
 - **Demo critical:** yes
 - **Deliverable:** R0–R3 classifier, actual-capability envelope, coarse per-tool discovery rules, object-specific execution rules, and a hard absence of users/plugins/themes/code/settings abilities.
