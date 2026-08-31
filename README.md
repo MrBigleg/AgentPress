@@ -153,14 +153,14 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Private WordPress-session transport | `OBSERVED`, PR #8; local runtime and hosted repository gates pass | [Experiment 010](docs/evidence/sessions/2026-08-30-exp-010-private-rest-transport.md) |
 | Versioned database and repositories | `OBSERVED`, PR #10; local runtime and hosted repository gates pass | [Experiment 011](docs/evidence/sessions/2026-08-31-exp-011-database-repositories.md) |
 | Common schemas and error normalization | `OBSERVED`, merged in PR #12; local WordPress/error/transport and hosted repository gates pass | [Experiment 012](docs/evidence/sessions/2026-08-31-exp-012-common-schemas-errors.md) |
-| Safe Mode and capability-aware discovery | `OBSERVED`, AP-007 feature branch; local role/capability/object/R3 matrices and repository gates pass; hosted PR gate `NOT_TESTED` | [Experiment 013](docs/evidence/sessions/2026-08-31-exp-013-safe-mode-discovery-policy.md) |
+| Safe Mode and capability-aware discovery | `OBSERVED`, PR #14; local role/capability/object/R3 matrices and hosted repository gate pass | [Experiment 013](docs/evidence/sessions/2026-08-31-exp-013-safe-mode-discovery-policy.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment is `AP-008 — Register the 15 Abilities and fixed tool-name map`. AP-001 through AP-006 are merged; AP-007 has passed its local matrices and awaits its hosted PR gate and merge.
+The next dependency-ordered implementation experiment is `AP-008 — Register the 15 Abilities and fixed tool-name map`. AP-001 through AP-006 are merged; AP-007 has passed its local matrices and hosted PR gate and awaits merge.
 
 **Hypothesis:** exactly 15 `agentpress/*` Abilities can register with the fixed category, callbacks, schemas, annotations, and collision-free WebMCP names while native REST listing/execution remains unavailable.
 

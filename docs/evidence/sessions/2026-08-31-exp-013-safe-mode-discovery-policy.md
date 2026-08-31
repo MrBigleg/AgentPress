@@ -104,6 +104,7 @@ environment: Node.js 22.23.2; npm 11.7.0; WordPress/PHP runtime pending
 | timestamp not independently captured | Unit, standards, browser, provenance, and audit release gates | repository | exit 0 | 42 tests/219 assertions; PHPCS 28/28; browser 14/14; provenance 38 ZIP entries with pinned GPL source and no upstream runtime; npm audit found zero vulnerabilities. |
 | timestamp not independently captured | Two consecutive `npm run build:zip` runs and SHA-256 checks | repository | exit 0 | Both release builds produced `2CF45FB1492F7458F9272B2BB17CF5820B07E41EC0A7262CE8344E3354AC0770`. |
 | 2026-08-31T12:44:03+07:00 | Stage exact AP-007 manifest, run `git diff --cached --check`, and commit | repository | exit 0 | 14-file implementation/evidence package committed as `c51071361e044dfd60326ccf37f76c5497cfa727`; worktree clean immediately afterward. |
+| 2026-08-31T12:47:14+07:00 | Push branch, open PR #14, and watch hosted repository gate | GitHub | exit 0 | [PR #14](https://github.com/MrBigleg/AgentPress/pull/14) links issue #13; [run 33361719090, job 99394212994](https://github.com/MrBigleg/AgentPress/actions/runs/33361719090/job/99394212994) passed in 28 seconds. |
 
 ## Observation ledger
 
@@ -160,7 +161,7 @@ The local repository evidence supports the hypothesis: AP-007's fixed classifier
 
 ## Limitations and `NOT_TESTED` boundaries
 
-- `NOT_TESTED`: hosted PR/CI execution, production AP-008 Ability registration, real browser/WebMCP discovery of AP-007-filtered tools, ChatGPT, deployment, and AP-008+ service behavior.
+- `NOT_TESTED`: production AP-008 Ability registration, real browser/WebMCP discovery of AP-007-filtered tools, ChatGPT, deployment, and AP-008+ service behavior.
 - The browser suite was run only as an AP-003/AP-004 regression; it does not prove a production AP-007 browser integration because AP-008 has not registered the Ability catalog.
 
 ## Competition evidence statement
@@ -168,7 +169,7 @@ The local repository evidence supports the hypothesis: AP-007's fixed classifier
 - work attributable to challenge period: baseline and timestamps recorded before material AP-007 work;
 - pre-existing work distinguished by: merged AP-006 baseline;
 - third-party material/license/pin: no new third-party material planned;
-- commit/PR evidence: issue #13 and implementation commit `c51071361e044dfd60326ccf37f76c5497cfa727`; push and PR pending;
+- commit/PR evidence: issue #13, implementation commit `c51071361e044dfd60326ccf37f76c5497cfa727`, [PR #14](https://github.com/MrBigleg/AgentPress/pull/14), and hosted run `33361719090` passed;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -186,6 +187,6 @@ The local repository evidence supports the hypothesis: AP-007's fixed classifier
 git status --short --branch: AP-007-only source, tests, package manifest, checklist, README, index, and EXP-013 changes on ap-007-safe-mode-discovery-policy
 tests/checks: AP-007 WordPress matrix pass; AP-004/AP-006 regressions pass; unit 42/219; PHPCS 28/28; browser 14/14; provenance 38 entries; npm audit 0; deterministic ZIP SHA-256 2CF45FB1492F7458F9272B2BB17CF5820B07E41EC0A7262CE8344E3354AC0770
 committed: yes, implementation/evidence commit c51071361e044dfd60326ccf37f76c5497cfa727; this append-only commit-reference update pending
-pushed: no
+pushed: yes, origin/ap-007-safe-mode-discovery-policy; PR #14 hosted gate passed
 deployed: no
 ```
