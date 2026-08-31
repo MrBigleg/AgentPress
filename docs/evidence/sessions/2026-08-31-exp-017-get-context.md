@@ -98,6 +98,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; exact baseline run 3341
 | timestamp not independently captured | Rerun AP-011 matrix with scoped HTTPS control | repository/wp-env | exit 0 | Four roles and all 16 operations matched; four registered outputs passed the exact schema; live capability mutation updated the envelope; seven private sentinels were absent; logged-out permission failed closed; target mutations remained zero. |
 | timestamp not independently captured | Run final unit/standards and AP-004 through AP-010 WordPress regressions | repository/wp-env | exit 0 | PHPUnit 68 tests/593 assertions; PHPCS 36/36 files; all seven prerequisite integration scripts passed, including zero unauthorized mutations and AP-010 failure/idempotency controls. |
 | timestamp not independently captured | Run browser, provenance, dependency-audit, script-syntax, diff, and deterministic package gates | repository | exit 0 | Browser 14/14; provenance 46 ZIP entries with pinned GPL source and no upstream runtime; npm audit zero vulnerabilities; scripts/diff clean; two builds produced SHA-256 `438C7FE4DD65BFB627013406498CA7B93C5F15A2632B36AA1577CDE5E5382BFB`. |
+| timestamp not independently captured | Commit/push AP-011, open PR #22, and verify its exact hosted head | repository/GitHub | exit 0 | Implementation `f66788a11c9836e8b5ec0f542e41b63ba56c34cd`; evidence commit/head `277c592e3995a24daa292caa70821699e189f316`; [PR #22](https://github.com/MrBigleg/AgentPress/pull/22) links issue #21 and passed [run 33437926078, job 99638794645](https://github.com/MrBigleg/AgentPress/actions/runs/33437926078/job/99638794645). |
 
 ## Observation ledger
 
@@ -151,7 +152,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; exact baseline run 3341
 
 `SUPPORTED`
 
-Under controlled WordPress 6.9/PHP 8.0.30 fixtures, `agentpress/get-context` returned the exact registered closed schema and expected 16-operation envelope for four default roles, responded immediately to a live capability mutation, omitted all tested private/session/path/configuration sentinels, denied logged-out permission, and caused zero target mutations. This supports AP-011 locally; hosted CI and merge evidence remain pending.
+Under controlled WordPress 6.9/PHP 8.0.30 fixtures, `agentpress/get-context` returned the exact registered closed schema and expected 16-operation envelope for four default roles, responded immediately to a live capability mutation, omitted all tested private/session/path/configuration sentinels, denied logged-out permission, and caused zero target mutations. The exact pushed head passed hosted CI; merge evidence remains pending.
 
 ## Limitations and `NOT_TESTED` boundaries
 
@@ -162,7 +163,7 @@ Under controlled WordPress 6.9/PHP 8.0.30 fixtures, `agentpress/get-context` ret
 - work attributable to challenge period: baseline/timestamps captured before AP-011 product-code inspection or mutation;
 - pre-existing work distinguished by: synchronized AP-010 closeout baseline;
 - third-party material/license/pin: no new third-party runtime; existing GPL pin/provenance gate passed with 46 ZIP entries and no upstream runtime code;
-- commit/PR evidence: implementation/evidence `f66788a11c9836e8b5ec0f542e41b63ba56c34cd`; issue #21; PR pending;
+- commit/PR evidence: implementation `f66788a11c9836e8b5ec0f542e41b63ba56c34cd`; evidence/head `277c592e3995a24daa292caa70821699e189f316`; issue #21; PR #22; hosted run `33437926078` passed;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -177,9 +178,9 @@ Under controlled WordPress 6.9/PHP 8.0.30 fixtures, `agentpress/get-context` ret
 ## End state
 
 ```text
-git status --short --branch: AP-011 implementation/evidence committed on ap-011-get-context; SHA closeout pending; no unrelated changes observed
+git status --short --branch: AP-011 implementation/evidence committed and pushed on ap-011-get-context; hosted evidence update pending; no unrelated changes observed
 tests/checks: AP-011 WordPress matrix pass; AP-004–AP-010 regressions pass; unit 68/593; PHPCS 36/36; browser 14/14; provenance 46 entries; npm audit 0; deterministic ZIP SHA-256 438C7FE4DD65BFB627013406498CA7B93C5F15A2632B36AA1577CDE5E5382BFB
 committed: yes, implementation/evidence f66788a11c9836e8b5ec0f542e41b63ba56c34cd
-pushed: no
+pushed: yes, PR #22; exact head 277c592 passed hosted run 33437926078
 deployed: no
 ```
