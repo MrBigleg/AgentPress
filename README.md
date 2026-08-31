@@ -152,14 +152,14 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Current WebMCP browser adapter | `OBSERVED`, merged in PR #6 | [Experiment 009](docs/evidence/sessions/2026-08-30-exp-009-current-webmcp-adapter.md) |
 | Private WordPress-session transport | `OBSERVED`, PR #8; local runtime and hosted repository gates pass | [Experiment 010](docs/evidence/sessions/2026-08-30-exp-010-private-rest-transport.md) |
 | Versioned database and repositories | `OBSERVED`, PR #10; local runtime and hosted repository gates pass | [Experiment 011](docs/evidence/sessions/2026-08-31-exp-011-database-repositories.md) |
-| Common schemas and error normalization | `IN_PROGRESS`, partial schema/result checkpoint committed; error factory and acceptance tests remain `NOT_TESTED` | [Experiment 012](docs/evidence/sessions/2026-08-31-exp-012-common-schemas-errors.md) |
+| Common schemas and error normalization | `OBSERVED`, local WordPress/error/transport and repository gates pass; hosted CI/merge pending | [Experiment 012](docs/evidence/sessions/2026-08-31-exp-012-common-schemas-errors.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Active experiment
 
-The active dependency-ordered implementation experiment is `AP-006 — Implement common schemas and error normalization`. Its schema/result primitives are committed as a partial checkpoint; its error factory and parameterized acceptance tests remain unfinished.
+The active publication gate is `AP-006 — Implement common schemas and error normalization`. Its implementation and local acceptance evidence are complete; the isolated branch still requires its final commit, hosted CI, and merge before AP-007 begins.
 
 **Hypothesis:** shared closed-schema builders, success envelopes, and a safe `AP_*` error factory can reject every invalid input class and serialize every documented error consistently before the Ability catalog is registered.
 

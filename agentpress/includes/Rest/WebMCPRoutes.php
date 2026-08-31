@@ -7,6 +7,7 @@
 
 namespace AgentPress\Rest;
 
+use AgentPress\Errors\ErrorFactory;
 use AgentPress\WebMCP\AbilityMap;
 
 /**
@@ -185,20 +186,20 @@ final class WebMCPRoutes {
 			! array_key_exists( 'ability', $params ) ||
 			! array_key_exists( 'input', $params )
 		) {
-			return $this->error( 'AP_SCHEMA_INVALID', 'The execute request must contain only ability and input.', 400 );
+			return ErrorFactory::make( 'AP_SCHEMA_INVALID' );
 		}
 
 		$ability_name = is_string( $params['ability'] ) ? $params['ability'] : '';
 		if ( ! AbilityMap::contains( $ability_name ) ) {
-			return $this->error( 'AP_ABILITY_NOT_ALLOWED', 'The requested Ability is not exposed by AgentPress.', 404 );
+			return ErrorFactory::make( 'AP_PERMISSION_DENIED' );
 		}
 
 		if ( ! is_array( $params['input'] ) ) {
-			return $this->error( 'AP_SCHEMA_INVALID', 'Ability input must be a JSON object.', 400 );
+			return ErrorFactory::make( 'AP_SCHEMA_INVALID' );
 		}
 
 		if ( ! $this->allows_content_body( $ability_name ) && strlen( (string) $request->get_body() ) > RequestGuard::DEFAULT_MAX_BYTES ) {
-			return $this->error( 'AP_REQUEST_TOO_LARGE', 'The request body is too large for this Ability.', 413 );
+			return ErrorFactory::make( 'AP_SCHEMA_INVALID' );
 		}
 
 		$ability_rate = $this->guard->authorize_ability( $ability_name );
@@ -214,17 +215,17 @@ final class WebMCPRoutes {
 		do_action( 'agentpress_webmcp_before_ability_resolve', $ability_name );
 		$ability = call_user_func( $this->ability_resolver, $ability_name );
 		if ( ! is_object( $ability ) || ! is_callable( array( $ability, 'check_permissions' ) ) || ! is_callable( array( $ability, 'execute' ) ) ) {
-			return $this->error( 'AP_ABILITY_NOT_FOUND', 'The requested AgentPress Ability is unavailable.', 404 );
+			return ErrorFactory::make( 'AP_INTERNAL_ERROR' );
 		}
 
 		$permission = $ability->check_permissions( $params['input'] );
 		if ( true !== $permission ) {
-			return $this->error( 'AP_PERMISSION_DENIED', 'The current user cannot execute this Ability.', 403 );
+			return ErrorFactory::make( 'AP_PERMISSION_DENIED' );
 		}
 
 		$result = $ability->execute( $params['input'] );
 		if ( is_wp_error( $result ) ) {
-			return $this->error( 'AP_EXECUTION_FAILED', 'The Ability could not be executed.', 500 );
+			return ErrorFactory::normalize( $result );
 		}
 
 		return $this->private_response( $result );
@@ -244,16 +245,27 @@ final class WebMCPRoutes {
 			return $response;
 		}
 
+		$data = $response->get_data();
+		if ( $response->get_status() >= 400 && is_array( $data ) && isset( $data['code'] ) ) {
+			$source_code = 'rest_invalid_json' === $data['code'] ? 'AP_SCHEMA_INVALID' : (string) $data['code'];
+			$source_data = isset( $data['data'] ) && is_array( $data['data'] ) ? $data['data'] : array();
+			$normalized  = ErrorFactory::response( new \WP_Error( $source_code, '', $source_data ) );
+			$response->set_status( $normalized['status'] );
+			$response->set_data( $normalized['body'] );
+			$data = $normalized['body'];
+		}
+
 		$response->header( 'Cache-Control', 'private, no-store' );
 		$response->header( 'Vary', 'Cookie' );
 
-		$data = $response->get_data();
 		if (
 			is_array( $data ) &&
-			isset( $data['code'], $data['data']['retry_after'] ) &&
-			'AP_RATE_LIMITED' === $data['code']
+			isset( $data['error']['code'], $data['error']['details'] ) &&
+			'AP_RATE_LIMITED' === $data['error']['code'] &&
+			is_array( $data['error']['details'] ) &&
+			isset( $data['error']['details']['retry_after'] )
 		) {
-			$response->header( 'Retry-After', (string) absint( $data['data']['retry_after'] ) );
+			$response->header( 'Retry-After', (string) absint( $data['error']['details']['retry_after'] ) );
 		}
 
 		return $response;
@@ -278,15 +290,8 @@ final class WebMCPRoutes {
 		);
 
 		if ( is_wp_error( $result ) ) {
-			$error_data = $result->get_error_data();
-			$status     = is_array( $error_data ) && isset( $error_data['status'] ) ? (int) $error_data['status'] : 403;
-			wp_send_json_error(
-				array(
-					'code'    => $result->get_error_code(),
-					'message' => $result->get_error_message(),
-				),
-				$status
-			);
+			$error = ErrorFactory::response( $result );
+			wp_send_json( $error['body'], $error['status'] );
 		}
 
 		wp_send_json_success( $result );
@@ -369,17 +374,5 @@ final class WebMCPRoutes {
 		$response->header( 'Cache-Control', 'private, no-store' );
 		$response->header( 'Vary', 'Cookie' );
 		return $response;
-	}
-
-	/**
-	 * Build a bounded route error.
-	 *
-	 * @param string $code    Stable error code.
-	 * @param string $message Safe message.
-	 * @param int    $status  HTTP status.
-	 * @return \WP_Error
-	 */
-	private function error( $code, $message, $status ) {
-		return new \WP_Error( $code, $message, array( 'status' => $status ) );
 	}
 }

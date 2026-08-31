@@ -174,6 +174,10 @@ const NONCE_ERROR_CODES = Object.freeze(
   new Set(['AP_NONCE_INVALID', 'rest_cookie_invalid_nonce']),
 );
 
+function getErrorPayload(payload) {
+  return payload?.error && typeof payload.error === 'object' ? payload.error : payload;
+}
+
 async function requestJsonWithNonceRetry({
   endpoint,
   fetchImpl,
@@ -214,7 +218,7 @@ async function requestJsonWithNonceRetry({
     if (
       attempt === 0 &&
       typeof refreshNonce === 'function' &&
-      NONCE_ERROR_CODES.has(payload?.code)
+      NONCE_ERROR_CODES.has(getErrorPayload(payload)?.code)
     ) {
       await refreshNonce({ signal });
       continue;
@@ -227,13 +231,14 @@ async function requestJsonWithNonceRetry({
 }
 
 function createTransportError(response, payload) {
+  const failure = getErrorPayload(payload);
   const error = new Error(
-    typeof payload?.message === 'string'
-      ? payload.message
+    typeof failure?.message === 'string'
+      ? failure.message
       : `AgentPress request failed with HTTP ${response.status}.`,
   );
   error.status = response.status;
-  error.code = typeof payload?.code === 'string' ? payload.code : 'AP_TRANSPORT_ERROR';
+  error.code = typeof failure?.code === 'string' ? failure.code : 'AP_TRANSPORT_ERROR';
   return error;
 }
 

@@ -79,9 +79,24 @@ final class SchemaBuilder {
 	 *
 	 * @param array<int, string|bool> $values Values.
 	 * @return array<string, mixed>
+	 * @throws \InvalidArgumentException When values are empty or mix supported types.
 	 */
 	public static function enum( $values ) {
-		return array( 'enum' => $values );
+		if ( empty( $values ) ) {
+			throw new \InvalidArgumentException( 'Enum values must not be empty.' );
+		}
+
+		$type = is_bool( reset( $values ) ) ? 'boolean' : 'string';
+		foreach ( $values as $value ) {
+			if ( ( 'boolean' === $type && ! is_bool( $value ) ) || ( 'string' === $type && ! is_string( $value ) ) ) {
+				throw new \InvalidArgumentException( 'Enum values must share one supported type.' );
+			}
+		}
+
+		return array(
+			'type' => $type,
+			'enum' => array_values( $values ),
+		);
 	}
 
 	/**

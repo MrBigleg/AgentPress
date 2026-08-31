@@ -80,7 +80,8 @@ function agentpress_ap004_request( $method, $route, $nonce, $body = '', $origin 
  */
 function agentpress_ap004_assert_forbidden( $response, $expected_code, $execution_before, $resolver_before, $target_before ) {
 	$data = $response->get_data();
-	agentpress_ap004_assert( isset( $data['code'] ) && $expected_code === $data['code'], 'Unexpected error code: ' . wp_json_encode( $data ) );
+	agentpress_ap004_assert( isset( $data['ok'] ) && false === $data['ok'], 'Error response is not the common envelope.' );
+	agentpress_ap004_assert( isset( $data['error']['code'] ) && $expected_code === $data['error']['code'], 'Unexpected error code: ' . wp_json_encode( $data ) );
 	agentpress_ap004_assert( $execution_before === $GLOBALS['agentpress_ap004_execution_count'], $expected_code . ' reached Ability execution.' );
 	agentpress_ap004_assert( $resolver_before === $GLOBALS['agentpress_ap004_resolver_count'], $expected_code . ' reached Ability resolution.' );
 	agentpress_ap004_assert( $target_before === $GLOBALS['agentpress_ap004_target_state'], $expected_code . ' mutated target state.' );
@@ -213,15 +214,15 @@ agentpress_ap004_assert( 1 === $GLOBALS['agentpress_ap004_target_state'], 'Valid
 $forbidden_cases = array(
 	array( 'missing nonce', 'AP_NONCE_INVALID', get_current_user_id(), null, '{"ability":"agentpress/get-context","input":{}}', $origin, 'same-origin' ),
 	array( 'wrong nonce', 'AP_NONCE_INVALID', get_current_user_id(), 'wrong', '{"ability":"agentpress/get-context","input":{}}', $origin, 'same-origin' ),
-	array( 'logged out', 'AP_AUTH_REQUIRED', 0, $nonce, '{"ability":"agentpress/get-context","input":{}}', $origin, 'same-origin' ),
-	array( 'third party', 'AP_ABILITY_NOT_ALLOWED', $administrator[0]->ID, $nonce, '{"ability":"third-party/danger","input":{}}', $origin, 'same-origin' ),
-	array( 'unknown', 'AP_ABILITY_NOT_ALLOWED', $administrator[0]->ID, $nonce, '{"ability":"agentpress/not-real","input":{}}', $origin, 'same-origin' ),
-	array( 'foreign origin', 'AP_ORIGIN_FORBIDDEN', $administrator[0]->ID, $nonce, '{"ability":"agentpress/get-context","input":{}}', 'https://attacker.example', 'cross-site' ),
-	array( 'cross-site metadata', 'AP_ORIGIN_FORBIDDEN', $administrator[0]->ID, $nonce, '{"ability":"agentpress/get-context","input":{}}', null, 'cross-site' ),
-	array( 'malformed JSON', 'rest_invalid_json', $administrator[0]->ID, $nonce, '{broken', $origin, 'same-origin' ),
+	array( 'logged out', 'AP_NOT_AUTHENTICATED', 0, $nonce, '{"ability":"agentpress/get-context","input":{}}', $origin, 'same-origin' ),
+	array( 'third party', 'AP_PERMISSION_DENIED', $administrator[0]->ID, $nonce, '{"ability":"third-party/danger","input":{}}', $origin, 'same-origin' ),
+	array( 'unknown', 'AP_PERMISSION_DENIED', $administrator[0]->ID, $nonce, '{"ability":"agentpress/not-real","input":{}}', $origin, 'same-origin' ),
+	array( 'foreign origin', 'AP_POLICY_BLOCKED', $administrator[0]->ID, $nonce, '{"ability":"agentpress/get-context","input":{}}', 'https://attacker.example', 'cross-site' ),
+	array( 'cross-site metadata', 'AP_POLICY_BLOCKED', $administrator[0]->ID, $nonce, '{"ability":"agentpress/get-context","input":{}}', null, 'cross-site' ),
+	array( 'malformed JSON', 'AP_SCHEMA_INVALID', $administrator[0]->ID, $nonce, '{broken', $origin, 'same-origin' ),
 	array( 'extra top-level field', 'AP_SCHEMA_INVALID', $administrator[0]->ID, $nonce, '{"ability":"agentpress/get-context","input":{},"extra":true}', $origin, 'same-origin' ),
-	array( 'oversized default body', 'AP_REQUEST_TOO_LARGE', $administrator[0]->ID, $nonce, wp_json_encode( array( 'ability' => 'agentpress/get-context', 'input' => array( 'padding' => str_repeat( 'x', 110000 ) ) ) ), $origin, 'same-origin' ),
-	array( 'oversized absolute body', 'AP_REQUEST_TOO_LARGE', $administrator[0]->ID, $nonce, wp_json_encode( array( 'ability' => 'agentpress/create-draft', 'input' => array( 'padding' => str_repeat( 'x', 307201 ) ) ) ), $origin, 'same-origin' ),
+	array( 'oversized default body', 'AP_SCHEMA_INVALID', $administrator[0]->ID, $nonce, wp_json_encode( array( 'ability' => 'agentpress/get-context', 'input' => array( 'padding' => str_repeat( 'x', 110000 ) ) ) ), $origin, 'same-origin' ),
+	array( 'oversized absolute body', 'AP_SCHEMA_INVALID', $administrator[0]->ID, $nonce, wp_json_encode( array( 'ability' => 'agentpress/create-draft', 'input' => array( 'padding' => str_repeat( 'x', 307201 ) ) ) ), $origin, 'same-origin' ),
 );
 
 foreach ( $forbidden_cases as $case ) {
@@ -289,11 +290,11 @@ agentpress_ap004_assert( is_array( $fresh_payload ) && 1 === wp_verify_nonce( $f
 
 wp_set_current_user( 0 );
 $logged_out_refresh = $transport->get_refreshed_nonce( $origin, 'same-origin' );
-agentpress_ap004_assert( is_wp_error( $logged_out_refresh ) && 'AP_AUTH_REQUIRED' === $logged_out_refresh->get_error_code(), 'Logged-out nonce refresh did not fail closed.' );
+agentpress_ap004_assert( is_wp_error( $logged_out_refresh ) && 'AP_NOT_AUTHENTICATED' === $logged_out_refresh->get_error_code(), 'Logged-out nonce refresh did not fail closed.' );
 
 wp_set_current_user( $administrator[0]->ID );
 $cross_origin_refresh = $transport->get_refreshed_nonce( 'https://attacker.example', 'cross-site' );
-agentpress_ap004_assert( is_wp_error( $cross_origin_refresh ) && 'AP_ORIGIN_FORBIDDEN' === $cross_origin_refresh->get_error_code(), 'Cross-origin nonce refresh did not fail closed.' );
+agentpress_ap004_assert( is_wp_error( $cross_origin_refresh ) && 'AP_POLICY_BLOCKED' === $cross_origin_refresh->get_error_code(), 'Cross-origin nonce refresh did not fail closed.' );
 
 wp_unregister_ability( 'agentpress/get-context' );
 wp_unregister_ability( 'third-party/danger' );

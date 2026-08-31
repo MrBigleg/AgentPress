@@ -24,3 +24,38 @@ if ( ! function_exists( 'wp_json_encode' ) ) {
 		return json_encode( $value, $flags, $depth );
 	}
 }
+if ( ! function_exists( 'wp_generate_uuid4' ) ) {
+	function wp_generate_uuid4() {
+		return '00000000-0000-4000-8000-000000000006';
+	}
+}
+if ( ! class_exists( 'WP_Error' ) ) {
+	class WP_Error {
+		private $code;
+		private $message;
+		private $data;
+
+		public function __construct( $code, $message, $data = array() ) {
+			$this->code    = $code;
+			$this->message = $message;
+			$this->data    = $data;
+		}
+
+		public function get_error_code() {
+			return $this->code;
+		}
+
+		public function get_error_message() {
+			return $this->message;
+		}
+
+		public function get_error_data() {
+			return $this->data;
+		}
+	}
+}
+if ( ! function_exists( 'is_wp_error' ) ) {
+	function is_wp_error( $value ) {
+		return $value instanceof WP_Error;
+	}
+}

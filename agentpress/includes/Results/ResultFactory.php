@@ -19,9 +19,13 @@ final class ResultFactory {
 	 * @return array<string, mixed>
 	 */
 	public static function success( $data, $request_id = null ) {
+		if ( ! is_string( $request_id ) || 1 !== preg_match( '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i', $request_id ) ) {
+			$request_id = wp_generate_uuid4();
+		}
+
 		return array(
 			'ok'         => true,
-			'request_id' => $request_id ?? wp_generate_uuid4(),
+			'request_id' => strtolower( $request_id ),
 			'data'       => $data,
 		);
 	}
