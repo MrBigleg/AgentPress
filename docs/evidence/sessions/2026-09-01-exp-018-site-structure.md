@@ -98,6 +98,8 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; baseline run 3343839581
 | timestamp not independently captured | Run AP-004 through AP-011 WordPress regressions | repository/wp-env | exit 0 | All eight prior runtime matrices passed, including AP-010 one R1 mutation/zero R2/storage/claim mutations and AP-011 four roles/16 operations/seven absent private sentinels/zero target mutations. |
 | timestamp not independently captured | Run final unit, browser, syntax, whitespace, provenance, audit, and deterministic-package gates | repository | exit 0 after one environment rerun | PHPUnit 68/593; browser 14/14; both Node scripts parse; `git diff --check` clean; provenance 47 entries; audit zero vulnerabilities; two ZIP builds matched SHA-256 `2E14A5C689332B654CF21C40235145FE16599A7FBD909F57D605BA90BCEB497D`. Initial sandboxed provenance run could not unlink the prior ZIP (`EPERM`); authorized rerun passed. |
 | timestamp not independently captured | Inspect staged manifest and cached whitespace | repository | manifest correct; first cached check exit 2 | The intended eight-file package was staged. Cached check found one extra blank line at the integration fixture EOF; remove, restage, and rerun before commit. |
+| 2026-09-01T10:37:12+07:00 | Verify exact PR #24 head | GitHub Actions | success | Head `c0dfc1fe547e0681b7d993c51ac60ebdc4935b10`; run `33466836478`; job `99728337930`. |
+| 2026-09-01T10:39:44+07:00 | Merge PR #24 and verify merge commit | GitHub/main | success | Merge `146dc425ed9ba28656e1950b40a84b4b7765a0e0`; run `33466988437`; job `99728789828`; issue #23 closed after the green merge gate. |
 
 ## Observation ledger
 
@@ -109,6 +111,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; baseline run 3343839581
 | O4 | `OBSERVED` | Administrator and Author each saw 204 eligible pages and two posts; Subscriber saw 202 pages and one post. Every role received only 200 page summaries with `truncated=true`. | AP-012 WordPress matrix | Visibility filtering, exact counts, and the hard materialization cap held in the controlled fixture. |
 | O5 | `OBSERVED` | The three role outputs validated against the registered schema; category/post_tag and the registered unassigned menu location matched the fixture; four content/destination sentinels were absent; logged out was denied; target mutations remained zero. | AP-012 WordPress matrix | The closed structural envelope met its security and shape controls. |
 | O6 | `OBSERVED` | Final local repository gates passed and two generated ZIPs had the same SHA-256. | execution log | The uncommitted implementation is locally releasable; hosted commit/PR evidence remains pending. |
+| O7 | `OBSERVED` | Exact PR head and resulting main merge commit each passed the complete hosted repository workflow. | runs `33466836478`, `33466988437` | AP-012 is merged with reproducible hosted evidence; issue #23 is closed. |
 
 ## Contradictions and failures
 
@@ -146,6 +149,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; baseline run 3343839581
 | `agentpress/includes/Context/SiteStructureService.php` | implementation | committed | `dca847f` | Bounded capability-filtered structural reader. |
 | `agentpress/tests/integration/ap012-site-structure.php` | executable evidence | committed | `dca847f` | Synthetic roles, hierarchy, visibility, cap, schema, sentinel, denial, and mutation controls. |
 | `dist/agentpress.zip` | generated package | uncommitted/excluded | SHA-256 `2E14A5C689332B654CF21C40235145FE16599A7FBD909F57D605BA90BCEB497D` | Two consecutive builds matched; 47 entries. |
+| PR #24 | hosted review | merged | head `c0dfc1f`; merge `146dc42` | Exact head and merge-head workflows succeeded. |
 
 ## Result
 
@@ -163,7 +167,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; baseline run 3343839581
 - work attributable: pre-mutation baseline/timestamps recorded;
 - pre-existing distinguished by: synchronized AP-011 closeout baseline;
 - third-party: `NOT_APPLICABLE` pending inspection;
-- commit/PR: implementation `dca847fd47b6792f6522818ff861cffb85d88743`; issue #23; PR pending;
+- commit/PR: implementation `dca847fd47b6792f6522818ff861cffb85d88743`; PR #24 merged as `146dc425ed9ba28656e1950b40a84b4b7765a0e0`; issue #23 closed;
 - live URL: `NOT_TESTED`;
 - ChatGPT: `NOT_TESTED`;
 - five-run: `NOT_TESTED`;
@@ -178,9 +182,9 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; baseline run 3343839581
 ## End state
 
 ```text
-git status: AP-012 implementation, integration evidence, EXP-018, index, build manifest, and dispatcher uncommitted on ap-012-site-structure
+git status: clean synchronized main at AP-012 merge before this closeout append
 tests: AP-012 matrix pass; AP-004–AP-011 regressions pass; PHPUnit 68/593; PHPCS 37 files; browser 14/14; provenance 47 entries; audit 0; deterministic ZIP pass
 committed: implementation/evidence `dca847fd47b6792f6522818ff861cffb85d88743`
-pushed: no
+pushed: PR #24 head and merge commit verified on GitHub
 deployed: no
 ```
