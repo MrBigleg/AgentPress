@@ -160,20 +160,20 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Safe bootstrap context | `OBSERVED`, merged in PR #22; local role/schema/privacy and hosted repository gates pass | [Experiment 017](docs/evidence/sessions/2026-08-31-exp-017-get-context.md) |
 | Bounded visible site structure | `OBSERVED`, merged in PR #24; local role/hierarchy/count/schema/privacy and hosted repository gates pass | [Experiment 018](docs/evidence/sessions/2026-09-01-exp-018-site-structure.md) |
 | Bounded content reads | `OBSERVED`, merged in PR #26; local role/object/filter/pagination/schema/privacy and hosted repository gates pass | [Experiment 019](docs/evidence/sessions/2026-09-01-exp-019-content-reads.md) |
-| Bounded taxonomy reads | `OBSERVED`, local role/search/hide-empty/pagination/schema and package gates pass; hosted repository gates pending | [Experiment 020](docs/evidence/sessions/2026-09-01-exp-020-list-terms.md) |
+| Bounded taxonomy reads | `OBSERVED`, merged after review corrections in PR #29; local role/search/hide-empty/extreme-pagination/schema and hosted repository gates pass | [Experiment 020](docs/evidence/sessions/2026-09-01-exp-020-list-terms.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment is `AP-015 — Implement create-draft`. AP-001 through AP-013 are merged; AP-014 passes its local role, taxonomy, search, hide-empty, pagination, schema, regression, and package gates, with commit/PR hosted verification pending.
+The next dependency-ordered implementation experiment is `AP-015 — Implement create-draft`. AP-001 through AP-014 are merged; AP-014's two post-review edge cases were corrected in PR #29, and both the corrected head and corrected `main` merge passed hosted verification.
 
 **Hypothesis:** one R1 draft-creation service can force draft status, enforce type/role/parent/KSES boundaries, write intent before mutation, and replay one idempotent result through the merged Change Set coordinator.
 
 **Falsification condition:** any caller can force publication or an unsupported type; Author creates a page or Subscriber creates content; an unreadable/non-page parent succeeds; unsafe markup crosses the role's KSES boundary; storage failure permits mutation; or replay creates a second post.
 
-**Prerequisite evidence:** AP-010 is merged with intent-before-mutation and idempotency evidence. AP-013 is merged with object/type authority evidence, and AP-014 has a green local taxonomy-read gate pending hosted closeout.
+**Prerequisite evidence:** AP-010 is merged with intent-before-mutation and idempotency evidence. AP-013 is merged with object/type authority evidence, and AP-014 is merged with corrected multibyte-search and extreme-page regressions plus hosted closeout.
 
 The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-015--implement-create-draft).
 
