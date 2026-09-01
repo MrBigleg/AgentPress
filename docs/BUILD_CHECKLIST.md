@@ -123,7 +123,7 @@
 
 ### AP-014 — Implement `list-terms`
 
-- [ ] **Difficulty:** S
+- [x] **Difficulty:** S
 - **Depends on:** AP-008
 - **Demo critical:** yes
 - **Deliverable:** paginated category/tag reads with fixed taxonomy allowlist.

@@ -160,21 +160,22 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Safe bootstrap context | `OBSERVED`, merged in PR #22; local role/schema/privacy and hosted repository gates pass | [Experiment 017](docs/evidence/sessions/2026-08-31-exp-017-get-context.md) |
 | Bounded visible site structure | `OBSERVED`, merged in PR #24; local role/hierarchy/count/schema/privacy and hosted repository gates pass | [Experiment 018](docs/evidence/sessions/2026-09-01-exp-018-site-structure.md) |
 | Bounded content reads | `OBSERVED`, merged in PR #26; local role/object/filter/pagination/schema/privacy and hosted repository gates pass | [Experiment 019](docs/evidence/sessions/2026-09-01-exp-019-content-reads.md) |
+| Bounded taxonomy reads | `OBSERVED`, local role/search/hide-empty/pagination/schema and package gates pass; hosted repository gates pending | [Experiment 020](docs/evidence/sessions/2026-09-01-exp-020-list-terms.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment is `AP-014 — Implement list-terms`. AP-001 through AP-013 are merged; AP-013 passes its local role, object, filter, pagination, schema, privacy, regression, package, PR-head, and merge-head hosted gates.
+The next dependency-ordered implementation experiment is `AP-015 — Implement create-draft`. AP-001 through AP-013 are merged; AP-014 passes its local role, taxonomy, search, hide-empty, pagination, schema, regression, and package gates, with commit/PR hosted verification pending.
 
-**Hypothesis:** one fixed category/tag read service can return deterministic visible term search and pagination results to authenticated readers while rejecting custom taxonomies and changing no term state.
+**Hypothesis:** one R1 draft-creation service can force draft status, enforce type/role/parent/KSES boundaries, write intent before mutation, and replay one idempotent result through the merged Change Set coordinator.
 
-**Falsification condition:** category/tag fixtures differ from output; search or pagination is unstable; a custom taxonomy succeeds; a restricted reader receives fields outside the fixed schema; or any term/object state changes.
+**Falsification condition:** any caller can force publication or an unsupported type; Author creates a page or Subscriber creates content; an unreadable/non-page parent succeeds; unsafe markup crosses the role's KSES boundary; storage failure permits mutation; or replay creates a second post.
 
-**Prerequisite evidence:** AP-008 is merged, and Experiment 014 records the exact registered schema and policy-filtered discovery matrix. Experiment 019 records the permission-filtered deterministic read pattern and local gates for the preceding content readers.
+**Prerequisite evidence:** AP-010 is merged with intent-before-mutation and idempotency evidence. AP-013 is merged with object/type authority evidence, and AP-014 has a green local taxonomy-read gate pending hosted closeout.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-014--implement-list-terms).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-015--implement-create-draft).
 
 ## Local development
 
