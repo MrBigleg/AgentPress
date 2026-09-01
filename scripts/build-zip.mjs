@@ -25,6 +25,7 @@ const files = [
   'includes/Changes/ChangeSetRepository.php',
   'includes/Changes/ChangeSetStateReducer.php',
   'includes/Changes/StateHasher.php',
+  'includes/Content/ContentReadService.php',
   'includes/Context/ContextService.php',
   'includes/Context/SiteStructureService.php',
   'includes/Compatibility.php',

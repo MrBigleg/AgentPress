@@ -159,21 +159,22 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Change Set coordinator and idempotency | `OBSERVED`, merged in PR #20; local coordinator/state/hash/runtime and hosted repository gates pass | [Experiment 016](docs/evidence/sessions/2026-08-31-exp-016-change-set-coordinator.md) |
 | Safe bootstrap context | `OBSERVED`, merged in PR #22; local role/schema/privacy and hosted repository gates pass | [Experiment 017](docs/evidence/sessions/2026-08-31-exp-017-get-context.md) |
 | Bounded visible site structure | `OBSERVED`, merged in PR #24; local role/hierarchy/count/schema/privacy and hosted repository gates pass | [Experiment 018](docs/evidence/sessions/2026-09-01-exp-018-site-structure.md) |
+| Bounded content reads | `OBSERVED`, local role/object/filter/pagination/schema/privacy and package gates pass; hosted repository gates pending | [Experiment 019](docs/evidence/sessions/2026-09-01-exp-019-content-reads.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment is `AP-013 — Implement list-content and get-content`. AP-001 through AP-012 are merged; AP-012 passes its local role, hierarchy, count, schema, privacy, regression, package, PR-head, and merge-head hosted gates.
+The next dependency-ordered implementation experiment is `AP-014 — Implement list-terms`. AP-001 through AP-012 are merged; AP-013 passes its local role, object, filter, pagination, schema, privacy, regression, and package gates, with commit/PR hosted verification pending.
 
-**Hypothesis:** bounded deterministic post/page discovery and object-specific retrieval can enforce `read_post` for every returned or directly requested object while excluding unsupported types, unreadable drafts, and oversized results.
+**Hypothesis:** one fixed category/tag read service can return deterministic visible term search and pagination results to authenticated readers while rejecting custom taxonomies and changing no term state.
 
-**Falsification condition:** a restricted user can list or fetch an unreadable object; ordering or pagination changes for a fixed fixture; an unsupported post type succeeds; output exceeds its schema bounds; or a direct-ID request bypasses object-specific authority.
+**Falsification condition:** category/tag fixtures differ from output; search or pagination is unstable; a custom taxonomy succeeds; a restricted reader receives fields outside the fixed schema; or any term/object state changes.
 
-**Prerequisite evidence:** AP-008 is merged, and Experiment 014 records the exact registered schema and policy-filtered discovery matrix. Experiment 017 records the first implemented read-service dispatch pattern and live role-sensitive registered Ability output.
+**Prerequisite evidence:** AP-008 is merged, and Experiment 014 records the exact registered schema and policy-filtered discovery matrix. Experiment 019 records the permission-filtered deterministic read pattern and local gates for the preceding content readers.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-012--implement-get-site-structure).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-014--implement-list-terms).
 
 ## Local development
 
