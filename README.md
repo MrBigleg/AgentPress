@@ -163,14 +163,14 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Bounded taxonomy reads | `OBSERVED`, merged after review corrections in PR #29; local role/search/hide-empty/extreme-pagination/schema and hosted repository gates pass | [Experiment 020](docs/evidence/sessions/2026-09-01-exp-020-list-terms.md) |
 | Safe idempotent draft creation | `OBSERVED`, merged in PR #31; local role/type/parent/KSES/idempotency/zero-denied-mutation and hosted repository gates pass | [Experiment 021](docs/evidence/sessions/2026-09-01-exp-021-create-draft.md) |
 | Atomic existing-term assignment | `OBSERVED`, merged in PR #33; local append/replace/R1/R2/authority/idempotency and hosted repository gates pass | [Experiment 022](docs/evidence/sessions/2026-09-01-exp-022-assign-terms.md) |
-| wp-admin shell and Overview | `OBSERVED`, local role/component/runtime/visual/package gates pass; hosted PR gate pending | [Experiment 023](docs/evidence/sessions/2026-09-01-exp-023-admin-overview.md) |
+| wp-admin shell and Overview | `OBSERVED`, merged in PR #35; local role/component/runtime/visual/package and hosted repository gates pass | [Experiment 023](docs/evidence/sessions/2026-09-01-exp-023-admin-overview.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-AP-019 is locally green and provides the first manual-testable wp-admin surface; its hosted merge gate is pending. The next longest-path implementation task is AP-021, the classic-navigation read adapter, followed by AP-022 staging and AP-023 approval execution. AP-020 collaboration reads remains the parallel prerequisite for the later Changes and Activity interfaces.
+AP-019 is merged and green and provides the first manual-testable wp-admin surface. The next longest-path implementation task is AP-021, the classic-navigation read adapter, followed by AP-022 staging and AP-023 approval execution. AP-020 collaboration reads remains the parallel prerequisite for the later Changes and Activity interfaces.
 
 **Hypothesis:** one bounded classic-menu adapter can resolve the configured `primary` location into a deterministic semantic hierarchy and state hash while rejecting unassigned or unsupported navigation without mutation.
 

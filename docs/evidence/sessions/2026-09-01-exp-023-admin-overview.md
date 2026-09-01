@@ -97,6 +97,9 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; WordPress/PHP pending
 | timestamp not independently captured | `npm.cmd run test:browser` and AP-019 WordPress integration | repository/wp-env | exit 0 | 18/18 browser tests; Administrator/Author/Subscriber 15/12/8; six blocked areas and zero leaks. |
 | timestamp not independently captured | PHP unit, PHPCS, provenance, package, and critical integration chain | repository/wp-env | exit 0 after recorded corrections | 68 tests/593 assertions; PHPCS 42/42; 55 ZIP entries; ten integration scripts green. |
 | 2026-09-01T21:43:47+07:00 | Commit verified implementation | repository | exit 0 | `12a75ca35961151eff00510bd61f7f885b67d1e3`. |
+| 2026-09-01T21:50:37+07:00 | Verify exact PR head | GitHub Actions | success | PR #35 head `99dfbdf`; run `33521943562`; job `99903135199`; no reviews, inline comments, or conversation comments. |
+| 2026-09-01T21:52:57+07:00 | Merge PR #35 and verify issue closure | GitHub | success | Merge `cb70053fd30191feae891ab0a7a158375d51ba32`; issue #34 closed at `2026-09-01T14:52:58Z`. |
+| 2026-09-01T21:53:27+07:00 | Verify exact merge head | GitHub Actions | success | Run `33522249708`; job `99904157486`; all repository steps passed on `cb70053`. |
 
 ## Observation ledger
 
@@ -141,13 +144,14 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; WordPress/PHP pending
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-09-01-exp-023-admin-overview.md` | evidence | pending evidence commit | EXP-023 | Opened before product mutation. |
+| `docs/evidence/sessions/2026-09-01-exp-023-admin-overview.md` | evidence | committed | `99dfbdf` | Opened before product mutation and closed after verification. |
 | `agentpress/includes/Admin/AdminPage.php` and `agentpress/admin/src/admin-overview.*` | implementation | committed | `12a75ca` | Page-scoped server shell, safe context bootstrap, browser model/UI. |
 | `agentpress/tests/integration/ap019-admin-overview.php` and `agentpress/tests/js/admin-overview.test.mjs` | executable evidence | committed | `12a75ca` | Three-role WordPress and component state/count contracts. |
 | `dist/agentpress.zip` | generated package check | ignored, not a release | SHA-256 `9dc467ed2f9ad523b03979bbd71d3c7850f3b205eccacc90f5d328b2d141ab95` | 102,945 bytes; 55 entries; AP-030 release verification remains separate. |
-| `docs/evidence/assets/EXP-023/ap019-overview-desktop.png` | screenshot | uncommitted | SHA-256 `7218086cf1b2939147bc582265d046c65b598a9efaa8b11069f789a2b0299312` | Synthetic Administrator, 1280px, HTTP degraded state. |
-| `docs/evidence/assets/EXP-023/ap019-overview-compact.png` | screenshot | uncommitted | SHA-256 `1da72f48469db63c0957ac145e08cef17e2dd006e2e7fe2ca19d070efb51a456` | Synthetic Administrator, 768px, HTTP degraded state. |
-| issue #34 | task | external | https://github.com/MrBigleg/AgentPress/issues/34 | Close only after hosted merge verification. |
+| `docs/evidence/assets/EXP-023/ap019-overview-desktop.png` | screenshot | committed | SHA-256 `7218086cf1b2939147bc582265d046c65b598a9efaa8b11069f789a2b0299312` | Synthetic Administrator, 1280px, HTTP degraded state; evidence commit `99dfbdf`. |
+| `docs/evidence/assets/EXP-023/ap019-overview-compact.png` | screenshot | committed | SHA-256 `1da72f48469db63c0957ac145e08cef17e2dd006e2e7fe2ca19d070efb51a456` | Synthetic Administrator, 768px, HTTP degraded state; evidence commit `99dfbdf`. |
+| issue #34 | task | closed | https://github.com/MrBigleg/AgentPress/issues/34 | Closed by PR #35 after hosted merge verification. |
+| PR #35 | merge evidence | merged | `99dfbdf`; merge `cb70053` | Exact-head run `33521943562`; merge-head run `33522249708`; both successful. |
 
 ## Result
 
@@ -166,7 +170,7 @@ The hypothesis is supported for AP-019's repository and local wp-env scope. A pa
 - work attributable to challenge period: exact timestamps/baseline recorded;
 - pre-existing work distinguished by: verified AP-017 closeout baseline;
 - third-party material/license/pin: no new third-party runtime; existing pin/license verifier passed;
-- commit/PR evidence: issue #34; implementation `12a75ca`; evidence/PR pending;
+- commit/PR evidence: implementation `12a75ca`; evidence `99dfbdf`; PR #35 merged as `cb70053`; issue #34 closed; exact-head and merge-head hosted gates passed;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -181,9 +185,9 @@ The hypothesis is supported for AP-019's repository and local wp-env scope. A pa
 ## End state
 
 ```text
-git status --short --branch: evidence/README/checklist/screenshots remain uncommitted on ap-019-admin-overview after implementation commit
+git status --short --branch: clean main synchronized at cb70053 before this merge-evidence correction
 tests/checks: browser 18/18; PHP unit 68/593; PHPCS 42/42; provenance 55 entries; ten critical integrations PASS
 committed: implementation 12a75ca35961151eff00510bd61f7f885b67d1e3
-pushed: no AP-019 branch
+pushed: AP-019 branch and PR #35; merged to origin/main
 deployed: no
 ```
