@@ -15,7 +15,7 @@
 | Agent/operator | Codex, implementation and verification agent |
 | Branch | `ap-013-content-reads` |
 | Baseline commit | `926d08bbb7a5d84a4bc10639b8b00f7af679eac5` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `0f54876274b56d404b907edc265550d4c283722a` |
 | Environment | Windows; PowerShell 7; Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; WordPress 6.9; PHP 8.0.30 |
 
 ## Question
@@ -147,8 +147,8 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346725047
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
 | `docs/evidence/sessions/2026-09-01-exp-019-content-reads.md` | evidence | uncommitted | EXP-019 | Opened before product-code inspection/mutation. |
-| `agentpress/includes/Content/ContentReadService.php` | implementation | uncommitted | AP-013 | Exact list/get service with stable visible pagination and bounded projections. |
-| `agentpress/tests/integration/ap013-content-reads.php` | executable evidence | uncommitted | AP-013 matrix | Synthetic role/object/filter/schema/privacy/denial/mutation controls. |
+| `agentpress/includes/Content/ContentReadService.php` | implementation | committed | `0f54876` | Exact list/get service with stable visible pagination and bounded projections. |
+| `agentpress/tests/integration/ap013-content-reads.php` | executable evidence | committed | `0f54876` | Synthetic role/object/filter/schema/privacy/denial/mutation controls. |
 | `dist/agentpress.zip` | generated package | excluded | SHA-256 `376BCED942E2BCA05890D29818CAC0D3C040CC2E6F87BDAAC21E8F7EB9AB8DC4` | Two consecutive builds matched; 48 entries. |
 
 ## Result
@@ -167,7 +167,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346725047
 - work attributable to challenge period: pre-mutation baseline/timestamps recorded;
 - pre-existing work distinguished by: synchronized AP-012 closeout baseline;
 - third-party material/license/pin: `NOT_APPLICABLE` pending inspection;
-- commit/PR evidence: `UNCOMMITTED`; issue #25; PR pending at experiment conclusion;
+- commit/PR evidence: implementation `0f54876274b56d404b907edc265550d4c283722a`; issue #25; PR pending;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -184,7 +184,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346725047
 ```text
 git status --short --branch: AP-013 implementation, integration evidence, EXP-019, index, dispatcher, and build manifest uncommitted on ap-013-content-reads
 tests/checks: AP-013 matrix pass; AP-004–AP-012 regressions pass; PHPUnit 68/593; PHPCS 38 files; browser 14/14; provenance 48 entries; audit 0; deterministic ZIP pass
-committed: no
+committed: implementation/evidence `0f54876274b56d404b907edc265550d4c283722a`
 pushed: no
 deployed: no
 ```
