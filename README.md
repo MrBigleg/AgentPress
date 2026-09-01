@@ -161,13 +161,14 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Bounded visible site structure | `OBSERVED`, merged in PR #24; local role/hierarchy/count/schema/privacy and hosted repository gates pass | [Experiment 018](docs/evidence/sessions/2026-09-01-exp-018-site-structure.md) |
 | Bounded content reads | `OBSERVED`, merged in PR #26; local role/object/filter/pagination/schema/privacy and hosted repository gates pass | [Experiment 019](docs/evidence/sessions/2026-09-01-exp-019-content-reads.md) |
 | Bounded taxonomy reads | `OBSERVED`, merged after review corrections in PR #29; local role/search/hide-empty/extreme-pagination/schema and hosted repository gates pass | [Experiment 020](docs/evidence/sessions/2026-09-01-exp-020-list-terms.md) |
+| Safe idempotent draft creation | `OBSERVED`, local role/type/parent/KSES/idempotency/zero-denied-mutation and package gates pass; hosted repository gates pending | [Experiment 021](docs/evidence/sessions/2026-09-01-exp-021-create-draft.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment is `AP-015 — Implement create-draft`. AP-001 through AP-014 are merged; AP-014's two post-review edge cases were corrected in PR #29, and both the corrected head and corrected `main` merge passed hosted verification.
+The active dependency-ordered implementation experiment is `AP-015 — Implement create-draft`. AP-001 through AP-014 are merged; AP-015 passes its local role, type, parent, current-user KSES, idempotency, zero-denied-mutation, regression, and package gates, with hosted branch/PR verification pending.
 
 **Hypothesis:** one R1 draft-creation service can force draft status, enforce type/role/parent/KSES boundaries, write intent before mutation, and replay one idempotent result through the merged Change Set coordinator.
 

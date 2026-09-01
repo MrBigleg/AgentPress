@@ -131,7 +131,7 @@
 
 ### AP-015 — Implement `create-draft`
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-010, AP-013
 - **Demo critical:** yes
 - **Deliverable:** post/page draft creation, forced status, parent validation, KSES handling, Change Set linkage, and idempotent result.
