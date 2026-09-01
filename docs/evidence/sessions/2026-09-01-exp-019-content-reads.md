@@ -102,6 +102,8 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346725047
 | timestamp not independently captured | Rerun PHP standards | repository/wp-env | exit 0 | All 38 PHP files passed after comment correction and the scoped contract-required taxonomy-query justification. |
 | timestamp not independently captured | Run AP-004 through AP-012 real WordPress regressions | repository/wp-env | exit 0 | All nine prior matrices passed, including transport forbidden controls, zero unauthorized mutations, Change Set invariants, context privacy, and site-structure visibility. |
 | timestamp not independently captured | Run browser, provenance, audit, Node syntax, whitespace, and deterministic-package gates | repository | exit 0 | Browser 14/14; provenance 48 entries/no upstream runtime; audit zero vulnerabilities; Node scripts parse; `git diff --check` clean; two ZIPs matched SHA-256 `376BCED942E2BCA05890D29818CAC0D3C040CC2E6F87BDAAC21E8F7EB9AB8DC4`. |
+| 2026-09-01T11:16:52+07:00 | Verify exact PR #26 head | GitHub Actions | success | Head `bf0ed5594a872dace5eca52d1dff039c8507ba7b`; run `33469221963`; job `99735358855`. |
+| 2026-09-01T11:19:21+07:00 | Merge PR #26 and verify merge commit | GitHub/main | success | Merge `a419fb2ac7025ddcaca59e8bb8d0b72e670a20e0`; run `33469378511`; job `99735817733`; issue #25 closed. |
 
 ## Observation ledger
 
@@ -113,6 +115,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346725047
 | O4 | `OBSERVED` | The fixed get schema requires raw editable content capped at 50,000 characters, a truncation flag, and category/tag assignments; policy already resolves the object and checks `read_post`. | implementation spec/catalog/policy | Service still rechecks object type/status/authority at execution for defense in depth. |
 | O5 | `OBSERVED` | The final real WordPress matrix passed three roles, two deterministic pages, four filters, three output schema validations, two direct-ID denials, three unsupported/oversized denials, the exact 50,000-character cap, two absent private sentinels, anonymous denial, and zero target mutation. | AP-013 integration matrix | Supports the AP-013 hypothesis in the controlled fixture. |
 | O6 | `OBSERVED` | All nine prior runtime matrices and all repository/package gates passed against the AP-013 worktree. | execution log | No observed regression in the covered boundaries. |
+| O7 | `OBSERVED` | Exact PR head and resulting main merge commit each passed the complete hosted repository workflow. | runs `33469221963`, `33469378511` | AP-013 is merged with reproducible hosted evidence; issue #25 is closed. |
 
 ## Contradictions and failures
 
@@ -150,6 +153,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346725047
 | `agentpress/includes/Content/ContentReadService.php` | implementation | committed | `0f54876` | Exact list/get service with stable visible pagination and bounded projections. |
 | `agentpress/tests/integration/ap013-content-reads.php` | executable evidence | committed | `0f54876` | Synthetic role/object/filter/schema/privacy/denial/mutation controls. |
 | `dist/agentpress.zip` | generated package | excluded | SHA-256 `376BCED942E2BCA05890D29818CAC0D3C040CC2E6F87BDAAC21E8F7EB9AB8DC4` | Two consecutive builds matched; 48 entries. |
+| PR #26 | hosted review | merged | head `bf0ed55`; merge `a419fb2` | Exact head and merge-head workflows succeeded. |
 
 ## Result
 
@@ -167,7 +171,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346725047
 - work attributable to challenge period: pre-mutation baseline/timestamps recorded;
 - pre-existing work distinguished by: synchronized AP-012 closeout baseline;
 - third-party material/license/pin: `NOT_APPLICABLE` pending inspection;
-- commit/PR evidence: implementation `0f54876274b56d404b907edc265550d4c283722a`; issue #25; PR pending;
+- commit/PR evidence: implementation `0f54876274b56d404b907edc265550d4c283722a`; PR #26 merged as `a419fb2ac7025ddcaca59e8bb8d0b72e670a20e0`; issue #25 closed;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -182,9 +186,9 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346725047
 ## End state
 
 ```text
-git status --short --branch: AP-013 implementation, integration evidence, EXP-019, index, dispatcher, and build manifest uncommitted on ap-013-content-reads
+git status --short --branch: clean synchronized main at AP-013 merge before this closeout append
 tests/checks: AP-013 matrix pass; AP-004–AP-012 regressions pass; PHPUnit 68/593; PHPCS 38 files; browser 14/14; provenance 48 entries; audit 0; deterministic ZIP pass
 committed: implementation/evidence `0f54876274b56d404b907edc265550d4c283722a`
-pushed: no
+pushed: PR #26 head and merge commit verified on GitHub
 deployed: no
 ```

@@ -159,14 +159,14 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Change Set coordinator and idempotency | `OBSERVED`, merged in PR #20; local coordinator/state/hash/runtime and hosted repository gates pass | [Experiment 016](docs/evidence/sessions/2026-08-31-exp-016-change-set-coordinator.md) |
 | Safe bootstrap context | `OBSERVED`, merged in PR #22; local role/schema/privacy and hosted repository gates pass | [Experiment 017](docs/evidence/sessions/2026-08-31-exp-017-get-context.md) |
 | Bounded visible site structure | `OBSERVED`, merged in PR #24; local role/hierarchy/count/schema/privacy and hosted repository gates pass | [Experiment 018](docs/evidence/sessions/2026-09-01-exp-018-site-structure.md) |
-| Bounded content reads | `OBSERVED`, local role/object/filter/pagination/schema/privacy and package gates pass; hosted repository gates pending | [Experiment 019](docs/evidence/sessions/2026-09-01-exp-019-content-reads.md) |
+| Bounded content reads | `OBSERVED`, merged in PR #26; local role/object/filter/pagination/schema/privacy and hosted repository gates pass | [Experiment 019](docs/evidence/sessions/2026-09-01-exp-019-content-reads.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment is `AP-014 — Implement list-terms`. AP-001 through AP-012 are merged; AP-013 passes its local role, object, filter, pagination, schema, privacy, regression, and package gates, with commit/PR hosted verification pending.
+The next dependency-ordered implementation experiment is `AP-014 — Implement list-terms`. AP-001 through AP-013 are merged; AP-013 passes its local role, object, filter, pagination, schema, privacy, regression, package, PR-head, and merge-head hosted gates.
 
 **Hypothesis:** one fixed category/tag read service can return deterministic visible term search and pagination results to authenticated readers while rejecting custom taxonomies and changing no term state.
 
