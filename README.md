@@ -158,17 +158,18 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Sanitized execution audit | `OBSERVED`, merged in PR #18; local secret/size/outcome/unauthenticated matrices and hosted repository gates pass | [Experiment 015](docs/evidence/sessions/2026-08-31-exp-015-sanitized-audit-logging.md) |
 | Change Set coordinator and idempotency | `OBSERVED`, merged in PR #20; local coordinator/state/hash/runtime and hosted repository gates pass | [Experiment 016](docs/evidence/sessions/2026-08-31-exp-016-change-set-coordinator.md) |
 | Safe bootstrap context | `OBSERVED`, merged in PR #22; local role/schema/privacy and hosted repository gates pass | [Experiment 017](docs/evidence/sessions/2026-08-31-exp-017-get-context.md) |
+| Bounded visible site structure | `OBSERVED`, local role/hierarchy/count/schema/privacy and package gates pass; hosted repository gates pending | [Experiment 018](docs/evidence/sessions/2026-09-01-exp-018-site-structure.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The next dependency-ordered implementation experiment is `AP-012 — Implement get-site-structure`. AP-001 through AP-011 are merged; AP-011 passes its local role, schema, privacy, capability-mutation, regression, package, PR-head, and merge-head hosted gates.
+The next dependency-ordered implementation experiment is `AP-013 — Implement list-content and get-content`. AP-001 through AP-011 are merged; AP-012 passes its local role, hierarchy, count, schema, privacy, regression, and package gates, with commit/PR hosted verification pending.
 
-**Hypothesis:** one bounded read service can derive a page hierarchy, post/page counts, category/tag definitions, and classic menu-location summary from live WordPress state while filtering every object by current read authority and exposing no full content or menu destinations.
+**Hypothesis:** bounded deterministic post/page discovery and object-specific retrieval can enforce `read_post` for every returned or directly requested object while excluding unsupported types, unreadable drafts, and oversized results.
 
-**Falsification condition:** a private or unreadable object appears for a restricted user; hierarchy/counts differ from the controlled fixture; output exceeds its cap without `truncated=true`; full content or menu destinations leak; or the registered output violates its exact untrusted-content schema.
+**Falsification condition:** a restricted user can list or fetch an unreadable object; ordering or pagination changes for a fixed fixture; an unsupported post type succeeds; output exceeds its schema bounds; or a direct-ID request bypasses object-specific authority.
 
 **Prerequisite evidence:** AP-008 is merged, and Experiment 014 records the exact registered schema and policy-filtered discovery matrix. Experiment 017 records the first implemented read-service dispatch pattern and live role-sensitive registered Ability output.
 
