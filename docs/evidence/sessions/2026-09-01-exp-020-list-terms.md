@@ -15,7 +15,7 @@
 | Agent/operator | Codex, implementation and verification agent |
 | Branch | `ap-014-list-terms` |
 | Baseline commit | `a2a65430277d1355d6f50fb655dbd9e6586ba57b` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `9727e3b3349da43796620a688bb5e71a850b2183` |
 | Environment | Windows; PowerShell 7; Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; WordPress 6.9; PHP 8.0.30 |
 
 ## Question
@@ -141,8 +141,8 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346980683
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
 | `docs/evidence/sessions/2026-09-01-exp-020-list-terms.md` | evidence | uncommitted | EXP-020 | Opened before product-code inspection/mutation. |
-| `agentpress/includes/Terms/TermReadService.php` | implementation | uncommitted | AP-014 | Exact category/tag reader with stable bounded pagination. |
-| `agentpress/tests/integration/ap014-list-terms.php` | executable evidence | uncommitted | AP-014 matrix | Synthetic role/taxonomy/search/hide-empty/schema/denial/mutation controls. |
+| `agentpress/includes/Terms/TermReadService.php` | implementation | committed | `9727e3b` | Exact category/tag reader with stable bounded pagination. |
+| `agentpress/tests/integration/ap014-list-terms.php` | executable evidence | committed | `9727e3b` | Synthetic role/taxonomy/search/hide-empty/schema/denial/mutation controls. |
 | `dist/agentpress.zip` | generated package | excluded | SHA-256 `4FCF7F349A483D996307214E97B77650A1096B4D4224A64527D1BE3B924F6A21` | Two consecutive builds matched; 49 entries. |
 
 ## Result
@@ -161,7 +161,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346980683
 - work attributable to challenge period: pre-mutation baseline/timestamps recorded;
 - pre-existing work distinguished by: synchronized AP-013 closeout baseline;
 - third-party material/license/pin: `NOT_APPLICABLE` pending inspection;
-- commit/PR evidence: `UNCOMMITTED`; issue #27; PR pending at experiment conclusion;
+- commit/PR evidence: implementation `9727e3b3349da43796620a688bb5e71a850b2183`; issue #27; PR pending;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -178,7 +178,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346980683
 ```text
 git status --short --branch: AP-014 implementation, integration evidence, EXP-020, index, dispatcher, and build manifest uncommitted on ap-014-list-terms
 tests/checks: AP-014 matrix pass; AP-004–AP-013 regressions pass; PHPUnit 68/593; PHPCS 39 files; browser 14/14; provenance 49 entries; audit 0; deterministic ZIP pass
-committed: no
+committed: implementation/evidence `9727e3b3349da43796620a688bb5e71a850b2183`
 pushed: no
 deployed: no
 ```
