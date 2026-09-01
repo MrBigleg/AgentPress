@@ -41,6 +41,7 @@ const files = [
   'includes/Policy/SafeModePolicy.php',
   'includes/Results/ResultFactory.php',
   'includes/Terms/TermReadService.php',
+  'includes/Terms/TermAssignmentService.php',
   'includes/Rest/RequestGuard.php',
   'includes/Rest/RequestRateLimiter.php',
   'includes/Rest/WebMCPRoutes.php',

@@ -14,6 +14,7 @@ use AgentPress\Context\SiteStructureService;
 use AgentPress\Errors\ErrorFactory;
 use AgentPress\Policy\ExecutionPolicy;
 use AgentPress\Terms\TermReadService;
+use AgentPress\Terms\TermAssignmentService;
 
 /**
  * Registers the fixed category and catalog at the WordPress 6.9 lifecycle hooks.
@@ -42,12 +43,13 @@ final class AbilityRegistrar {
 	public function __construct( $policy = null, $executor = null ) {
 		$this->policy = $policy ?? new ExecutionPolicy();
 		if ( null === $executor ) {
-			$context   = new ContextService();
-			$structure = new SiteStructureService();
-			$content   = new ContentReadService();
-			$drafts    = new DraftCreationService();
-			$terms     = new TermReadService();
-			$executor  = static function ( $ability, $input ) use ( $context, $structure, $content, $drafts, $terms ) {
+			$context    = new ContextService();
+			$structure  = new SiteStructureService();
+			$content    = new ContentReadService();
+			$drafts     = new DraftCreationService();
+			$assignment = new TermAssignmentService();
+			$terms      = new TermReadService();
+			$executor   = static function ( $ability, $input ) use ( $context, $structure, $content, $drafts, $assignment, $terms ) {
 				if ( 'agentpress/get-context' === $ability ) {
 					return $context->execute();
 				}
@@ -65,6 +67,9 @@ final class AbilityRegistrar {
 				}
 				if ( 'agentpress/list-terms' === $ability ) {
 					return $terms->execute( $input );
+				}
+				if ( 'agentpress/assign-terms' === $ability ) {
+					return $assignment->execute( $input );
 				}
 				return ErrorFactory::make( 'AP_INTERNAL_ERROR' );
 			};
