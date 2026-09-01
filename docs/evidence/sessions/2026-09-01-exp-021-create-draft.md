@@ -97,6 +97,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; WordPress 6.9; PHP 8.0.
 | timestamp not independently captured | Build twice and run final syntax/whitespace checks | repository | exit 0 | Both 50-entry ZIPs matched SHA-256 `ACA6C5D90F2FA07F90532F9B702EB4CEF64C26A629D8A57D369747C5A4013E9C`; Node syntax and `git diff --check` passed. |
 | timestamp not independently captured | Capture WordPress/PHP versions with inline PHP expression | repository/wp-env | exit 1 | PowerShell stripped string quotes, so WP-CLI evaluated undefined constants; command-evidence quoting failure only. |
 | timestamp not independently captured | Capture versions with separate quote-safe commands | repository/wp-env | exit 0 | WordPress 6.9; PHP 8.0.30. |
+| 2026-09-01T16:12:51+07:00 | Verify hosted head, review channels, merge, and exact merge workflow | GitHub | exit 0; success | PR #31 head `ba51a41b61d94794845ded40150cfd42919f83cb` had no reviews/inline/conversation comments and passed run `33490897238`/job `99801876315`; merged as `a1697763803709d1629ab482810c4194d0281511`; `main` passed run `33490997150`/job `99802201749`; issue #30 auto-closed. |
 
 ## Observation ledger
 
@@ -105,6 +106,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; WordPress 6.9; PHP 8.0.
 | O1 | `OBSERVED` | AP-010, AP-013, and AP-014 prerequisites are merged and their latest main workflows are green. | README/Evidence Index/GitHub runs | Supports starting AP-015. |
 | O2 | `OBSERVED` | The final real-WordPress AP-015 matrix passed five authorized role/type applications, three role/login denials, six direct schema/type/parent denials, three capability-sensitive KSES controls, five identical replays, one changed-payload conflict, six durable applied rows, and zero denied mutations. | AP-015 matrix | Supports the hypothesis in the controlled fixture. |
 | O3 | `OBSERVED` | AP-004 through AP-014 standalone regressions and every repository/package gate passed after documented test/standards corrections. | execution log | No observed regression in covered boundaries. |
+| O4 | `OBSERVED` | PR #31's exact head and resulting `main` merge both passed hosted checks with no review comments outstanding. | PR #31/runs `33490897238`, `33490997150` | AP-015 hosted closeout is complete. |
 
 ## Contradictions and failures
 
@@ -142,6 +144,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; WordPress 6.9; PHP 8.0.
 | `agentpress/includes/Content/DraftCreationService.php` | implementation | committed | `9e74b82` | Closed validation, forced draft, parent/authority checks, R1 coordination, fixed result. |
 | `agentpress/tests/integration/ap015-create-draft.php` | executable evidence | committed | `9e74b82` | Synthetic role/capability/KSES/idempotency/denial/durable-state matrix. |
 | `dist/agentpress.zip` | generated package | excluded | SHA-256 `ACA6C5D90F2FA07F90532F9B702EB4CEF64C26A629D8A57D369747C5A4013E9C` | Two consecutive builds matched; 50 entries. |
+| PR #31 | hosted review | merged | head `ba51a41`; merge `a169776` | Exact head and merge workflows succeeded; no comments remained. |
 
 ## Result
 
@@ -158,7 +161,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; WordPress 6.9; PHP 8.0.
 - work attributable to challenge period: exact pre-mutation timestamps/baseline recorded;
 - pre-existing work distinguished by: verified AP-014 closeout baseline;
 - third-party material/license/pin: `NOT_APPLICABLE`; AP-015 adds no third-party material and the provenance/package gate passed;
-- commit/PR evidence: issue #30; implementation `9e74b82`; evidence closeout uncommitted; PR pending;
+- commit/PR evidence: issue #30 closed; implementation `9e74b82`; evidence head `ba51a41`; PR #31 merged as `a1697763803709d1629ab482810c4194d0281511`;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -173,9 +176,9 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; WordPress 6.9; PHP 8.0.
 ## End state
 
 ```text
-git status --short --branch: EXP-021, index, checklist, and README uncommitted on ap-015-create-draft
+git status --short --branch: clean synchronized main at AP-015 merge before this closeout append
 tests/checks: AP-015 matrix pass; AP-004–AP-014 regressions pass; PHPUnit 68/593; PHPCS 40 files; browser 14/14; provenance 50 entries; audit 0; deterministic ZIP pass
 committed: implementation `9e74b82`
-pushed: no AP-015 branch
+pushed: PR #31 head and merge commit verified on GitHub
 deployed: no
 ```
