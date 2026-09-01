@@ -162,14 +162,14 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Bounded content reads | `OBSERVED`, merged in PR #26; local role/object/filter/pagination/schema/privacy and hosted repository gates pass | [Experiment 019](docs/evidence/sessions/2026-09-01-exp-019-content-reads.md) |
 | Bounded taxonomy reads | `OBSERVED`, merged after review corrections in PR #29; local role/search/hide-empty/extreme-pagination/schema and hosted repository gates pass | [Experiment 020](docs/evidence/sessions/2026-09-01-exp-020-list-terms.md) |
 | Safe idempotent draft creation | `OBSERVED`, merged in PR #31; local role/type/parent/KSES/idempotency/zero-denied-mutation and hosted repository gates pass | [Experiment 021](docs/evidence/sessions/2026-09-01-exp-021-create-draft.md) |
-| Atomic existing-term assignment | `OBSERVED`, local append/replace/R1/R2/authority/idempotency and zero-unauthorized-mutation gates pass; hosted verification pending | [Experiment 022](docs/evidence/sessions/2026-09-01-exp-022-assign-terms.md) |
+| Atomic existing-term assignment | `OBSERVED`, merged in PR #33; local append/replace/R1/R2/authority/idempotency and hosted repository gates pass | [Experiment 022](docs/evidence/sessions/2026-09-01-exp-022-assign-terms.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-The submission-critical active experiment is `AP-017 — Implement assign-terms`; AP-016 is intentionally deferred. AP-017 passes local append/replace, R1/R2, authority, idempotency, regression, and package gates, with hosted verification pending. The wp-admin/manual-test surface is next after closeout.
+AP-017 is merged and green; AP-016 remains intentionally deferred. The next submission-critical experiment is the wp-admin/manual-test surface so the owner can exercise live context, capability, and bridge status before the remaining approval/release gates.
 
 **Hypothesis:** one R1 draft-creation service can force draft status, enforce type/role/parent/KSES boundaries, write intent before mutation, and replay one idempotent result through the merged Change Set coordinator.
 

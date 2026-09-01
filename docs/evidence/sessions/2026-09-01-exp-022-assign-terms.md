@@ -93,6 +93,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; runtime versions pendin
 | timestamp not independently captured | Rerun PHP standards after narrow correction | repository/wp-env | exit 0 | All 41 PHP files passed. |
 | timestamp not independently captured | Run AP-004 through AP-015 named standalone regressions | repository/wp-env | exit 0 | All twelve prior matrices passed, including zero unauthorized mutations and AP-015 role/idempotency controls. |
 | timestamp not independently captured | Build twice and run final syntax/whitespace checks | repository | exit 0 | Both 51-entry ZIPs matched SHA-256 `A083B2A5F8A190636861AA7B04775A17B179654E1C45E930A7BC1D683BDA4EC3`; Node syntax and `git diff --check` passed; wp-env stopped. |
+| 2026-09-01T17:22:58+07:00 | Verify hosted head, comment channels, merge, and exact merge workflow | GitHub | exit 0; success | PR #33 head `bdb0a9249fb595dfe1bbcce2e32797ce9cb6f146` had no reviews/inline/conversation comments and passed run `33496982098`/job `99821314790`; merged as `3b6daa5185615fd061715ffc962717f59aa2ab71`; `main` passed run `33497083498`/job `99821638453`; issue #32 closed. |
 
 ## Observation ledger
 
@@ -101,6 +102,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; runtime versions pendin
 | O1 | `OBSERVED` | AP-010, AP-014, and AP-015 prerequisites are merged and green; durable create-draft rows are the authority for automatic assignment. | repository/GitHub evidence | Supports starting AP-017. |
 | O2 | `OBSERVED` | Corrected AP-017 matrix passed three R1 applications, two R2 proposals, append/replace, replay/conflict, atomic mixed-term denial, four role/target denials, and zero staged/unauthorized mutations. | AP-017 matrix | Supports the hypothesis in the controlled fixture. |
 | O3 | `OBSERVED` | AP-004–AP-015 and all repository/package gates passed after preserved corrections. | execution log | No observed regression in covered boundaries. |
+| O4 | `OBSERVED` | PR #33's exact head and resulting merge commit passed hosted checks with no review comments outstanding. | PR #33 and hosted runs | AP-017 hosted closeout is complete. |
 
 ## Contradictions and failures
 
@@ -136,6 +138,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; runtime versions pendin
 | `agentpress/includes/Terms/TermAssignmentService.php` | implementation | committed | `d70771b` | Atomic validation, R1/R2 coordination, append/replace, fixed output. |
 | `agentpress/tests/integration/ap017-assign-terms.php` | executable evidence | committed | `d70771b` | Synthetic authority, staging, idempotency, and zero-mutation matrix. |
 | `dist/agentpress.zip` | generated package | excluded | SHA-256 `A083B2A5F8A190636861AA7B04775A17B179654E1C45E930A7BC1D683BDA4EC3` | Two consecutive builds matched; 51 entries. |
+| PR #33 | hosted review | merged | head `bdb0a92`; merge `3b6daa5` | Exact head and merge workflows succeeded; no comments remained. |
 
 ## Result
 
@@ -152,7 +155,7 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; runtime versions pendin
 - work attributable to challenge period: exact timestamps/baseline recorded;
 - pre-existing work distinguished by: verified AP-015 closeout baseline;
 - third-party material/license/pin: `NOT_APPLICABLE`; AP-017 adds none and provenance passed;
-- commit/PR evidence: issue #32; implementation `d70771b`; evidence closeout uncommitted; PR pending;
+- commit/PR evidence: issue #32 closed; implementation `d70771b`; evidence head `bdb0a92`; PR #33 merged as `3b6daa5185615fd061715ffc962717f59aa2ab71`;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -167,9 +170,9 @@ environment: Node.js 22.23.2; npm 10.9.8; Docker 29.6.1; runtime versions pendin
 ## End state
 
 ```text
-git status --short --branch: EXP-022/index/checklist/README uncommitted on ap-017-assign-terms
+git status --short --branch: clean synchronized main at AP-017 merge before this closeout append
 tests/checks: AP-017 matrix pass; AP-004–AP-015 regressions pass; PHPUnit 68/593; PHPCS 41 files; browser 14/14; provenance 51 entries; audit 0; deterministic ZIP pass
 committed: implementation `d70771b`
-pushed: no AP-017 branch
+pushed: PR #33 head and merge commit verified on GitHub
 deployed: no
 ```
