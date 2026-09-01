@@ -147,7 +147,7 @@
 
 ### AP-017 — Implement `assign-terms`
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-010, AP-014, AP-015
 - **Demo critical:** yes
 - **Deliverable:** append/replace existing categories/tags on AgentPress-created post drafts, with R2 staging elsewhere.
