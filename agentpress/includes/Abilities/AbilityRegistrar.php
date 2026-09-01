@@ -8,6 +8,7 @@
 namespace AgentPress\Abilities;
 
 use AgentPress\Content\ContentReadService;
+use AgentPress\Content\DraftCreationService;
 use AgentPress\Context\ContextService;
 use AgentPress\Context\SiteStructureService;
 use AgentPress\Errors\ErrorFactory;
@@ -44,8 +45,9 @@ final class AbilityRegistrar {
 			$context   = new ContextService();
 			$structure = new SiteStructureService();
 			$content   = new ContentReadService();
+			$drafts    = new DraftCreationService();
 			$terms     = new TermReadService();
-			$executor  = static function ( $ability, $input ) use ( $context, $structure, $content, $terms ) {
+			$executor  = static function ( $ability, $input ) use ( $context, $structure, $content, $drafts, $terms ) {
 				if ( 'agentpress/get-context' === $ability ) {
 					return $context->execute();
 				}
@@ -57,6 +59,9 @@ final class AbilityRegistrar {
 				}
 				if ( 'agentpress/get-content' === $ability ) {
 					return $content->get_content( $input );
+				}
+				if ( 'agentpress/create-draft' === $ability ) {
+					return $drafts->execute( $input );
 				}
 				if ( 'agentpress/list-terms' === $ability ) {
 					return $terms->execute( $input );
