@@ -35,7 +35,8 @@ final class TermReadService {
 		$per_page   = isset( $input['per_page'] ) ? (int) $input['per_page'] : 20;
 		$hide_empty = isset( $input['hide_empty'] ) ? $input['hide_empty'] : false;
 		$search     = isset( $input['search'] ) ? (string) $input['search'] : '';
-		if ( $page < 1 || $per_page < 1 || $per_page > 100 || ! is_bool( $hide_empty ) || strlen( $search ) > 200 ) {
+		$search_len = $this->text_length( $search );
+		if ( $page < 1 || $per_page < 1 || $per_page > 100 || ! is_bool( $hide_empty ) || ( isset( $input['search'] ) && ( $search_len < 1 || $search_len > 200 ) ) ) {
 			return ErrorFactory::make( 'AP_SCHEMA_INVALID' );
 		}
 
@@ -57,11 +58,16 @@ final class TermReadService {
 			return ErrorFactory::make( 'AP_INTERNAL_ERROR' );
 		}
 
-		$args['number'] = $per_page;
-		$args['offset'] = ( $page - 1 ) * $per_page;
-		$terms          = get_terms( $args );
-		if ( is_wp_error( $terms ) ) {
-			return ErrorFactory::make( 'AP_INTERNAL_ERROR' );
+		$total       = max( 0, (int) $total );
+		$total_pages = 0 === $total ? 0 : (int) ceil( $total / $per_page );
+		$terms       = array();
+		if ( $page <= $total_pages ) {
+			$args['number'] = $per_page;
+			$args['offset'] = ( $page - 1 ) * $per_page;
+			$terms          = get_terms( $args );
+			if ( is_wp_error( $terms ) ) {
+				return ErrorFactory::make( 'AP_INTERNAL_ERROR' );
+			}
 		}
 
 		$items = array();
@@ -77,14 +83,13 @@ final class TermReadService {
 			);
 		}
 
-		$total = max( 0, (int) $total );
 		return ResultFactory::success(
 			array(
 				'items'       => $items,
 				'page'        => $page,
 				'per_page'    => $per_page,
 				'total'       => $total,
-				'total_pages' => 0 === $total ? 0 : (int) ceil( $total / $per_page ),
+				'total_pages' => $total_pages,
 			)
 		);
 	}
@@ -110,5 +115,19 @@ final class TermReadService {
 	private function bounded_raw( $value, $limit ) {
 		$value = preg_replace( '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', (string) $value );
 		return function_exists( 'mb_substr' ) ? mb_substr( $value, 0, $limit ) : substr( $value, 0, $limit );
+	}
+
+	/**
+	 * Count characters using the available runtime.
+	 *
+	 * @param string $value Text to measure.
+	 * @return int
+	 */
+	private function text_length( $value ) {
+		if ( function_exists( 'mb_strlen' ) ) {
+			return mb_strlen( $value );
+		}
+		$count = preg_match_all( '/./us', $value, $matches );
+		return false === $count ? strlen( $value ) : $count;
 	}
 }

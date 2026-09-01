@@ -99,6 +99,10 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346980683
 | timestamp not independently captured | Rerun PHP standards | repository/wp-env | exit 0 | All 39 PHP files passed after the mechanical query-array alignment. |
 | timestamp not independently captured | Run AP-004 through AP-013 real WordPress regressions | repository/wp-env | exit 0 | All ten prior matrices passed, including transport forbidden controls, zero unauthorized mutations, Change Set invariants, context/structure privacy, and content-read authority. |
 | timestamp not independently captured | Run browser, provenance, audit, Node syntax, whitespace, and deterministic-package gates | repository | exit 0 | Browser 14/14; provenance 49 entries/no upstream runtime; audit zero vulnerabilities; Node scripts parse; `git diff --check` clean; two ZIPs matched SHA-256 `4FCF7F349A483D996307214E97B77650A1096B4D4224A64527D1BE3B924F6A21`. |
+| 2026-09-01T11:50:13+07:00 | Inspect PR #28 reviews, inline comments, conversation, and exact-head CI | GitHub | two actionable comments; CI success | Head `e53c6904a8183b287fdd32bb58065fbcb12acb97` passed run `33471128943`/job `99740939409`, but inline comments `3900867864` and `3900867872` identified multibyte-length and page-offset-overflow defects. Do not merge. |
+| timestamp not independently captured | Correct review findings and add regression controls | repository | uncommitted | Search validation now counts characters; item query/offset is skipped for pages beyond computed total pages, so no multiplication occurs; 100-CJK-character and `PHP_INT_MAX` controls added. Rerun pending. |
+| timestamp not independently captured | Run post-review AP-014 matrix and repository gates | repository/wp-env | exit 0 | Updated matrix passed two search controls and one extreme-page control plus all prior AP-014 assertions; PHPUnit 68/593; PHPCS 39 files; browser 14/14; provenance 49 entries; audit zero; Node/whitespace clean; two ZIPs matched updated SHA-256 `8054C0A80AC46031DD8FFABBCF07EE32024AE6423144C788EE4ED950ABF45325`. |
+| 2026-09-01T15:11:25+07:00 | Reconcile user-reported merge with local review fixes | repository/GitHub | merged base green; corrections uncommitted | PR #28 merged reviewed head `e53c690` as `4d89dbeef5deb73b4c63e3526b5f3b424bbd58b8`; run `33485764519` succeeded. The two validated corrections were not in that merge, issue #27 remained open, and a narrow corrective PR is required. |
 
 ## Observation ledger
 
@@ -110,6 +114,8 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346980683
 | O4 | `OBSERVED` | Execution policy already rejects taxonomy names outside category/post_tag and requires authenticated read. | policy | Service should duplicate those checks for defense in depth. |
 | O5 | `OBSERVED` | The final real WordPress matrix passed three roles/schema validations, three categories, two tags, two deterministic pages, search, two hide-empty controls, three unsupported/oversized denials, anonymous denial, and zero target mutation. | AP-014 integration matrix | Supports the AP-014 hypothesis in the controlled fixture. |
 | O6 | `OBSERVED` | All ten prior runtime matrices and all repository/package gates passed against the AP-014 worktree. | execution log | No observed regression in the covered boundaries. |
+| O7 | `OBSERVED` | Both actionable review findings reproduce as explicit controls and pass after correction: 100 CJK characters are accepted and `PHP_INT_MAX` returns an empty page without repeated items. | post-review matrix | Review defects are resolved locally; updated hosted-head verification remains required. |
+| O8 | `OBSERVED` | PR #28 merged without O7's corrections even though its original head and merge workflow were green. | PR #28/main reconciliation | Green CI did not cover the newly identified edge cases; AP-014 closeout remains incomplete. |
 
 ## Contradictions and failures
 
@@ -119,6 +125,8 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346980683
 | F1 | Category hide-empty fixture should return only the assigned child. | First matrix reported a mismatch without exposing the actual bounded result. | pending test/service classification | Include the small result envelope in the assertion, clean stale fixture state on rerun, and inspect exact WordPress behavior. |
 | F2 | WordPress term items and count should apply identical hide-empty semantics. | Hierarchical item queries added an empty ancestor, while the count query reported only the nonempty child. | implementation query defect | Set `hierarchical=false` for both count and item queries; retain `parent_id` in projection; rerun full matrix. |
 | F3 | First PHP standards gate should pass after runtime behavior is green. | Four query-array arrows were misaligned after adding `hierarchical`. | implementation standards defect | Align the five keys mechanically and rerun. |
+| F4 | Green initial PR head should be merge-ready after comment inspection. | Review comment `3900867864` showed byte-count rejection of schema-valid multibyte search; `3900867872` showed possible page-offset integer overflow/repeated first page. | genuine implementation review defects | Count characters with mb fallback; calculate total pages before offset and skip the item query for out-of-range pages; add exact regressions and require new latest-head CI. |
+| F5 | Review corrections should land before AP-014 merge closeout. | PR #28 was merged at the pre-correction reviewed head while the validated corrections remained local. | publication sequencing contradiction | Preserve corrections on the AP-014 branch, open a narrow corrective PR against merge `4d89dbe`, and require exact corrected-head plus corrected-merge CI before closing issue #27. |
 
 ## Decisions
 
@@ -132,7 +140,8 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346980683
 | Acceptance condition | Check performed | Outcome | Evidence |
 |---|---|---|---|
 | Category/tag fixture and deterministic pagination | three categories/two tags with exact term-ID pages | `PASS` | exact first/second category pages and tag totals/pages. |
-| Search and hide-empty | fixed search plus category/tag nonempty controls | `PASS` | exact Bravo result; only assigned category/tag remained. |
+| Search and hide-empty | fixed search, 100-character multibyte search, plus category/tag nonempty controls | `PASS` | exact Bravo result; schema-valid multibyte input accepted; only assigned category/tag remained. |
+| Extreme page safety | request `PHP_INT_MAX` with `per_page=1` | `PASS` | empty page with correct total; no overflow or repeated first item. |
 | Unsupported/custom taxonomy denial | policy and direct-service custom taxonomy plus per_page=101 | `PASS` | three stable denials. |
 | Three-role schema, logged-out denial, zero mutation | Administrator/Author/Subscriber outputs, anonymous permission, term/relationship snapshots | `PASS` | three schema validations; anonymous denied; zero changed fields/relationships. |
 
@@ -140,16 +149,18 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346980683
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-09-01-exp-020-list-terms.md` | evidence | uncommitted | EXP-020 | Opened before product-code inspection/mutation. |
-| `agentpress/includes/Terms/TermReadService.php` | implementation | committed | `9727e3b` | Exact category/tag reader with stable bounded pagination. |
-| `agentpress/tests/integration/ap014-list-terms.php` | executable evidence | committed | `9727e3b` | Synthetic role/taxonomy/search/hide-empty/schema/denial/mutation controls. |
-| `dist/agentpress.zip` | generated package | excluded | SHA-256 `4FCF7F349A483D996307214E97B77650A1096B4D4224A64527D1BE3B924F6A21` | Two consecutive builds matched; 49 entries. |
+| `docs/evidence/sessions/2026-09-01-exp-020-list-terms.md` | evidence | corrective update uncommitted | EXP-020 | Opened before product-code inspection/mutation; later appended review and merge contradiction. |
+| `agentpress/includes/Terms/TermReadService.php` | implementation | corrective update uncommitted | `9727e3b` plus pending correction | Exact category/tag reader with character-safe search and overflow-safe bounded pagination. |
+| `agentpress/tests/integration/ap014-list-terms.php` | executable evidence | corrective update uncommitted | `9727e3b` plus pending correction | Synthetic role/taxonomy/search/hide-empty/schema/denial/mutation and review-regression controls. |
+| `dist/agentpress.zip` | generated package | excluded | SHA-256 `8054C0A80AC46031DD8FFABBCF07EE32024AE6423144C788EE4ED950ABF45325` | Two consecutive post-review builds matched; 49 entries. |
 
 ## Result
 
 `SUPPORTED`
 
-`OBSERVED`: the controlled real-WordPress evidence supports the hypothesis. Category/tag fixtures, stable pagination, search, literal hide-empty behavior, fixed field projection, three-role schema validation, custom-taxonomy/oversize denial, anonymous denial, and zero mutation all passed. Prior runtime and repository gates remained green.
+`OBSERVED`: the controlled real-WordPress evidence supports the hypothesis. Category/tag fixtures, stable and extreme-page pagination, ASCII and multibyte search, literal hide-empty behavior, fixed field projection, three-role schema validation, custom-taxonomy/oversize denial, anonymous denial, and zero mutation all passed. Prior runtime and repository gates remained green.
+
+`OBSERVED`: PR #28 merged only the pre-correction head. The result is supported locally, but hosted closeout remains incomplete until the corrective head and its merge commit pass CI.
 
 ## Limitations and `NOT_TESTED` boundaries
 
@@ -161,7 +172,7 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346980683
 - work attributable to challenge period: pre-mutation baseline/timestamps recorded;
 - pre-existing work distinguished by: synchronized AP-013 closeout baseline;
 - third-party material/license/pin: `NOT_APPLICABLE` pending inspection;
-- commit/PR evidence: implementation `9727e3b3349da43796620a688bb5e71a850b2183`; issue #27; PR pending;
+- commit/PR evidence: implementation `9727e3b3349da43796620a688bb5e71a850b2183`; evidence head `e53c6904a8183b287fdd32bb58065fbcb12acb97`; PR #28 merged as `4d89dbeef5deb73b4c63e3526b5f3b424bbd58b8` without the later review corrections; corrective commit/PR pending; issue #27 remains open;
 - live URL evidence: `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -176,9 +187,9 @@ environment: Node.js 22.23.2; npm 11.7.0; Docker 29.6.1; baseline run 3346980683
 ## End state
 
 ```text
-git status --short --branch: AP-014 implementation, integration evidence, EXP-020, index, dispatcher, and build manifest uncommitted on ap-014-list-terms
-tests/checks: AP-014 matrix pass; AP-004–AP-013 regressions pass; PHPUnit 68/593; PHPCS 39 files; browser 14/14; provenance 49 entries; audit 0; deterministic ZIP pass
-committed: implementation/evidence `9727e3b3349da43796620a688bb5e71a850b2183`
-pushed: no
+git status --short --branch: three corrective files uncommitted on ap-014-list-terms; origin/main contains pre-correction PR #28 merge
+tests/checks: corrected AP-014 matrix pass; AP-004–AP-013 regressions pass; PHPUnit 68/593; PHPCS 39 files; browser 14/14; provenance 49 entries; audit 0; deterministic ZIP pass
+committed: original implementation `9727e3b3349da43796620a688bb5e71a850b2183`; original evidence `e53c6904a8183b287fdd32bb58065fbcb12acb97`; corrections pending commit
+pushed: original AP-014 head only; corrections not pushed
 deployed: no
 ```

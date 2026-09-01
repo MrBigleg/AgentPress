@@ -96,6 +96,10 @@ $tag_nonempty = $ability->execute( array( 'taxonomy' => 'post_tag', 'search' => 
 agentpress_ap014_assert( 1 === $tag_nonempty['data']['total'] && array( (int) $tag_a['term_id'] ) === array_column( $tag_nonempty['data']['items'], 'term_id' ), 'Tag hide-empty mismatch.' );
 $search = $ability->execute( array( 'taxonomy' => 'category', 'search' => 'Bravo' ) );
 agentpress_ap014_assert( array( (int) $child['term_id'] ) === array_column( $search['data']['items'], 'term_id' ), 'Search mismatch.' );
+$multibyte_search = $ability->execute( array( 'taxonomy' => 'category', 'search' => str_repeat( '界', 100 ) ) );
+agentpress_ap014_assert( is_array( $multibyte_search ) && true === $multibyte_search['ok'] && 0 === $multibyte_search['data']['total'], 'Schema-valid multibyte search was rejected.' );
+$extreme_page = $ability->execute( array( 'taxonomy' => 'category', 'search' => 'AP014', 'page' => PHP_INT_MAX, 'per_page' => 1 ) );
+agentpress_ap014_assert( is_array( $extreme_page ) && true === $extreme_page['ok'] && array() === $extreme_page['data']['items'] && 3 === $extreme_page['data']['total'], 'Extreme page overflowed or repeated results.' );
 agentpress_ap014_assert( 'Parent description' === $role_results['administrator']['data']['items'][0]['description'], 'Description normalization mismatch.' );
 agentpress_ap014_assert( (int) $parent['term_id'] === $role_results['administrator']['data']['items'][1]['parent_id'], 'Hierarchy projection mismatch.' );
 
@@ -132,4 +136,4 @@ foreach ( $users as $user_id ) {
 }
 unregister_taxonomy( 'ap014_custom' );
 
-echo wp_json_encode( array( 'roles' => 3, 'schema_validations' => 3, 'category_terms' => 3, 'tag_terms' => 2, 'deterministic_pages' => 2, 'search_controls' => 1, 'hide_empty_controls' => 2, 'unsupported_or_oversized_denials' => 3, 'logged_out_denied' => true, 'target_mutations' => $target_mutations ) ) . "\n";
+echo wp_json_encode( array( 'roles' => 3, 'schema_validations' => 3, 'category_terms' => 3, 'tag_terms' => 2, 'deterministic_pages' => 2, 'search_controls' => 2, 'extreme_page_controls' => 1, 'hide_empty_controls' => 2, 'unsupported_or_oversized_denials' => 3, 'logged_out_denied' => true, 'target_mutations' => $target_mutations ) ) . "\n";
