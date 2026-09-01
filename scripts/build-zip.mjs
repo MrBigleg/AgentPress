@@ -14,6 +14,7 @@ const files = [
   'composer.json',
   'composer.lock',
   'includes/Activation.php',
+  'includes/Admin/AdminPage.php',
   'includes/Abilities/AbilityCatalog.php',
   'includes/Abilities/AbilityRegistrar.php',
   'includes/Audit/ArgumentSanitizer.php',
@@ -59,6 +60,9 @@ const files = [
   'third-party/webmcp-abilities/PROVENANCE.json',
   'third-party/webmcp-abilities/README.md',
   'uninstall.php',
+  'admin/src/admin-overview.css',
+  'admin/src/admin-overview.mjs',
+  'admin/src/webmcp-adapter.mjs',
 ];
 
 const browserModule = {

@@ -8,6 +8,7 @@
   ],
   "port": 8888,
   "config": {
+    "AUTOMATIC_UPDATER_DISABLED": true,
     "WP_DEBUG": true,
     "WP_DEBUG_DISPLAY": true,
     "SCRIPT_DEBUG": true
