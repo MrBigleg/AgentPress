@@ -115,7 +115,7 @@
 
 ### AP-013 — Implement `list-content` and `get-content`
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-008
 - **Demo critical:** yes
 - **Deliverable:** bounded/paginated post/page discovery plus object-specific retrieval and term assignments.
