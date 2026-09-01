@@ -8,6 +8,7 @@
 namespace AgentPress;
 
 use AgentPress\Abilities\AbilityRegistrar;
+use AgentPress\Admin\AdminPage;
 use AgentPress\Storage\Migrator;
 
 /**
@@ -27,6 +28,13 @@ final class Plugin {
 	 * @var AbilityRegistrar|null
 	 */
 	private $ability_registrar;
+
+	/**
+	 * Page-scoped wp-admin shell.
+	 *
+	 * @var AdminPage|null
+	 */
+	private $admin_page;
 
 	/**
 	 * Shared plugin instance.
@@ -68,6 +76,8 @@ final class Plugin {
 		$this->booted            = true;
 		$this->ability_registrar = new AbilityRegistrar();
 		$this->ability_registrar->register_hooks();
+		$this->admin_page = new AdminPage();
+		$this->admin_page->register_hooks();
 		$this->webmcp_routes = new \AgentPress\Rest\WebMCPRoutes();
 		$this->webmcp_routes->register_hooks();
 		add_action( 'plugins_loaded', array( Migrator::class, 'maybe_migrate' ) );

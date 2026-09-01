@@ -22,6 +22,13 @@ The approved sheet covers the primary icon, alternate icon treatments, wordmark 
 
 Concept assets must not override [PRD v2](../../PRD.md), the [implementation specification](../../IMPLEMENTATION_SPEC.md), or verified product behavior. They may be used to guide future design, but a later experiment must record any promotion into implemented/approved UI.
 
+## Experiment captures
+
+| Asset | Size | SHA-256 | Evidence boundary |
+|---|---:|---|---|
+| [EXP-023 desktop Overview](EXP-023/ap019-overview-desktop.png) | 201,639 bytes | `7218086cf1b2939147bc582265d046c65b598a9efaa8b11069f789a2b0299312` | `OBSERVED`: Administrator Overview rendered in the HTTP wp-env degraded state at 1280px; not live HTTPS or ChatGPT evidence. |
+| [EXP-023 compact Overview](EXP-023/ap019-overview-compact.png) | 170,228 bytes | `1da72f48469db63c0957ac145e08cef17e2dd006e2e7fe2ca19d070efb51a456` | `OBSERVED`: the same synthetic Overview at 768px; not a mobile-device or assistive-technology certification. |
+
 ## Provenance and use boundary
 
 - `OBSERVED`: the project owner supplied the files in this repository and explicitly identified them as concept and approved images suitable for inclusion.

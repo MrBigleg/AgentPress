@@ -14,7 +14,7 @@
 
 AgentPress is an open-source WordPress plugin project that will let ChatGPT work inside the WordPress session a human is already using. WordPress defines the user's maximum authority. AgentPress narrows that authority into actions the agent may perform automatically, actions requiring explicit human approval, and actions that remain unavailable.
 
-> **Project stage:** early implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, versioned persistence, policy layer, fixed 15-Ability catalog, and sanitized execution audit are implemented. Ability services, product UI, release, and live challenge workflow remain unimplemented or unverified.
+> **Project stage:** active implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, persistence, policy, fixed 15-Ability catalog, audit, bootstrap/content/taxonomy reads, draft/term writes, and wp-admin Overview are implemented. Navigation, approval/collaboration UI, release, and the live challenge workflow remain unimplemented or unverified.
 
 ## Product thesis
 
@@ -163,21 +163,22 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Bounded taxonomy reads | `OBSERVED`, merged after review corrections in PR #29; local role/search/hide-empty/extreme-pagination/schema and hosted repository gates pass | [Experiment 020](docs/evidence/sessions/2026-09-01-exp-020-list-terms.md) |
 | Safe idempotent draft creation | `OBSERVED`, merged in PR #31; local role/type/parent/KSES/idempotency/zero-denied-mutation and hosted repository gates pass | [Experiment 021](docs/evidence/sessions/2026-09-01-exp-021-create-draft.md) |
 | Atomic existing-term assignment | `OBSERVED`, merged in PR #33; local append/replace/R1/R2/authority/idempotency and hosted repository gates pass | [Experiment 022](docs/evidence/sessions/2026-09-01-exp-022-assign-terms.md) |
+| wp-admin shell and Overview | `OBSERVED`, local role/component/runtime/visual/package gates pass; hosted PR gate pending | [Experiment 023](docs/evidence/sessions/2026-09-01-exp-023-admin-overview.md) |
 | ChatGPT Site Tools integration | `NOT_TESTED` | AP-028 acceptance gate |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `NOT_TESTED` | AP-032 defines the submission evidence gate |
 
 ## Next experiment
 
-AP-017 is merged and green; AP-016 remains intentionally deferred. The next submission-critical experiment is the wp-admin/manual-test surface so the owner can exercise live context, capability, and bridge status before the remaining approval/release gates.
+AP-019 is locally green and provides the first manual-testable wp-admin surface; its hosted merge gate is pending. The next longest-path implementation task is AP-021, the classic-navigation read adapter, followed by AP-022 staging and AP-023 approval execution. AP-020 collaboration reads remains the parallel prerequisite for the later Changes and Activity interfaces.
 
-**Hypothesis:** one R1 draft-creation service can force draft status, enforce type/role/parent/KSES boundaries, write intent before mutation, and replay one idempotent result through the merged Change Set coordinator.
+**Hypothesis:** one bounded classic-menu adapter can resolve the configured `primary` location into a deterministic semantic hierarchy and state hash while rejecting unassigned or unsupported navigation without mutation.
 
-**Falsification condition:** any caller can force publication or an unsupported type; Author creates a page or Subscriber creates content; an unreadable/non-page parent succeeds; unsafe markup crosses the role's KSES boundary; storage failure permits mutation; or replay creates a second post.
+**Falsification condition:** the fixture hierarchy differs from WordPress, relabel/move/add/remove/location changes fail to change the hash, unsupported block/unassigned navigation is accepted, private destinations leak, or a read mutates menu state.
 
-**Prerequisite evidence:** AP-010 is merged with intent-before-mutation and idempotency evidence. AP-013 is merged with object/type authority evidence, and AP-014 is merged with corrected multibyte-search and extreme-page regressions plus hosted closeout.
+**Prerequisite evidence:** AP-008 is merged with the fixed `get-navigation` contract; AP-019 provides the diagnostic/admin surface that later displays navigation proposals.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-015--implement-create-draft).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-021--implement-get-navigation-classic-adapter).
 
 ## Local development
 

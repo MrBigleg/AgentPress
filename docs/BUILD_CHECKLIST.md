@@ -165,7 +165,7 @@
 
 ### AP-019 — Build the AgentPress admin shell and Overview
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-004, AP-007, AP-011
 - **Demo critical:** yes
 - **Deliverable:** top-level page, tabs, loading/error/degraded/active states, bridge diagnostic, actual tool counts, capability matrix, and separate blocked areas.
