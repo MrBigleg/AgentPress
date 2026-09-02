@@ -14,13 +14,17 @@
 
 AgentPress is an open-source WordPress plugin project that will let ChatGPT work inside the WordPress session a human is already using. WordPress defines the user's maximum authority. AgentPress narrows that authority into actions the agent may perform automatically, actions requiring explicit human approval, and actions that remain unavailable.
 
-("EVERYTHING ABOVE AND BELOW THIS WAS WRITTEN BY AI, I was just here to orchistrate and click commit from time to time, and my ideas and guidance obviously. All actual working tests were mine, Linked in Yotube. 
+("EVERYTHING ABOVE AND BELOW THIS WAS WRITTEN BY AI, I was just here to orchistrate and click commit from time to time, and my ideas and guidance obviously. 
+
+I wanted to build something Impressive, Useful and Sustainable. I started with the problem and worked backwards from there. 
+
+All actual working tests were mine, Linked in Yotube. 
 
 I hope people find some use for this, it's well beyond a nvility. If people like it I will build out the docs and we can put other features in the pipeline. 
 
 Cheers
 
-Craig B." 😉 The rest of this text? it went i liitle verbose!🤷‍♂️) 
+Craig B." 😉 and the rest of the text in this repo? it went a liitle verbose but it worked!🤷‍♂️) 
 
 > **Project stage:** active implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, persistence, policy, fixed 15-Ability catalog, audit, bootstrap/content/taxonomy reads, draft/term writes, and wp-admin Overview are implemented. Navigation, approval/collaboration UI, release, and the live challenge workflow remain unimplemented or unverified.
 
