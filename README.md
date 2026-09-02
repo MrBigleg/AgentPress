@@ -24,7 +24,7 @@ I hope people find some use for this, it's well beyond a nvility. If people like
 
 Cheers
 
-Craig B." 😉 and the rest of the text in this repo? it went a liitle verbose but it worked!🤷‍♂️) 
+Craig B." 😉 and the rest of the text in this repo? it went a little verbose but it worked!🤷‍♂️) 
 
 > **Project stage:** active implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, persistence, policy, fixed 15-Ability catalog, audit, bootstrap/content/taxonomy reads, draft/term writes, and wp-admin Overview are implemented. Navigation, approval/collaboration UI, release, and the live challenge workflow remain unimplemented or unverified.
 
