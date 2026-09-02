@@ -8,7 +8,7 @@
 - Client: Codex in-app browser; WordPress 7.1; Administrator.
 - App/model version, PHP version, installed plugin build/checksum: `NOT_TESTED`.
 - Opening repository HEAD: `6081e3c`; current pre-write HEAD: `2e948563446e57328ce1dc80b54855cf6336748c`, branch `main`.
-- Existing README/runbook/index/EXP-028 work was committed by another session during preflight; preserved. No source changes planned. Ending commit: `UNCOMMITTED`.
+- Existing README/runbook/index/EXP-028 work was committed by another session during preflight; preserved. No source changes planned. Ending evidence commit: `6fee48d84ab810c82277d55245d96a942da3a3e7`.
 
 ## Question, hypothesis, and falsification
 
@@ -83,8 +83,8 @@ The first commit request included the three cropped screenshots. It was rejected
 
 `SUPPORTED`: the live client created exactly one service page draft and read it back correctly through AgentPress Site Tools. No existing-content edit or publication was invoked; unchanged existing-page metadata corroborates that boundary. Full database equality, Author denial, category assignment, idempotent replay, SEO performance, plugin SEO metadata, and the canonical 5/5 workflow remain `NOT_TESTED`.
 
-No subagents, runtime code changes, deployment, or public screenshot publication. Dated requests and local captures establish this session's work; the sanitized repository artifacts are pending commit. AP-028 stays open for its Author gate. Next experiment: separately authorized Author denial on an appropriate fixture.
+No subagents, runtime code changes, deployment, or public screenshot publication. Dated requests and local captures establish this session's work; sanitized evidence was committed as `6fee48d84ab810c82277d55245d96a942da3a3e7`. AP-028 stays open for its Author gate. Next experiment: separately authorized Author denial on an appropriate fixture.
 
 ## End state
 
-Local Markdown links, balanced fences, and git diff --check: PASS. Three final screenshot crops visually inspected and retained locally only. Git status: README, runbook, and index modified; EXP-029 record and local-only assets untracked. Committed: no. Pushed: no. Deployed: no. Published: no.
+Local Markdown links, balanced fences, and git diff --check: PASS. Three final screenshot crops visually inspected and retained locally only. Git status after evidence commit: only the local-only EXP-029 asset directory remains untracked. Committed: `6fee48d84ab810c82277d55245d96a942da3a3e7`. Pushed: pending closeout. Deployed: no. Published: no.
