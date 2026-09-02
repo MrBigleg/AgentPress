@@ -1,13 +1,17 @@
 # AgentPress live test and demo recording runbook
 
-**Status:** `DECIDED` recording plan; live execution remains `NOT_TESTED` until recorded in EXP-025.
+**Status:** `DECIDED` recording plan; Gemini/Chrome read execution is `OBSERVED` in EXP-026, while ChatGPT built-in-browser execution remains `NOT_TESTED`.
 **Scope:** the currently implemented safe core on a real HTTPS WordPress session. Do not depict unfinished navigation, approval, publishing, term creation, update-content, Change Set reads, or Activity reads.
+
+**Client checkpoint, 2026-09-02:** `OBSERVED` a Chrome-extension/Gemini client successfully executed `agentpress_get_context` and `agentpress_get_structure`. This proves useful alternate-client interoperability, but it does not close the ChatGPT built-in-browser AP-028 gate. Use ChatGPT's built-in browser for the primary hackathon recording; keep the Gemini result as optional interoperability evidence.
 
 ## Immediate decision
 
 Stay signed in as **Administrator** for the first read-only smoke test and the positive demo clip. Use the **Author** account in a separate clip for the permission-boundary proof. Do not switch roles during the hero take.
 
 Do not make the final video the first execution attempt. Run the read-only prompt below once before recording. It changes nothing and confirms that ChatGPT can actually call the site tools.
+
+The Chrome/Gemini read rehearsal has passed. Repeat it in ChatGPT's built-in browser before the hero mutation. Raw tool activity can display site URL, display name, and visible page titles even when the final answer is instructed to redact them, so a customer session is not suitable for uncropped public footage.
 
 ## Customer-site safety gate
 

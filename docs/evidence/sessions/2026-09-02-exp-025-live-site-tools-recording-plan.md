@@ -172,3 +172,10 @@ committed: c14383eb85a0ffc15d2ac239a78c676a778b9f86
 pushed: no
 deployed: no repository deployment; customer plugin installation is owner-reported
 ```
+
+## Dated evidence-attribution correction — 2026-09-02T12:34:59+07:00
+
+- `OBSERVED`: the project owner clarified that the green diagnostic and subsequent successful read calls came from a Chrome extension with a Gemini plugin/client, not ChatGPT's built-in browser.
+- `DECIDED`: this correction supersedes the built-in-browser attribution in S1, O1, and the planning conclusion without changing EXP-025's `SUPPORTED` result for the recording-plan question.
+- `NOT_TESTED`: ChatGPT Site Tools execution and role switching remain open under AP-028.
+- Follow-up evidence: [EXP-026](2026-09-02-exp-026-gemini-chrome-read-smoke.md).
