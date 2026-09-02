@@ -88,3 +88,7 @@ No subagents, runtime code changes, deployment, or public screenshot publication
 ## End state
 
 Local Markdown links, balanced fences, and git diff --check: PASS. Three final screenshot crops visually inspected and retained locally only. Git status after evidence commit: only the local-only EXP-029 asset directory remains untracked. Committed: `6fee48d84ab810c82277d55245d96a942da3a3e7`. Pushed: pending closeout. Deployed: no. Published: no.
+
+## Dated publication correction — 2026-09-02T13:46:27+07:00
+
+The project owner explicitly confirmed permission to publish the three customer-derived crops in the public AgentPress repository. `OBSERVED`: visual reinspection found no domain, business name, username, credentials, tokens, nonces, or account identity in the final crops. `DECIDED`: include the three already-cropped files as public EXP-029 evidence. This later authorization does not change the original execution observations or make the screenshots evidence of any untested workflow.
