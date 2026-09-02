@@ -1,6 +1,6 @@
 # AgentPress live test and demo recording runbook
 
-**Status:** `DECIDED` recording plan; Gemini/Chrome read execution is `OBSERVED` in EXP-026, while ChatGPT built-in-browser execution remains `NOT_TESTED`.
+**Status:** `DECIDED` recording plan; Gemini/Chrome reads are `OBSERVED` in EXP-026 and ChatGPT built-in-browser reads are `OBSERVED` in EXP-028. ChatGPT write and Author role-switch gates remain `NOT_TESTED`.
 **Scope:** the currently implemented safe core on a real HTTPS WordPress session. Do not depict unfinished navigation, approval, publishing, term creation, update-content, Change Set reads, or Activity reads.
 
 **Client checkpoint, 2026-09-02:** `OBSERVED` a Chrome-extension/Gemini client successfully executed `agentpress_get_context` and `agentpress_get_structure`. This proves useful alternate-client interoperability, but it does not close the ChatGPT built-in-browser AP-028 gate. Use ChatGPT's built-in browser for the primary hackathon recording; keep the Gemini result as optional interoperability evidence.
@@ -101,6 +101,8 @@ Interpretation:
 - **Request ID returned:** discovery and invocation passed; resume the read-only rehearsal before any mutation.
 
 Current evidence is [EXP-027](evidence/sessions/2026-09-02-exp-027-chatgpt-site-tools-discovery-failure.md): both requested tools were unavailable with no request IDs, so the failure occurred before AgentPress execution.
+
+**Recovery observation:** [EXP-028](evidence/sessions/2026-09-02-exp-028-chatgpt-read-smoke.md) records that asking ChatGPT to check again succeeded for both context and structure. Preserve a reload/retry allowance in preflight, but do not cut or hide an initial failure from formal reliability evidence.
 
 ## Hero prompt — one safe draft workflow
 
