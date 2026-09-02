@@ -15,7 +15,7 @@
 | Agent/operator | Craig, live browser operator; Codex, evidence operator |
 | Branch | `main` |
 | Baseline commit | `6081e3c2d6883b55f77f60fe785b7bb31aee2ad9` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `7e44f698811c35aeac9328f58c7c3cd6657aeb06` |
 | Environment | ChatGPT desktop built-in browser; GPT-5.6 Sol Light observed in supplied screenshot; live HTTPS WordPress 7.1; Administrator; customer identity omitted |
 
 ## Question
@@ -128,7 +128,7 @@ The external browser execution occurred immediately before this repository recor
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-09-02-exp-028-chatgpt-read-smoke.md` | evidence | uncommitted | `UNCOMMITTED` | Sanitized partial AP-028 evidence. |
+| `docs/evidence/sessions/2026-09-02-exp-028-chatgpt-read-smoke.md` | evidence | committed | `7e44f698811c35aeac9328f58c7c3cd6657aeb06` | Sanitized partial AP-028 evidence. |
 | supplied screenshot | external evidence | intentionally not stored | `NOT_APPLICABLE` | Contains customer domain and Administrator username. |
 
 ## Result
@@ -146,7 +146,7 @@ The ChatGPT built-in-browser read smoke is supported: both AgentPress tools exec
 - work attributable to challenge period: current timestamp and two live request IDs recorded;
 - pre-existing work distinguished by: repository baseline recorded;
 - third-party material/license/pin: no new third-party code;
-- commit/PR evidence: `UNCOMMITTED`;
+- commit/PR evidence: read-smoke recovery commit `7e44f698811c35aeac9328f58c7c3cd6657aeb06`;
 - live URL evidence: redacted live HTTPS execution only;
 - real ChatGPT Site Tools evidence: two read calls `PASS`; write and role switch `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -163,7 +163,7 @@ The ChatGPT built-in-browser read smoke is supported: both AgentPress tools exec
 ```text
 git status --short --branch: four intended documentation/evidence paths modified or untracked; no unrelated changes observed
 tests/checks: supplied-result comparison PASS; request IDs captured; local links PASS; balanced fences PASS; git diff --check PASS
-committed: no
+committed: 7e44f698811c35aeac9328f58c7c3cd6657aeb06
 pushed: no
 deployed: no repository deployment; live plugin unchanged
 ```
