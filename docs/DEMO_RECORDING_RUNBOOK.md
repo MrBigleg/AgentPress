@@ -1,6 +1,6 @@
 # AgentPress live test and demo recording runbook
 
-**Status:** `DECIDED` recording plan; live execution remains `NOT_TESTED` until recorded in EXP-025.  
+**Status:** `DECIDED` recording plan; live execution remains `NOT_TESTED` until recorded in EXP-025.
 **Scope:** the currently implemented safe core on a real HTTPS WordPress session. Do not depict unfinished navigation, approval, publishing, term creation, update-content, Change Set reads, or Activity reads.
 
 ## Immediate decision

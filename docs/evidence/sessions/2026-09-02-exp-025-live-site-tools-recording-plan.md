@@ -15,7 +15,7 @@
 | Agent/operator | Craig, live browser operator; Codex, repository and recording-plan operator |
 | Branch | `main` |
 | Baseline commit | `fce8a8d7a6b251d5124ec0891881d4f3afb98f0c` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `c14383eb85a0ffc15d2ac239a78c676a778b9f86` |
 | Environment | Customer-hosted HTTPS WordPress site; supported ChatGPT built-in browser and a comparison browser without WebMCP; exact domain, username, credentials, and customer content intentionally omitted |
 
 ## Question
@@ -91,6 +91,8 @@ environment: exact live-site versions/build/checksum pending; sensitive site ide
 | 2026-09-02T12:01:13+07:00 | Write and cross-check `docs/DEMO_RECORDING_RUNBOOK.md` | repository | exit 0 | Allowed prompt names exactly match the seven concrete adapter/dispatcher paths; no unimplemented tool name appears in a paste-ready prompt. |
 | timestamp not independently captured | First local Markdown-link checker | repository | script error | Root-level `README.md` produced an empty parent-path argument; reported links were checker noise, not missing-file evidence. |
 | timestamp not independently captured | Corrected local Markdown-link checker and `git diff --check` | repository | exit 0 | All local links resolve, all four files have balanced fences, and the diff has no whitespace errors. |
+| timestamp not independently captured | Stage four intended files and run `git diff --cached --check` | repository | whitespace warning; commit still created | The runbook status line contained a Markdown hard-break pair of trailing spaces. The semicolon-chained shell command did not stop before commit `c14383e`; no unrelated file entered the commit. |
+| timestamp not independently captured | Remove the trailing spaces and rerun fail-fast `git diff --check` | repository | exit 0 | Correction is included in the evidence-closeout commit before push; no whitespace errors remain. |
 
 ## Observation ledger
 
@@ -108,6 +110,7 @@ environment: exact live-site versions/build/checksum pending; sensitive site ide
 |---|---|---|---|---|
 | C1 | A green 15-tool count implies all 15 operations are ready for a live demo. | Eight catalog entries currently fall through to `AP_INTERNAL_ERROR`. | Implementation-stage contradiction and demo risk. | Use only the seven concrete abilities; do not claim all 15 execute successfully. |
 | C2 | The first lightweight link checker handles root-level files. | `Split-Path -Parent README.md` returned an empty string and caused false missing-link output. | Verification-script defect; repository links were not implicated. | Defaulted an empty parent to `.`; corrected run passed all local links. |
+| C3 | The staged whitespace check prevents the commit when it reports a problem. | PowerShell continued to `git commit` because the commands were semicolon-chained; commit `c14383e` contains one trailing-space warning. | Commit-gate orchestration defect; content behavior unaffected. | Remove the whitespace in a closeout commit, verify with a fail-fast check, then push both commits together. |
 
 ## Decisions
 
@@ -129,9 +132,9 @@ environment: exact live-site versions/build/checksum pending; sensitive site ide
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-09-02-exp-025-live-site-tools-recording-plan.md` | evidence | uncommitted | `UNCOMMITTED` | Contains only redacted live observations and planning evidence. |
+| `docs/evidence/sessions/2026-09-02-exp-025-live-site-tools-recording-plan.md` | evidence | committed | `c14383eb85a0ffc15d2ac239a78c676a778b9f86` | Contains only redacted live observations and planning evidence. |
 | project-owner screenshot | screenshot | not stored | `NOT_APPLICABLE` | Contains customer identity; intentionally excluded from repository. |
-| `docs/DEMO_RECORDING_RUNBOOK.md` | documentation | uncommitted | `UNCOMMITTED` | Exact safety gate, prompts, shot order, narration, claims, and evidence capture. |
+| `docs/DEMO_RECORDING_RUNBOOK.md` | documentation | committed | `c14383eb85a0ffc15d2ac239a78c676a778b9f86` | Exact safety gate, prompts, shot order, narration, claims, and evidence capture; whitespace corrected before push. |
 
 ## Result
 
@@ -148,7 +151,7 @@ The planning hypothesis is supported. The live green/red browser diagnostic chec
 - work attributable to challenge period: current timestamp and repository baseline recorded;
 - pre-existing work distinguished by: baseline commit recorded;
 - third-party material/license/pin: no new third-party code;
-- commit/PR evidence: `UNCOMMITTED` at experiment conclusion;
+- commit/PR evidence: runbook/evidence commit `c14383eb85a0ffc15d2ac239a78c676a778b9f86`; closeout correction pending;
 - live URL evidence: redacted owner observation only;
 - real ChatGPT Site Tools evidence: green discovery diagnostic observed; execution `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -165,7 +168,7 @@ The planning hypothesis is supported. The live green/red browser diagnostic chec
 ```text
 git status --short --branch: four intended documentation/evidence paths modified or untracked; no unrelated changes observed
 tests/checks: tool-name cross-check PASS; primary-source requirement check PASS; local links PASS; balanced fences PASS; git diff --check PASS
-committed: no
+committed: c14383eb85a0ffc15d2ac239a78c676a778b9f86
 pushed: no
 deployed: no repository deployment; customer plugin installation is owner-reported
 ```
