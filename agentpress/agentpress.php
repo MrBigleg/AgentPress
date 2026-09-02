@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: AgentPress
- * Plugin URI: https://github.com/MrBigleg/WP-Agent-Admin
+ * Plugin URI: https://github.com/MrBigleg/AgentPress
  * Description: The shared human-agent workspace for WordPress.
  * Version: 0.1.0
  * Requires at least: 6.9
