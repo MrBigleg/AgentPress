@@ -38,6 +38,15 @@ Craig Burton."
 
 😉 and the rest of the text in this repo? it went a little verbose but it worked!🤷‍♂️) 
 
+ AgentPress lets an AI agent work inside the WordPress session a human is already using, over WebMCP (https://github.com/webmachinelearning/webmcp). WordPress defines the maximum authority; AgentPress narrows it into actions the agent may perform automatically, actions that require explicit human approval, and actions that stay unavailable.
+>
+ - No API keys, no app passwords. The agent uses the login you already have.
+ - Fixed 15-ability catalog. Read the site, list content and taxonomy, create drafts, file under existing terms — nothing more.
+ - Human-in-the-loop for consequential work. Publishing, navigation, and new terms wait for approval in wp-admin.
+ - Hard-blocked areas. Users, plugins, themes, code, credentials, settings.
+ - Sanitized audit on everything. Allowed or denied, with no secrets.
+ - Evidence-led. Every feature is an acceptance-tested task recorded as a reproducible experiment.
+
 > **Project stage:** active implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, persistence, policy, fixed 15-Ability catalog, audit, bootstrap/content/taxonomy reads, draft/term writes, and wp-admin Overview are implemented. Navigation, approval/collaboration UI, release, and the live challenge workflow remain unimplemented or unverified.
 
 ## Product thesis
