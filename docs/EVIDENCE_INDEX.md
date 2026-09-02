@@ -40,6 +40,7 @@ This append-only registry links AgentPress research, implementation, verificatio
 | [EXP-024](evidence/sessions/2026-09-02-exp-024-plugin-uri-correction.md) | 2026-09-02 | Can the wp-admin plugin details link resolve to the canonical AgentPress source repository without misrepresenting the concept site? | AP-001 | `SUPPORTED` | `83c7fba`; implementation `b806f6b` | canonical plugin repository URI; stale slug absent; PHPCS 42/42 |
 | [EXP-025](evidence/sessions/2026-09-02-exp-025-live-site-tools-recording-plan.md) | 2026-09-02 | Can the first live Site Tools checkpoint become a truthful, safe, sub-three-minute recording plan using only implemented behavior? | AP-028; AP-032 | `SUPPORTED` | `fce8a8d`; runbook `c14383e` | redacted live diagnostics; seven-tool prompt boundary; recording runbook; official requirement check |
 | [EXP-026](evidence/sessions/2026-09-02-exp-026-gemini-chrome-read-smoke.md) | 2026-09-02 | Can a Chrome-extension/Gemini client execute the two implemented AgentPress read tools without mutation? | AP-028 precursor | `INCONCLUSIVE` | `943374b`; evidence `b65f082` | two live read successes; accurate summary; zero-mutation unverified; raw-trace privacy failure |
+| [EXP-027](evidence/sessions/2026-09-02-exp-027-chatgpt-site-tools-discovery-failure.md) | 2026-09-02 | Why were AgentPress tools unavailable in ChatGPT's built-in browser after alternate-client success? | AP-028 | `INCONCLUSIVE` | `326c60c` | safe pre-execution failure; no request IDs; ordered official-prerequisite discovery checklist |
 
 ## Planned experiment queue
 

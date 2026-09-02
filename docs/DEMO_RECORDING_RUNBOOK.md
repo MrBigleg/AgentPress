@@ -78,6 +78,30 @@ Pass conditions:
 
 If this fails, stop. Save the exact error and do not start the mutation take.
 
+## ChatGPT says the tools are unavailable
+
+Do not change the WordPress plugin or run a mutation yet. Check discovery in this order:
+
+1. On the AgentPress page, open the address-bar Website Tools indicator. Record whether `agentpress_get_context` is listed.
+2. If it is not listed, confirm **Settings → Browser → Permissions → Enable Website Tools** is on, reload the top-level AgentPress page, wait for all diagnostics to turn green, and check the indicator again.
+3. Select **GPT-5.6 Sol or GPT-5.6 Terra**. Website Tools are currently disabled for Luna.
+4. Confirm this is not an Enterprise or Edu workspace; Website Tools are not currently available there.
+5. Update the ChatGPT desktop app to the latest version.
+6. Start a fresh chat while the AgentPress page is the current built-in-browser tab. If needed, explicitly attach it with `@Browser`.
+7. Ask for one tool only:
+
+```text
+@Browser On the currently open AgentPress page, use the Website Tool named agentpress_get_context exactly once with an empty input. Do not click the page and do not use any fallback. Return only whether the tool executed and its request ID. Do not include the site URL, username, email, or raw result.
+```
+
+Interpretation:
+
+- **Tool absent from the address-bar panel:** discovery/registration, permission, page, workspace, app-version, or rollout problem.
+- **Tool listed but no request ID after the exact prompt:** ChatGPT invocation/client-compatibility problem; preserve the visible tool list and exact error before changing code.
+- **Request ID returned:** discovery and invocation passed; resume the read-only rehearsal before any mutation.
+
+Current evidence is [EXP-027](evidence/sessions/2026-09-02-exp-027-chatgpt-site-tools-discovery-failure.md): both requested tools were unavailable with no request IDs, so the failure occurred before AgentPress execution.
+
 ## Hero prompt — one safe draft workflow
 
 Replace `{SAFE_EXISTING_CATEGORY}` once before pasting. Keep the idempotency keys unchanged if the prompt is accidentally retried; that prevents duplicate mutations.
