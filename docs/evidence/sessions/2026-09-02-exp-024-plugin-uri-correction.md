@@ -15,7 +15,7 @@
 | Agent/operator | Codex, metadata correction and evidence operator |
 | Branch | `main` |
 | Baseline commit | `83c7fba0e9fbddfe6da22b0e06b76f892d4d3d65` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `b806f6bbd49c2cbd4028692e07d230ff9e2e2353` |
 | Environment | Windows; Node.js 22.23.2; pnpm 11.21.0; local WordPress at `http://localhost:8888`; host PHP/Composer unavailable |
 
 ## Question
@@ -123,8 +123,8 @@ environment: Node.js 22.23.2; pnpm 11.21.0; host PHP and Composer unavailable
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `agentpress/agentpress.php` | source metadata | uncommitted | `UNCOMMITTED` | One-line canonical repository correction. |
-| `docs/evidence/sessions/2026-09-02-exp-024-plugin-uri-correction.md` | evidence | uncommitted | `UNCOMMITTED` | Opened before product mutation and updated during execution. |
+| `agentpress/agentpress.php` | source metadata | committed | `b806f6bbd49c2cbd4028692e07d230ff9e2e2353` | One-line canonical repository correction. |
+| `docs/evidence/sessions/2026-09-02-exp-024-plugin-uri-correction.md` | evidence | committed | `b806f6bbd49c2cbd4028692e07d230ff9e2e2353` | Opened before product mutation and updated during execution. |
 
 ## Result
 
@@ -141,7 +141,7 @@ The hypothesis is supported within repository scope. The WordPress plugin header
 - work attributable to challenge period: timestamp and baseline recorded;
 - pre-existing work distinguished by: baseline commit recorded;
 - third-party material/license/pin: `NOT_APPLICABLE`;
-- commit/PR evidence: `UNCOMMITTED` at experiment conclusion; commit and push authorized next;
+- commit/PR evidence: implementation and experiment commit `b806f6bbd49c2cbd4028692e07d230ff9e2e2353`; push pending at closeout edit;
 - live URL evidence: owner-observed localhost 404 only;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -158,7 +158,7 @@ The hypothesis is supported within repository scope. The WordPress plugin header
 ```text
 git status --short --branch: three intended paths modified/untracked; no unrelated changes observed
 tests/checks: URL search PASS; git diff --check PASS; PHPCS 42/42 PASS after one recorded sandbox-only failure
-committed: no
+committed: b806f6bbd49c2cbd4028692e07d230ff9e2e2353
 pushed: no
 deployed: no
 ```
