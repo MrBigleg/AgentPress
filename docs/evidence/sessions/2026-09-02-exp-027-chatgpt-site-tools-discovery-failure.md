@@ -15,7 +15,7 @@
 | Agent/operator | Craig, live browser operator; Codex, diagnosis/evidence operator |
 | Branch | `main` |
 | Baseline commit | `326c60ccdbff272cb2fc79423c7a596fb15bfc08` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `93445c1da001981f84078e67331b99a98088a85e` |
 | Environment | ChatGPT desktop built-in browser; live HTTPS WordPress page; Administrator intended; selected model/app/workspace/settings details require operator confirmation |
 
 ## Question
@@ -124,7 +124,7 @@ environment: ChatGPT built-in browser; exact app/model/workspace/settings eviden
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-09-02-exp-027-chatgpt-site-tools-discovery-failure.md` | evidence | uncommitted | `UNCOMMITTED` | Sanitized failure and troubleshooting plan. |
+| `docs/evidence/sessions/2026-09-02-exp-027-chatgpt-site-tools-discovery-failure.md` | evidence | committed | `93445c1da001981f84078e67331b99a98088a85e` | Sanitized failure and troubleshooting plan. |
 | raw ChatGPT session | external | not stored | no request IDs | Customer/session data intentionally omitted. |
 
 ## Result
@@ -142,7 +142,7 @@ The two ChatGPT Site Tools calls failed safely before execution. Evidence suppor
 - work attributable to challenge period: timestamp and exact failure class recorded;
 - pre-existing work distinguished by: repository baseline recorded;
 - third-party material/license/pin: no new third-party code;
-- commit/PR evidence: `UNCOMMITTED`;
+- commit/PR evidence: failure/runbook commit `93445c1da001981f84078e67331b99a98088a85e`;
 - live URL evidence: redacted failure on live HTTPS page;
 - real ChatGPT Site Tools evidence: discovery/execution `FAIL`, no request IDs;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -159,7 +159,7 @@ The two ChatGPT Site Tools calls failed safely before execution. Evidence suppor
 ```text
 git status --short --branch: four intended documentation/evidence paths modified or untracked; no unrelated changes observed
 tests/checks: official OpenAI requirement check PASS; local links PASS; balanced fences PASS; git diff --check PASS
-committed: no
+committed: 93445c1da001981f84078e67331b99a98088a85e
 pushed: no
 deployed: no repository deployment; live plugin unchanged
 ```
