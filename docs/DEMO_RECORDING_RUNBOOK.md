@@ -1,6 +1,6 @@
 # AgentPress live test and demo recording runbook
 
-**Status:** `DECIDED` recording plan; Gemini/Chrome reads are `OBSERVED` in EXP-026 and ChatGPT built-in-browser reads are `OBSERVED` in EXP-028. ChatGPT write and Author role-switch gates remain `NOT_TESTED`.
+**Status:** `DECIDED` recording plan; Gemini/Chrome reads are `OBSERVED` in EXP-026 and ChatGPT built-in-browser reads are `OBSERVED` in EXP-028. One Codex built-in-browser service **page draft** and exact read-back are `OBSERVED` in [EXP-029](evidence/sessions/2026-09-02-exp-029-service-page-draft-demo.md). The owner authorized this page variation; the post/category hero workflow and Author role-switch gate remain `NOT_TESTED`.
 **Scope:** the currently implemented safe core on a real HTTPS WordPress session. Do not depict unfinished navigation, approval, publishing, term creation, update-content, Change Set reads, or Activity reads.
 
 **Client checkpoint, 2026-09-02:** `OBSERVED` a Chrome-extension/Gemini client successfully executed `agentpress_get_context` and `agentpress_get_structure`. This proves useful alternate-client interoperability, but it does not close the ChatGPT built-in-browser AP-028 gate. Use ChatGPT's built-in browser for the primary hackathon recording; keep the Gemini result as optional interoperability evidence.
