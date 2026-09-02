@@ -15,7 +15,7 @@
 | Agent/operator | Craig, live browser operator; Codex, evidence operator |
 | Branch | `main` |
 | Baseline commit | `943374b505d6403d41f5e1fd9b0e775adbb7624a` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `b65f082c042327199ed85f23d8a4ec9b2d35b3c3` |
 | Environment | Live HTTPS WordPress 7.1 site; Chrome extension with Gemini plugin/client; exact browser/extension versions and customer identity not recorded |
 
 ## Question
@@ -87,6 +87,7 @@ environment: live WordPress 7.1 over HTTPS; Chrome extension/Gemini client; exac
 | before 2026-09-02T12:34:59+07:00 | Execute ordered context/structure prompt | live Chrome extension/Gemini client | two tool successes | `agentpress_get_context` request `49029206-eadd-4e22-b233-5d7b946189ef`; `agentpress_get_structure` request `9b735e81-c877-42cb-a391-724983cd772d`. |
 | 2026-09-02T12:34:59+07:00 | Capture repository preflight and classify client/evidence boundary | repository | exit 0 | Clean synchronized baseline; prior built-in-browser inference requires correction. |
 | 2026-09-02T12:37:18+07:00 | Update README/runbook, append EXP-025 attribution correction, and verify Markdown | repository | exit 0 | Local links resolve, fences are balanced, and `git diff --check` passes across five intended paths. |
+| timestamp not independently captured | First evidence-closeout commit command | repository | exit 1 | An accidental trailing `Ring` argument was parsed as a pathspec; no commit was created and the verified staged files remained intact. |
 
 ## Observation ledger
 
@@ -105,6 +106,7 @@ environment: live WordPress 7.1 over HTTPS; Chrome extension/Gemini client; exac
 | C1 | Prior EXP-025 wording identified the green client as ChatGPT's built-in browser. | The operator clarified that the successful execution used a Chrome extension with a Gemini plugin/client. | Evidence-attribution correction. | Append a dated correction to EXP-025 and update README/runbook; AP-028 remains open. |
 | C2 | Prompt-level instructions can keep sensitive fields out of visible tool traces. | The tool trace necessarily showed structured fields returned by the contracts before the model summarized them. | Recording/privacy limitation, not a tool-call failure. | Do not publicly record this raw customer session; use a synthetic demo/staging site or crop/redact approved footage. |
 | C3 | A read-only success proves zero mutation. | No post-call database/object-count verification was supplied. | Verification boundary. | Treat zero mutation as intended and `NOT_TESTED`; add explicit before/after verification in the next run. |
+| C4 | The first evidence-closeout commit command contains only the intended message. | An accidental `Ring` pathspec caused Git to reject the command before committing. | Operator command typo; no repository content changed. | Remove the stray argument, recheck the staged manifest/whitespace, and retry. |
 
 ## Decisions
 
@@ -128,7 +130,7 @@ environment: live WordPress 7.1 over HTTPS; Chrome extension/Gemini client; exac
 
 | Artifact | Type | State | SHA-256/identifier | Notes |
 |---|---|---|---|---|
-| `docs/evidence/sessions/2026-09-02-exp-026-gemini-chrome-read-smoke.md` | evidence | uncommitted | `UNCOMMITTED` | Sanitized facts and request IDs only. |
+| `docs/evidence/sessions/2026-09-02-exp-026-gemini-chrome-read-smoke.md` | evidence | committed | `b65f082c042327199ed85f23d8a4ec9b2d35b3c3` | Sanitized facts and request IDs only. |
 | raw Gemini/Chrome transcript | external session evidence | intentionally not stored | two request IDs above | Contains customer identifiers and page titles. |
 
 ## Result
@@ -146,7 +148,7 @@ The Gemini/Chrome discovery, ordered calls, structured success, and final-summar
 - work attributable to challenge period: current timestamp and request IDs recorded;
 - pre-existing work distinguished by: repository baseline recorded;
 - third-party material/license/pin: Gemini/Chrome client is external and no third-party code was added;
-- commit/PR evidence: `UNCOMMITTED`;
+- commit/PR evidence: evidence and attribution commit `b65f082c042327199ed85f23d8a4ec9b2d35b3c3`;
 - live URL evidence: redacted live HTTPS execution only;
 - real ChatGPT Site Tools evidence: `NOT_TESTED`;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -163,7 +165,7 @@ The Gemini/Chrome discovery, ordered calls, structured success, and final-summar
 ```text
 git status --short --branch: five intended documentation/evidence paths modified or untracked; no unrelated changes observed
 tests/checks: transcript/result comparison PASS; client attribution corrected; local links PASS; balanced fences PASS; git diff --check PASS
-committed: no
+committed: b65f082c042327199ed85f23d8a4ec9b2d35b3c3
 pushed: no
 deployed: no repository deployment; live plugin installation is operator-reported
 ```
