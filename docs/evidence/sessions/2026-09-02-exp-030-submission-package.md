@@ -10,12 +10,12 @@
 | Result | `SUPPORTED` |
 | Started local | `2026-09-02T13:43:18+07:00` |
 | Started UTC | `2026-09-02T06:43:18Z` |
-| Ended local | `2026-09-02T13:43:18+07:00` |
-| Ended UTC | `2026-09-02T06:43:18Z` |
+| Ended local | `2026-09-02T13:49:11+07:00` |
+| Ended UTC | `2026-09-02T06:49:11Z` |
 | Agent/operator | Codex documentation agent; Craig as recorder/submitter |
 | Branch | `main` |
 | Baseline commit | `7643a5aef4abb000d2396cd13add7136fbdd5ce4` |
-| Ending commit | `UNCOMMITTED` |
+| Ending commit | `71d6ce813fe7257f5d7bbb1c949d37b1305ceebd` |
 | Environment | Windows; repository evidence through EXP-029; no new WordPress or browser execution |
 
 ## Question
@@ -85,6 +85,8 @@ unrelated existing changes: three customer-derived EXP-029 screenshot crops rema
 | 2026-09-02T13:43:18+07:00 | Capture branch, status, log, and SHA | repository root | exit 0 | baseline and local-only screenshots recorded |
 | 2026-09-02T13:43:18+07:00 | Draft filming and Devpost package | `docs/CHALLENGE_SUBMISSION_PACKAGE.md` | complete | target `02:35`; no new runtime claim |
 | 2026-09-02T13:46:27+07:00 | Reinspect three final EXP-029 crops after owner publication authorization | `docs/evidence/assets/EXP-029/` | pass | no domain, business name, account identity, credentials, tokens, or nonces visible |
+| 2026-09-02T13:49:11+07:00 | Markdown, link, privacy-string, staged whitespace, and manifest checks | repository root | pass | 329 narration words; balanced fences; local links and staged diff pass |
+| 2026-09-02T13:49:11+07:00 | Commit submission package | repository root | exit 0 | `71d6ce813fe7257f5d7bbb1c949d37b1305ceebd` |
 
 ## Observation ledger
 
@@ -150,7 +152,7 @@ The recorded live workflow can support a focused `02:35` video and a complete De
 - work attributable to challenge period: submission package derived from dated EXP-029 evidence;
 - pre-existing work distinguished by: experiment ledger and Git history;
 - third-party material/license/pin: no new third-party material;
-- commit/PR evidence: `UNCOMMITTED` at initial closeout;
+- commit/PR evidence: package commit `71d6ce813fe7257f5d7bbb1c949d37b1305ceebd`;
 - live URL evidence: EXP-029 records the private run; public judge access `NOT_TESTED`;
 - real ChatGPT Site Tools evidence: bounded workflow recorded in EXP-029;
 - five-run reliability evidence: `NOT_TESTED`;
@@ -165,9 +167,9 @@ The recorded live workflow can support a focused `02:35` video and a complete De
 ## End state
 
 ```text
-git status --short --branch: pending closeout
-tests/checks: pending Markdown/link/staged checks
-committed: no
-pushed: no
+git status --short --branch: main ahead of origin/main by one package commit before closeout
+tests/checks: PASS — 329 narration words; balanced fences; local links; privacy-string scan; git diff --cached --check; exact staged manifest
+committed: 71d6ce813fe7257f5d7bbb1c949d37b1305ceebd
+pushed: pending closeout
 deployed: no
 ```
