@@ -190,7 +190,8 @@ WordPress 6.9+ / 7.1, PHP 8+, JavaScript modules, WebMCP, WordPress Abilities AP
 
 - Repository: `https://github.com/MrBigleg/AgentPress`
 - Concept/presentation: `https://agentpress-webmcp.bigleg.chatgpt.site/`
-- Demo video: `[PUBLIC YOUTUBE URL]`
+- Demo video: `https://youtu.be/DJs68ZSfrBA`
+- Devpost project: `https://devpost.com/software/agentpress`
 - Judge-testable plugin URL: `[PRIVATE JUDGE URL]`
 
 The concept link is presentation material. It is not the live WordPress plugin and must not be entered as the judge-testable runtime URL.
@@ -218,6 +219,7 @@ Only provide access to the live site if the site owner has explicitly authorized
 - [ ] Video begins with the working result in the first 10 seconds.
 - [ ] Video is public on YouTube, has audible narration, and is under three minutes.
 - [ ] Customer identity, URL, username, credentials, tokens, nonces, and private content are absent or blurred.
+- [x] Devpost project URL is `https://devpost.com/software/agentpress`.
 - [ ] Devpost repository link is `https://github.com/MrBigleg/AgentPress`.
 - [ ] License field points to the repository's GPL license.
 - [ ] Concept link is labelled presentation-only.

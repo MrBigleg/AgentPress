@@ -173,3 +173,11 @@ committed: 71d6ce813fe7257f5d7bbb1c949d37b1305ceebd
 pushed: pending closeout
 deployed: no
 ```
+
+## Dated link update — 2026-09-02T16:35:01+07:00
+
+The project owner supplied the final video URL and current Devpost project URL after the original EXP-030 closeout.
+
+- `OBSERVED`: `https://youtu.be/DJs68ZSfrBA` redirected to its YouTube watch URL and returned HTTP 200 in an unauthenticated header request on 2026-09-02. Video playback, audio, final duration, and visibility in a separate signed-out browser remain `NOT_TESTED` by this check.
+- `OBSERVED`: `https://devpost.com/software/agentpress` returned HTTP 200 in an unauthenticated header request on 2026-09-02. The project owner states finalization is planned for 2026-09-03; final Devpost submission remains `NOT_TESTED`.
+- `DECIDED`: place both links prominently in the README and replace the video placeholder in the submission package. The private judge-runtime placeholder remains open.
