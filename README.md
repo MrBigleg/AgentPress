@@ -20,7 +20,7 @@ AgentPress is an open-source WordPress plugin project that will let ChatGPT work
 
 I wanted to build something Impressive, Useful and Sustainable. I started with the problem and worked backwards from there. 
 
-"I really can't be bothered to learn another WP install, I want my agent to do it" 
+"Lots of sites are still on WP I really want a one click solution for my agent to jump right in and work there safely" 
 
 *** All actual working tests were mine, Linked in Youtube. ***
 
