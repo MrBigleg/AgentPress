@@ -12,12 +12,14 @@ use AgentPress\Changes\ChangeSetReadService;
 use AgentPress\Content\ContentReadService;
 use AgentPress\Content\ContentUpdateService;
 use AgentPress\Content\DraftCreationService;
+use AgentPress\Content\PublishContentService;
 use AgentPress\Context\ContextService;
 use AgentPress\Context\SiteStructureService;
 use AgentPress\Errors\ErrorFactory;
 use AgentPress\Navigation\NavigationReadService;
 use AgentPress\Navigation\StageNavigationChangeService;
 use AgentPress\Policy\ExecutionPolicy;
+use AgentPress\Terms\CreateTermService;
 use AgentPress\Terms\TermReadService;
 use AgentPress\Terms\TermAssignmentService;
 
@@ -55,11 +57,13 @@ final class AbilityRegistrar {
 			$content            = new ContentReadService();
 			$updates            = new ContentUpdateService();
 			$drafts             = new DraftCreationService();
+			$publishing         = new PublishContentService();
 			$navigation         = new NavigationReadService();
 			$navigation_staging = new StageNavigationChangeService();
 			$assignment         = new TermAssignmentService();
+			$term_creation      = new CreateTermService();
 			$terms              = new TermReadService();
-			$executor           = static function ( $ability, $input ) use ( $context, $change_sets, $activity, $structure, $content, $updates, $drafts, $navigation, $navigation_staging, $assignment, $terms ) {
+			$executor           = static function ( $ability, $input ) use ( $context, $change_sets, $activity, $structure, $content, $updates, $drafts, $publishing, $navigation, $navigation_staging, $assignment, $term_creation, $terms ) {
 				if ( 'agentpress/get-context' === $ability ) {
 					return $context->execute();
 				}
@@ -89,6 +93,12 @@ final class AbilityRegistrar {
 				}
 				if ( 'agentpress/assign-terms' === $ability ) {
 					return $assignment->execute( $input );
+				}
+				if ( 'agentpress/publish-content' === $ability ) {
+					return $publishing->execute( $input );
+				}
+				if ( 'agentpress/create-term' === $ability ) {
+					return $term_creation->execute( $input );
 				}
 				if ( 'agentpress/get-change-set' === $ability ) {
 					return $change_sets->get( $input );
