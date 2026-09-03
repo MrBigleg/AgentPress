@@ -23,5 +23,8 @@
   "devDependencies": {
     "@wordpress/env": "11.14.0",
     "archiver": "7.0.1"
+  },
+  "overrides": {
+    "qs": "^6.15.4"
   }
 }
