@@ -17,7 +17,8 @@
     "test:browser": "node --test agentpress/tests/js/*.test.mjs",
     "test:third-party": "node scripts/verify-third-party.mjs",
     "lint:php": "wp-env run cli --env-cwd=wp-content/plugins/agentpress composer lint",
-    "build:zip": "node scripts/build-zip.mjs"
+    "build:zip": "node scripts/build-zip.mjs",
+    "fixture:reset": "node scripts/reset-fixture.mjs"
   },
   "devDependencies": {
     "@wordpress/env": "11.14.0",

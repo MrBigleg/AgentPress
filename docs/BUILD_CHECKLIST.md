@@ -229,7 +229,7 @@
 
 ### AP-027 — Create deterministic challenge fixture and reset
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-015, AP-017, AP-021
 - **Demo critical:** yes
 - **Deliverable:** credible small-business site, required pages/posts/categories, classic `primary` menu, Administrator/Author accounts, and documented reset command/script with no real credentials committed.
