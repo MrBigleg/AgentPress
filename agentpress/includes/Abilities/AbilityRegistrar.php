@@ -14,6 +14,7 @@ use AgentPress\Context\ContextService;
 use AgentPress\Context\SiteStructureService;
 use AgentPress\Errors\ErrorFactory;
 use AgentPress\Navigation\NavigationReadService;
+use AgentPress\Navigation\StageNavigationChangeService;
 use AgentPress\Policy\ExecutionPolicy;
 use AgentPress\Terms\TermReadService;
 use AgentPress\Terms\TermAssignmentService;
@@ -45,15 +46,16 @@ final class AbilityRegistrar {
 	public function __construct( $policy = null, $executor = null ) {
 		$this->policy = $policy ?? new ExecutionPolicy();
 		if ( null === $executor ) {
-			$context    = new ContextService();
-			$structure  = new SiteStructureService();
-			$content    = new ContentReadService();
-			$updates    = new ContentUpdateService();
-			$drafts     = new DraftCreationService();
-			$navigation = new NavigationReadService();
-			$assignment = new TermAssignmentService();
-			$terms      = new TermReadService();
-			$executor   = static function ( $ability, $input ) use ( $context, $structure, $content, $updates, $drafts, $navigation, $assignment, $terms ) {
+			$context            = new ContextService();
+			$structure          = new SiteStructureService();
+			$content            = new ContentReadService();
+			$updates            = new ContentUpdateService();
+			$drafts             = new DraftCreationService();
+			$navigation         = new NavigationReadService();
+			$navigation_staging = new StageNavigationChangeService();
+			$assignment         = new TermAssignmentService();
+			$terms              = new TermReadService();
+			$executor           = static function ( $ability, $input ) use ( $context, $structure, $content, $updates, $drafts, $navigation, $navigation_staging, $assignment, $terms ) {
 				if ( 'agentpress/get-context' === $ability ) {
 					return $context->execute();
 				}
@@ -77,6 +79,9 @@ final class AbilityRegistrar {
 				}
 				if ( 'agentpress/get-navigation' === $ability ) {
 					return $navigation->execute( $input );
+				}
+				if ( 'agentpress/stage-navigation-change' === $ability ) {
+					return $navigation_staging->execute( $input );
 				}
 				if ( 'agentpress/assign-terms' === $ability ) {
 					return $assignment->execute( $input );

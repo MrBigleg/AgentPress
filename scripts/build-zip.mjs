@@ -35,6 +35,7 @@ const files = [
   'includes/Errors/ErrorFactory.php',
   'includes/Navigation/ClassicMenuAdapter.php',
   'includes/Navigation/NavigationReadService.php',
+  'includes/Navigation/StageNavigationChangeService.php',
   'includes/Plugin.php',
   'includes/Policy/AgentCreatedDraftLookup.php',
   'includes/Policy/CapabilityEnvelope.php',

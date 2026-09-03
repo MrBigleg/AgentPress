@@ -189,10 +189,10 @@
 
 ### AP-022 — Implement `stage-navigation-change`
 
-- [ ] **Difficulty:** L
+- [x] **Difficulty:** L
 - **Depends on:** AP-010, AP-021
 - **Demo critical:** yes
-- **Deliverable:** add/remove/move validator, same-origin custom URL rule, before/after semantic preview, immutable R2 proposal, and no direct menu mutation.
+- **Deliverable:** add/remove/move validator, same-origin custom URL rule, exact before/after semantic preview, immutable R2 proposal, and no direct menu mutation.
 - **Acceptance test:** staging Services between About and Blog returns the exact preview while the live menu remains unchanged; invalid IDs, child removal, unsafe URL, and unauthorized role fail without a proposal/mutation.
 
 ### AP-023 — Implement approval and rejection service/routes
