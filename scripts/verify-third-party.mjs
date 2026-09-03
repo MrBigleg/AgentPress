@@ -124,6 +124,7 @@ for (const requiredEntry of [
   'agentpress/third-party/webmcp-abilities/PINNED_COMMIT',
   'agentpress/third-party/webmcp-abilities/PROVENANCE.json',
   'agentpress/third-party/webmcp-abilities/README.md',
+  'agentpress/includes/Changes/ChangeSetReadService.php',
 ]) {
   assert.ok(entries.includes(requiredEntry), `ZIP is missing ${requiredEntry}`);
 }

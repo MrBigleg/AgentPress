@@ -47,7 +47,7 @@ Craig Burton."
  - Sanitized audit on everything. Allowed or denied, with no secrets.
  - Evidence-led. Every feature is an acceptance-tested task recorded as a reproducible experiment.
 
-> **Project stage:** active implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, persistence, policy, fixed 15-Ability catalog, audit, bootstrap/content/taxonomy/classic-navigation reads, draft/content/term writes, Change Set and Activity reads, classic-menu navigation staging, human approval and rejection, and native wp-admin Overview/Changes/Activity screens are implemented and repository-tested. Release and the complete live workflow remain unverified.
+> **Project stage:** release candidate. The fixed 15-Ability implementation, approval workflow, and native wp-admin collaboration screens are repository-tested. The reproducible release ZIP installs and activates cleanly on WordPress 6.9/PHP 8.0. The remaining v0.1 gates are the complete real-client Administrator/Author proof and 5/5 reliability run.
 
 ## Product thesis
 
@@ -204,21 +204,22 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Publish and term staging + approval | `OBSERVED`, local implementation and acceptance matrix pass; `UNCOMMITTED` and not live-verified | [Experiment 038](docs/evidence/sessions/2026-09-03-exp-038-publish-term-staging-approval.md) |
 | Changes and Activity collaboration UI | `OBSERVED`, native UI/component and WordPress cursor/visibility/privacy matrices pass; not live-browser-verified | [Experiment 039](docs/evidence/sessions/2026-09-03-exp-039-changes-activity-ui.md) |
 | P0 security and approval gate | `OBSERVED`, consolidated CI runner covers 16 matrices; the original 15-matrix full run, atomic-claim matrix, and hardened order permutations passed locally; the final combined runner was not rerun after integration | [Experiment 040](docs/evidence/sessions/2026-09-03-exp-040-p0-security-integration-gate.md), [Experiment 041](docs/evidence/sessions/2026-09-03-exp-041-security-test-hardening.md) |
+| Reproducible release ZIP | `OBSERVED`, 67-entry package built twice with SHA-256 `234A1981C8D15DE97E125F064170BC868448134DEBFC5A8541F78090AC88B97F`; clean WordPress 6.9/PHP 8.0 install, activation, tables, 15-Ability catalog, and context smoke passed | [Experiment 042](docs/evidence/sessions/2026-09-03-exp-042-release-package.md) |
 | WebMCP client integration | `OBSERVED` reads in Gemini/Chrome and ChatGPT built-in browser; Codex built-in-browser page draft creation and exact read-back; Author role-switch gate `NOT_TESTED` | [Experiment 026](docs/evidence/sessions/2026-09-02-exp-026-gemini-chrome-read-smoke.md), [Experiment 027](docs/evidence/sessions/2026-09-02-exp-027-chatgpt-site-tools-discovery-failure.md), [Experiment 028](docs/evidence/sessions/2026-09-02-exp-028-chatgpt-read-smoke.md), [Experiment 029](docs/evidence/sessions/2026-09-02-exp-029-service-page-draft-demo.md); AP-028 remains open |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `OBSERVED` public video and Devpost project URLs resolve; Devpost finalization and judge URL remain open | [Watch the demo](https://youtu.be/DJs68ZSfrBA); [Devpost project](https://devpost.com/software/agentpress); [submission package](docs/CHALLENGE_SUBMISSION_PACKAGE.md); [Experiment 030](docs/evidence/sessions/2026-09-02-exp-030-submission-package.md) |
 
 ## Next experiment
 
-AP-029 now provides the consolidated P0 security runner and CI gate. The next unblocked engineering task is AP-030: build the final reproducible release ZIP and verify clean installation/activation.
+AP-030 now provides the reproducible, clean-install-verified release ZIP. AP-031 depends on completing AP-028's remaining real-client Author denial proof, so AP-028 is the next unblocked engineering task.
 
-**Hypothesis:** the production-only ZIP can install and activate on a clean WordPress 6.9 site, expose the fixed 15-tool catalog, pass the smoke workflow, and reproduce the same SHA-256 across two builds.
+**Hypothesis:** the real ChatGPT client can execute the documented Administrator workflow while an Author session discovers only its permitted subset and cannot execute Administrator-only operations.
 
-**Falsification condition:** the ZIP contains development/test files, fails clean activation or smoke execution, changes the public catalog, or two unchanged-source builds produce different hashes.
+**Falsification condition:** the Author sees or executes a forbidden operation, a denial mutates WordPress or AgentPress state, or the real client cannot complete the bounded Administrator workflow using the installed release candidate.
 
-**Prerequisite evidence:** AP-029 provides the consolidated security gate required before release packaging.
+**Prerequisite evidence:** AP-030 identifies the exact installed candidate by checksum; prior real-client reads and draft creation are recorded in EXP-028/029.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-030--package-one-installable-release-zip).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-028--verify-the-real-chatgpt-site-tools-client).
 
 ## Local development
 
@@ -233,7 +234,7 @@ npm run lint:php
 npm run build:zip
 ```
 
-The supported environment is WordPress 6.9 on PHP 8.0. Separate `.wp-env.wp68.json` and `.wp-env.php74.json` configurations preserve the two fail-closed controls. The generated ZIP is written to `dist/agentpress.zip`; it is intentionally ignored by Git and must not be treated as release evidence until AP-030.
+The supported environment is WordPress 6.9 on PHP 8.0. Separate `.wp-env.wp68.json` and `.wp-env.php74.json` configurations preserve the two fail-closed controls. The generated ZIP is written to `dist/agentpress.zip` and remains intentionally ignored by Git. Its AP-030 checksum and clean-install evidence are recorded in [EXP-042](docs/evidence/sessions/2026-09-03-exp-042-release-package.md).
 
 ## Product principles
 

@@ -261,7 +261,7 @@
 
 ### AP-030 — Package one installable release ZIP
 
-- [ ] **Difficulty:** S
+- [x] **Difficulty:** S
 - **Depends on:** AP-002, AP-029
 - **Demo critical:** yes
 - **Deliverable:** production assets, no development/vendor-test junk, root license/third-party notices/readme, reproducible checksum, install/upgrade instructions.

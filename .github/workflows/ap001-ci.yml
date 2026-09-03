@@ -81,6 +81,9 @@ jobs:
       - name: Start clean WordPress integration environment
         run: npx wp-env start
 
+      - name: Install canonical classic-menu fixture theme
+        run: npx wp-env run cli wp theme install twentytwentyone --activate
+
       - name: Run P0 security and approval integration gate
         run: npm run test:security
 
