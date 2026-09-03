@@ -8,20 +8,40 @@
 use AgentPress\Abilities\AbilityCatalog;
 use AgentPress\Schemas\SchemaValidator;
 
-/** @param bool $condition Condition. @param string $message Message. @return void */
+/**
+ * Assert a condition or terminate with failure message.
+ *
+ * @param bool   $condition Condition to assert.
+ * @param string $message   Failure message.
+ * @return void
+ */
 function agentpress_ap022_assert( $condition, $message ) {
 	if ( ! $condition ) {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
 		fwrite( STDERR, "AP-022 assertion failed: {$message}\n" );
 		exit( 1 );
 	}
 }
 
-/** @param mixed $result Candidate result. @param string $code Expected code. @param string $message Assertion message. @return void */
+/**
+ * Assert a WP_Error result with expected error code.
+ *
+ * @param mixed  $result  Candidate result.
+ * @param string $code    Expected code.
+ * @param string $message Assertion message.
+ * @return void
+ */
 function agentpress_ap022_error( $result, $code, $message ) {
 	agentpress_ap022_assert( is_wp_error( $result ) && $code === $result->get_error_code(), $message );
 }
 
-/** @param string $login Login. @param string $role Role. @return int */
+/**
+ * Create or fetch a test user with a specified role.
+ *
+ * @param string $login Username.
+ * @param string $role  Role name.
+ * @return int User ID.
+ */
 function agentpress_ap022_user( $login, $role ) {
 	$existing = get_user_by( 'login', $login );
 	$id       = $existing ? (int) $existing->ID : wp_create_user( $login, wp_generate_password( 24 ), $login . '@private.example.test' );
@@ -30,7 +50,16 @@ function agentpress_ap022_user( $login, $role ) {
 	return $id;
 }
 
-/** @param int $menu_id Menu ID. @param int $object_id Page ID. @param string $label Label. @param int $position Position. @param int $parent Parent item. @return int */
+/**
+ * Add a page menu item to a nav menu.
+ *
+ * @param int    $menu_id   Menu ID.
+ * @param int    $object_id Page ID.
+ * @param string $label     Label.
+ * @param int    $position  Position.
+ * @param int    $parent    Parent item ID.
+ * @return int Menu item ID.
+ */
 function agentpress_ap022_menu_item( $menu_id, $object_id, $label, $position, $parent = 0 ) {
 	$result = wp_update_nav_menu_item(
 		$menu_id,
@@ -49,30 +78,53 @@ function agentpress_ap022_menu_item( $menu_id, $object_id, $label, $position, $p
 	return (int) $result;
 }
 
-/** @return array<int, object> */
+/**
+ * Filter callback for oversized menu test.
+ *
+ * @param array<int, object> $items Nav menu items.
+ * @return array<int, object>
+ */
 function agentpress_ap022_oversized_items( $items ) {
 	return empty( $items ) ? $items : array_fill( 0, 201, $items[0] );
 }
 
-$original_locations = get_theme_mod( 'nav_menu_locations', array() );
-foreach ( $original_locations as $location => $assigned_menu_id ) {
-	$assigned_menu = wp_get_nav_menu_object( (int) $assigned_menu_id );
-	if ( ! is_object( $assigned_menu ) || 0 !== strpos( $assigned_menu->name, 'AP022 ' ) ) {
-		unset( $original_locations[ $location ] );
+global $wpdb;
+
+// 1. Snapshot initial environment state for clean restoration.
+$initial_user_id   = get_current_user_id();
+$initial_locations = get_theme_mod( 'nav_menu_locations', array() );
+if ( ! is_array( $initial_locations ) ) {
+	$initial_locations = array();
+}
+$was_primary_registered = has_nav_menu( 'primary' ) || array_key_exists( 'primary', get_registered_nav_menus() );
+if ( ! $was_primary_registered ) {
+	register_nav_menus( array( 'primary' => 'Synthetic AP-022 Primary' ) );
+}
+
+// 2. Clean up any stale AP-022 fixtures from an interrupted prior run.
+$stale_user_ids = array();
+foreach ( array( 'administrator', 'author', 'mutated_author' ) as $role_slug ) {
+	$existing = get_user_by( 'login', 'agentpress_ap022_' . $role_slug );
+	if ( is_object( $existing ) ) {
+		$stale_user_ids[] = (int) $existing->ID;
 	}
 }
-set_theme_mod( 'nav_menu_locations', $original_locations );
-register_nav_menus( array( 'primary' => 'Synthetic AP-022 Primary' ) );
+if ( ! empty( $stale_user_ids ) ) {
+	$in_stale = implode( ',', array_map( 'intval', $stale_user_ids ) );
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$wpdb->query( "DELETE FROM {$wpdb->prefix}agentpress_changes WHERE actor_user_id IN ({$in_stale})" );
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$wpdb->query( "DELETE FROM {$wpdb->prefix}agentpress_change_sets WHERE initiator_user_id IN ({$in_stale})" );
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$wpdb->query( "DELETE FROM {$wpdb->prefix}agentpress_audit_events WHERE user_id IN ({$in_stale})" );
+	foreach ( $stale_user_ids as $sid ) {
+		wp_delete_user( $sid );
+	}
+}
 
 foreach ( wp_get_nav_menus( array( 'hide_empty' => false ) ) as $stale_menu ) {
 	if ( 0 === strpos( $stale_menu->name, 'AP022 ' ) ) {
 		wp_delete_nav_menu( $stale_menu->term_id );
-	}
-}
-foreach ( array( 'administrator', 'author', 'mutated_author' ) as $role ) {
-	$existing = get_user_by( 'login', 'agentpress_ap022_' . $role );
-	if ( is_object( $existing ) ) {
-		wp_delete_user( $existing->ID );
 	}
 }
 foreach ( get_posts(
@@ -86,6 +138,7 @@ foreach ( get_posts(
 	wp_delete_post( $stale_page->ID, true );
 }
 
+// 3. Create synthetic test users and pages.
 $users          = array(
 	'administrator'  => agentpress_ap022_user( 'agentpress_ap022_administrator', 'administrator' ),
 	'author'         => agentpress_ap022_user( 'agentpress_ap022_author', 'author' ),
@@ -95,8 +148,6 @@ $mutated_author = new WP_User( $users['mutated_author'] );
 $mutated_author->add_cap( 'edit_theme_options' );
 
 $page_ids = array();
-$about_id = 0;
-$blog_id  = 0;
 foreach ( array( 'Home', 'About', 'Blog', 'Contact' ) as $label ) {
 	$page_id = wp_insert_post(
 		array(
@@ -109,12 +160,6 @@ foreach ( array( 'Home', 'About', 'Blog', 'Contact' ) as $label ) {
 	);
 	agentpress_ap022_assert( ! is_wp_error( $page_id ) && (int) $page_id > 0, 'Fixture page creation failed.' );
 	$page_ids[ $label ] = (int) $page_id;
-	if ( 'About' === $label ) {
-		$about_id = (int) $page_id;
-	}
-	if ( 'Blog' === $label ) {
-		$blog_id = (int) $page_id;
-	}
 }
 $services_id = wp_insert_post(
 	array(
@@ -137,10 +182,11 @@ foreach ( array( 'Home', 'About', 'Blog', 'Contact' ) as $label ) {
 	$item_ids[ $label ] = agentpress_ap022_menu_item( $menu_id, $page_ids[ $label ], $label, $position );
 	++$position;
 }
-$locations            = $original_locations;
+$locations            = $initial_locations;
 $locations['primary'] = $menu_id;
 set_theme_mod( 'nav_menu_locations', $locations );
 
+// 4. Test stage-navigation-change matrix.
 wp_set_current_user( $users['administrator'] );
 $ability       = wp_get_ability( 'agentpress/stage-navigation-change' );
 $nav_ability   = wp_get_ability( 'agentpress/get-navigation' );
@@ -266,9 +312,9 @@ agentpress_ap022_error( $non_https, 'AP_SCHEMA_INVALID', 'Non-HTTPS custom URL w
 wp_set_current_user( $users['administrator'] );
 $final_menu = $nav_ability->execute( array( 'location' => 'primary' ) );
 agentpress_ap022_assert( is_array( $final_menu ), 'Navigation read failed after staging.' );
-agentpress_ap022_assert( $baseline_item_ids === wp_list_pluck( $final_menu['data']['items'], 'item_id' ), 'Staging mutated the live menu.' );
-global $wpdb;
-$staged_statuses = array_map( 'strval', $wpdb->get_col( "SELECT DISTINCT status FROM {$wpdb->prefix}agentpress_changes" ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+agentpress_ap022_assert( wp_list_pluck( $final_menu['data']['items'], 'item_id' ) === $baseline_item_ids, 'Staging mutated the live menu.' );
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+$staged_statuses = array_map( 'strval', $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT status FROM {$wpdb->prefix}agentpress_changes WHERE actor_user_id = %d", $users['administrator'] ) ) );
 agentpress_ap022_assert( ! in_array( 'APPLIED', $staged_statuses, true ) && array() === array_diff( $staged_statuses, array( 'PENDING_APPROVAL' ) ), 'Staging produced a non-pending change.' );
 
 // Child removal is rejected: nest Blog under About then remove About.
@@ -368,20 +414,29 @@ add_filter( 'wp_get_nav_menu_items', 'agentpress_ap022_oversized_items' );
 agentpress_ap022_error( $nav_ability->execute( array( 'location' => 'primary' ) ), 'AP_UNSUPPORTED_NAVIGATION', 'Oversized menu did not fail closed at read.' );
 remove_filter( 'wp_get_nav_menu_items', 'agentpress_ap022_oversized_items' );
 
-// Clean up synthetic fixtures.
-set_theme_mod( 'nav_menu_locations', $original_locations );
+// Clean up synthetic fixtures only.
+set_theme_mod( 'nav_menu_locations', $initial_locations );
 wp_delete_nav_menu( $menu_id );
 foreach ( array_merge( array_values( $page_ids ), array( $services_id ) ) as $page_id ) {
 	wp_delete_post( $page_id, true );
 }
+
+$user_ids = array_values( $users );
+$in_users = implode( ',', array_map( 'intval', $user_ids ) );
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+$wpdb->query( "DELETE FROM {$wpdb->prefix}agentpress_changes WHERE actor_user_id IN ({$in_users})" );
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+$wpdb->query( "DELETE FROM {$wpdb->prefix}agentpress_change_sets WHERE initiator_user_id IN ({$in_users})" );
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+$wpdb->query( "DELETE FROM {$wpdb->prefix}agentpress_audit_events WHERE user_id IN ({$in_users})" );
+
 foreach ( $users as $user_id ) {
 	wp_delete_user( $user_id );
 }
-global $wpdb;
-foreach ( array( 'agentpress_changes', 'agentpress_change_sets' ) as $suffix ) {
-	$wpdb->query( $wpdb->prepare( 'DELETE FROM %i', $wpdb->prefix . $suffix ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+if ( ! $was_primary_registered ) {
+	unregister_nav_menu( 'primary' );
 }
-unregister_nav_menu( 'primary' );
+wp_set_current_user( $initial_user_id );
 
 echo wp_json_encode(
 	array(
