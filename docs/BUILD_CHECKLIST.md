@@ -221,7 +221,7 @@
 
 ### AP-026 — Implement `publish-content`
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-015, AP-023
 - **Demo critical:** no
 - **Deliverable:** always-staged publish proposal and narrow approval executor.
@@ -245,7 +245,7 @@
 
 ### AP-033 — Implement `create-term`
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-014, AP-023
 - **Demo critical:** no
 - **Deliverable:** staged category/tag creation with parent validation and narrow approval executor.

@@ -317,6 +317,9 @@ final class ApprovalService {
 			$snapshot = $this->adapter->snapshot( $location );
 			return is_wp_error( $snapshot ) ? '' : $this->hasher->state_hash( $snapshot['items'] );
 		}
+		if ( 'agentpress/create-term' === $ability ) {
+			return $this->hasher->state_hash( array() );
+		}
 		if ( 'agentpress/assign-terms' === $ability ) {
 			$taxonomy = isset( $change['after_json']['taxonomy'] ) ? (string) $change['after_json']['taxonomy'] : '';
 			$current  = wp_get_object_terms( (int) $change['object_id'], $taxonomy, array( 'fields' => 'ids' ) );
@@ -358,7 +361,48 @@ final class ApprovalService {
 		if ( 'agentpress/update-content' === $ability ) {
 			return $this->apply_content( $change );
 		}
+		if ( 'agentpress/publish-content' === $ability ) {
+			$updated = wp_update_post(
+				array(
+					'ID'          => (int) $change['object_id'],
+					'post_status' => 'publish',
+				),
+				true
+			);
+			if ( is_wp_error( $updated ) || (int) $updated !== (int) $change['object_id'] ) {
+				return ErrorFactory::make( 'AP_INTERNAL_ERROR' );
+			}
+			return array( 'object_id' => (int) $change['object_id'] );
+		}
+		if ( 'agentpress/create-term' === $ability ) {
+			$after    = $this->as_array( $change['after_json'] );
+			$inserted = wp_insert_term( (string) $after['name'], (string) $after['taxonomy'], $this->term_args( $after ) );
+			if ( is_wp_error( $inserted ) || ! isset( $inserted['term_id'] ) ) {
+				return ErrorFactory::make( 'AP_INTERNAL_ERROR' );
+			}
+			return array( 'object_id' => (int) $inserted['term_id'] );
+		}
 		return ErrorFactory::make( 'AP_UNSUPPORTED_NAVIGATION' );
+	}
+
+	/**
+	 * Build wp_insert_term args from a proposed term.
+	 *
+	 * @param array<string, mixed> $after Proposed term.
+	 * @return array<string, mixed>
+	 */
+	private function term_args( $after ) {
+		$args = array();
+		if ( isset( $after['slug'] ) && '' !== (string) $after['slug'] ) {
+			$args['slug'] = (string) $after['slug'];
+		}
+		if ( isset( $after['description'] ) && '' !== (string) $after['description'] ) {
+			$args['description'] = (string) $after['description'];
+		}
+		if ( isset( $after['parent_id'] ) && (int) $after['parent_id'] > 0 ) {
+			$args['parent'] = (int) $after['parent_id'];
+		}
+		return $args;
 	}
 
 	/**
