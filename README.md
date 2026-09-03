@@ -47,7 +47,7 @@ Craig Burton."
  - Sanitized audit on everything. Allowed or denied, with no secrets.
  - Evidence-led. Every feature is an acceptance-tested task recorded as a reproducible experiment.
 
-> **Project stage:** active implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, persistence, policy, fixed 15-Ability catalog, audit, bootstrap/content/taxonomy/classic-navigation reads, draft/content/term writes, Change Set and Activity reads, classic-menu navigation staging, human approval and rejection, and wp-admin Overview are implemented. Changes and Activity collaboration screens, release, and the full live workflow remain unimplemented or unverified.
+> **Project stage:** active implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, persistence, policy, fixed 15-Ability catalog, audit, bootstrap/content/taxonomy/classic-navigation reads, draft/content/term writes, Change Set and Activity reads, classic-menu navigation staging, human approval and rejection, and native wp-admin Overview/Changes/Activity screens are implemented and repository-tested. Release and the complete live workflow remain unverified.
 
 ## Product thesis
 
@@ -202,21 +202,22 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Classic-menu navigation staging | `OBSERVED`, local implementation and acceptance matrix pass; `UNCOMMITTED` and not live-verified | [Experiment 036](docs/evidence/sessions/2026-09-03-exp-036-stage-navigation-change.md) |
 | Human approval and rejection | `OBSERVED`, local implementation and acceptance matrix pass; `UNCOMMITTED` and not live-verified | [Experiment 037](docs/evidence/sessions/2026-09-03-exp-037-approval-rejection.md) |
 | Publish and term staging + approval | `OBSERVED`, local implementation and acceptance matrix pass; `UNCOMMITTED` and not live-verified | [Experiment 038](docs/evidence/sessions/2026-09-03-exp-038-publish-term-staging-approval.md) |
+| Changes and Activity collaboration UI | `OBSERVED`, native UI/component and WordPress cursor/visibility/privacy matrices pass; not live-browser-verified | [Experiment 039](docs/evidence/sessions/2026-09-03-exp-039-changes-activity-ui.md) |
 | WebMCP client integration | `OBSERVED` reads in Gemini/Chrome and ChatGPT built-in browser; Codex built-in-browser page draft creation and exact read-back; Author role-switch gate `NOT_TESTED` | [Experiment 026](docs/evidence/sessions/2026-09-02-exp-026-gemini-chrome-read-smoke.md), [Experiment 027](docs/evidence/sessions/2026-09-02-exp-027-chatgpt-site-tools-discovery-failure.md), [Experiment 028](docs/evidence/sessions/2026-09-02-exp-028-chatgpt-read-smoke.md), [Experiment 029](docs/evidence/sessions/2026-09-02-exp-029-service-page-draft-demo.md); AP-028 remains open |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `OBSERVED` public video and Devpost project URLs resolve; Devpost finalization and judge URL remain open | [Watch the demo](https://youtu.be/DJs68ZSfrBA); [Devpost project](https://devpost.com/software/agentpress); [submission package](docs/CHALLENGE_SUBMISSION_PACKAGE.md); [Experiment 030](docs/evidence/sessions/2026-09-02-exp-030-submission-package.md) |
 
 ## Next experiment
 
-AP-020 (Change Set and Activity reads), AP-022 (classic-menu navigation staging), and AP-023 (human approval and rejection) are implemented and focused-runtime-tested. The next backend tasks are AP-024 and AP-025, the Changes and Activity wp-admin screens that consume the AP-020 read services and the AP-023 approval routes, followed by AP-026 (publish) and AP-033 (create-term) which feed the same approval flow.
+AP-024 and AP-025 now provide the native Changes review workspace and sanitized Activity feed over the implemented staging and approval backend. The next unblocked engineering task is AP-029: consolidate the complete security gate on a clean WordPress 6.9 environment before release packaging.
 
-**Hypothesis:** the existing read services and approval routes can drive a small WordPress-components Changes list/detail/approve flow and an Activity feed with cursor polling, without introducing a WebSocket or a separate mutation path.
+**Hypothesis:** the existing focused security matrices can be made self-contained and run together on a clean WordPress 6.9 environment without order-dependent fixtures.
 
-**Falsification condition:** the screens show a wrong count, an unapproved proposal is displayed as applied, an approve/reject action from the UI diverges from the service, or polling misses or duplicates events.
+**Falsification condition:** any role, direct-call, nonce, rate, schema, idempotency, stale-state, concurrency, or audit assertion depends on test order or fails to verify zero unauthorized mutation.
 
-**Prerequisite evidence:** AP-019 (admin shell), AP-020 (reads), and AP-023 (approval routes) provide the data and mutation surface required by AP-024/AP-025.
+**Prerequisite evidence:** AP-018 and the completed write/staging/approval tasks provide the focused matrices AP-029 must consolidate.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-024--build-changes-listdetail-and-approval-ui).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-029--run-the-full-security-and-approval-integration-gate).
 
 ## Local development
 

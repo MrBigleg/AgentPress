@@ -118,6 +118,29 @@ export function fetchAgentPressDefinitions({
 }
 
 /**
+ * Fetch one private AgentPress admin resource with the shared nonce policy.
+ */
+export function fetchAgentPressJson({
+  endpoint,
+  method = 'GET',
+  body,
+  fetchImpl = globalThis.fetch,
+  getRequestInit = () => ({}),
+  refreshNonce,
+  signal,
+}) {
+  return requestJsonWithNonceRetry({
+    endpoint,
+    fetchImpl,
+    getRequestInit,
+    refreshNonce,
+    signal,
+    method,
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+}
+
+/**
  * Keep the REST nonce only in this page's closure and refresh it once on demand.
  */
 export function createRestNonceManager({

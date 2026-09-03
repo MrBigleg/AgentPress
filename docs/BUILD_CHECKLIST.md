@@ -205,7 +205,7 @@
 
 ### AP-024 — Build Changes list/detail and approval UI
 
-- [ ] **Difficulty:** L
+- [x] **Difficulty:** L
 - **Depends on:** AP-019, AP-020, AP-023
 - **Demo critical:** yes
 - **Deliverable:** list/detail states, semantic diffs, explicit Approve/Reject, disabled in-flight actions, expired/conflict/failure messages, and current-state refresh.
@@ -213,7 +213,7 @@
 
 ### AP-025 — Build Activity UI and visible collaboration polling
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-019, AP-020
 - **Demo critical:** yes
 - **Deliverable:** Activity table/filters, `/updates` cursor polling, tab pending count, draft/staged/applied notices, visibility pause, and escaped details.

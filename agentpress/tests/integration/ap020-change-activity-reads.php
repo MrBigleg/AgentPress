@@ -157,7 +157,7 @@ $change_author_b = $changes->create(
 	)
 );
 
-$audit->record(
+$event_author_id = $audit->record(
 	array(
 		'request_id'    => wp_generate_uuid4(),
 		'actor_type'    => 'webmcp',
@@ -173,7 +173,7 @@ $audit->record(
 		'duration_ms'   => 42,
 	)
 );
-$audit->record(
+$event_admin_id = $audit->record(
 	array(
 		'request_id'    => wp_generate_uuid4(),
 		'actor_type'    => 'webmcp',
@@ -189,7 +189,7 @@ $audit->record(
 		'duration_ms'   => 7,
 	)
 );
-$audit->record(
+$event_subscriber_id = $audit->record(
 	array(
 		'request_id'    => wp_generate_uuid4(),
 		'actor_type'    => 'webmcp',
@@ -216,6 +216,8 @@ $change_ability   = wp_get_ability( 'agentpress/get-change-set' );
 $list_ability     = wp_get_ability( 'agentpress/list-change-sets' );
 $activity_ability = wp_get_ability( 'agentpress/get-agent-activity' );
 agentpress_ap020_assert( is_object( $change_ability ) && is_object( $list_ability ) && is_object( $activity_ability ), 'AP-020 read Abilities are not registered.' );
+$rest_routes = rest_get_server()->get_routes();
+agentpress_ap020_assert( isset( $rest_routes['/agentpress/v1/updates'] ), 'Private updates route is not registered.' );
 
 // Administrator can see every Change Set and every event.
 wp_set_current_user( $users['administrator'] );
@@ -238,6 +240,11 @@ agentpress_ap020_assert( 3 <= $admin_activity['data']['total'], 'Administrator d
 $admin_serialized = wp_json_encode( $admin_activity );
 agentpress_ap020_assert( false === strpos( $admin_serialized, 'SECRET-COOKIE-AP020' ) && false === strpos( $admin_serialized, 'SECRET-PASSWORD-AP020' ), 'Activity leaked secret argument data.' );
 agentpress_ap020_assert( false === strpos( wp_json_encode( $admin_author_set ), 'PRIVATE-BODY-SENTINEL-AP020' ), 'Detail disclosed an oversized proposal body verbatim.' );
+$admin_updates = $activity_service->updates( array( 'after_event_id' => $event_author_id, 'per_page' => 100 ) );
+agentpress_ap020_assert( true === $admin_updates['ok'] && array( $event_admin_id, $event_subscriber_id ) === array_column( $admin_updates['data']['items'], 'id' ), 'Administrator cursor updates were not stable and ascending.' );
+agentpress_ap020_assert( $event_subscriber_id === $admin_updates['data']['cursor'], 'Administrator update cursor did not advance to the last event.' );
+$admin_no_updates = $activity_service->updates( array( 'after_event_id' => $admin_updates['data']['cursor'] ) );
+agentpress_ap020_assert( array() === $admin_no_updates['data']['items'] && $event_subscriber_id === $admin_no_updates['data']['cursor'], 'Repeated cursor duplicated an event.' );
 
 // Author sees only own rows and cannot discover another user's Change Set.
 wp_set_current_user( $users['author'] );
@@ -256,6 +263,8 @@ $author_activity = $activity_ability->execute( array( 'per_page' => 50 ) );
 agentpress_ap020_assert( is_array( $author_activity ) && 1 === $author_activity['data']['total'] && $users['author'] === $author_activity['data']['items'][0]['user_id'], 'Author activity leaked another user.' );
 $author_scoped = $activity_service->execute( array( 'change_set_id' => $cs_admin ) );
 agentpress_ap020_assert( 0 === $author_scoped['data']['total'], 'Author activity exposed another set events.' );
+$author_updates = $activity_service->updates( array( 'after_event_id' => 0 ) );
+agentpress_ap020_assert( array( $event_author_id ) === array_column( $author_updates['data']['items'], 'id' ), 'Author update cursor leaked another user.' );
 
 // Subscriber sees no Change Sets and only its own activity.
 wp_set_current_user( $users['subscriber'] );
@@ -271,6 +280,9 @@ agentpress_ap020_error( $change_service->listing( array( 'page' => 0 ) ), 'AP_SC
 agentpress_ap020_error( $change_service->listing( array( 'per_page' => 51 ) ), 'AP_SCHEMA_INVALID', 'List accepted oversized per_page.' );
 agentpress_ap020_error( $activity_service->execute( array( 'result' => 'NOT_A_RESULT' ) ), 'AP_SCHEMA_INVALID', 'Activity accepted an unknown result.' );
 agentpress_ap020_error( $activity_service->execute( array( 'change_set_id' => '7' ) ), 'AP_SCHEMA_INVALID', 'Activity accepted a non-integer set id.' );
+agentpress_ap020_error( $activity_service->updates( array( 'after_event_id' => -1 ) ), 'AP_SCHEMA_INVALID', 'Updates accepted a negative cursor.' );
+agentpress_ap020_error( $activity_service->updates( array( 'per_page' => 101 ) ), 'AP_SCHEMA_INVALID', 'Updates accepted an oversized page.' );
+agentpress_ap020_error( $activity_service->updates( array( 'bogus' => 1 ) ), 'AP_SCHEMA_INVALID', 'Updates accepted an unknown key.' );
 agentpress_ap020_error( $change_service->get( array( 'change_set_id' => 0 ) ), 'AP_SCHEMA_INVALID', 'Detail accepted a non-positive set id.' );
 agentpress_ap020_error( $change_service->get( array( 'change_set_id' => -1 ) ), 'AP_SCHEMA_INVALID', 'Detail accepted a negative set id.' );
 
@@ -304,7 +316,8 @@ echo wp_json_encode(
 		'author_visible_sets'        => 1,
 		'subscriber_visible_sets'    => 0,
 		'author_guessed_set_denials' => 3,
-		'schema_denials'             => 7,
+		'schema_denials'             => 10,
+		'cursor_duplicate_events'    => 0,
 		'secret_leaks'               => 0,
 		'read_mutations'             => 0,
 	)

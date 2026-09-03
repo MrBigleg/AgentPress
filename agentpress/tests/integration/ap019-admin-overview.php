@@ -59,6 +59,7 @@ $page->render();
 $html = ob_get_clean();
 agentpress_ap019_assert( false !== strpos( $html, 'id="agentpress-admin"' ) && false !== strpos( $html, 'id="agentpress-admin-settings"' ), 'Application root/settings missing.' );
 agentpress_ap019_assert( false !== strpos( $html, '"context":{"ok":true' ), 'Live context was not bootstrapped into the page.' );
+agentpress_ap019_assert( false !== strpos( $html, '"changeSetsEndpoint"' ) && false !== strpos( $html, '"updatesEndpoint"' ) && false !== strpos( $html, '"pollIntervalMs":5000' ), 'Changes/Activity settings were not bootstrapped.' );
 agentpress_ap019_assert( false === stripos( $html, 'chatbot' ), 'Chatbot language reached the shell.' );
 agentpress_ap019_assert( false === strpos( $html, wp_get_current_user()->user_email ), 'Private email leaked into shell.' );
 

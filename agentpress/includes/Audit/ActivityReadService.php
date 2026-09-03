@@ -59,22 +59,7 @@ final class ActivityReadService {
 		$rows      = $this->wpdb->get_results( $this->wpdb->prepare( $list_sql, array_merge( $args, array( $per_page, ( $page - 1 ) * $per_page ) ) ), ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$items     = array();
 		foreach ( is_array( $rows ) ? $rows : array() as $row ) {
-			$timestamp = strtotime( $row['created_at'] . ' UTC' );
-			$items[]   = array(
-				'id'            => (int) $row['id'],
-				'request_id'    => (string) $row['request_id'],
-				'created_gmt'   => false === $timestamp ? '1970-01-01T00:00:00Z' : gmdate( 'Y-m-d\TH:i:s\Z', $timestamp ),
-				'actor_type'    => (string) $row['actor_type'],
-				'user_id'       => (int) $row['user_id'],
-				'ability'       => substr( (string) $row['ability'], 0, 100 ),
-				'object_type'   => substr( (string) $row['object_type'], 0, 40 ),
-				'object_id'     => (int) $row['object_id'],
-				'result'        => (string) $row['result'],
-				'error_code'    => substr( (string) $row['error_code'], 0, 64 ),
-				'duration_ms'   => max( 0, (int) $row['duration_ms'] ),
-				'change_set_id' => (int) $row['change_set_id'],
-				'change_id'     => (int) $row['change_id'],
-			);
+			$items[] = $this->format_row( $row );
 		}
 		return ResultFactory::success(
 			array(
@@ -84,6 +69,64 @@ final class ActivityReadService {
 				'total'       => $total,
 				'total_pages' => 0 === $total ? 0 : (int) ceil( $total / $per_page ),
 			)
+		);
+	}
+
+	/**
+	 * Return visible events after a stable numeric cursor, oldest first.
+	 *
+	 * @param array<string, mixed> $input Cursor input.
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	public function updates( $input ) {
+		$allowed = array( 'after_event_id', 'per_page' );
+		if ( ! is_array( $input ) || array_diff( array_keys( $input ), $allowed ) ) {
+			return ErrorFactory::make( 'AP_SCHEMA_INVALID' );
+		}
+		$after    = isset( $input['after_event_id'] ) ? $input['after_event_id'] : 0;
+		$per_page = isset( $input['per_page'] ) ? $input['per_page'] : 100;
+		if ( ! is_int( $after ) || $after < 0 || ! is_int( $per_page ) || $per_page < 1 || $per_page > 100 ) {
+			return ErrorFactory::make( 'AP_SCHEMA_INVALID' );
+		}
+
+		$where = array( 'id > %d' );
+		$args  = array( $after );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			$where[] = 'user_id = %d';
+			$args[]  = get_current_user_id();
+		}
+
+		$table  = $this->wpdb->prefix . 'agentpress_audit_events';
+		$sql    = 'SELECT id, request_id, created_at, actor_type, user_id, ability, object_type, object_id, result, error_code, duration_ms, change_set_id, change_id FROM ' . $table . ' WHERE ' . implode( ' AND ', $where ) . ' ORDER BY id ASC LIMIT %d';
+		$rows   = $this->wpdb->get_results( $this->wpdb->prepare( $sql, array_merge( $args, array( $per_page ) ) ), ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$items  = array_map( array( $this, 'format_row' ), is_array( $rows ) ? $rows : array() );
+		$cursor = empty( $items ) ? $after : (int) $items[ count( $items ) - 1 ]['id'];
+
+		return ResultFactory::success(
+			array(
+				'items'  => $items,
+				'cursor' => $cursor,
+			)
+		);
+	}
+
+	/** @param array<string, mixed> $row Database row. @return array<string, mixed> */
+	private function format_row( $row ) {
+		$timestamp = strtotime( $row['created_at'] . ' UTC' );
+		return array(
+			'id'            => (int) $row['id'],
+			'request_id'    => (string) $row['request_id'],
+			'created_gmt'   => false === $timestamp ? '1970-01-01T00:00:00Z' : gmdate( 'Y-m-d\TH:i:s\Z', $timestamp ),
+			'actor_type'    => (string) $row['actor_type'],
+			'user_id'       => (int) $row['user_id'],
+			'ability'       => substr( (string) $row['ability'], 0, 100 ),
+			'object_type'   => substr( (string) $row['object_type'], 0, 40 ),
+			'object_id'     => (int) $row['object_id'],
+			'result'        => (string) $row['result'],
+			'error_code'    => substr( (string) $row['error_code'], 0, 64 ),
+			'duration_ms'   => max( 0, (int) $row['duration_ms'] ),
+			'change_set_id' => (int) $row['change_set_id'],
+			'change_id'     => (int) $row['change_id'],
 		);
 	}
 

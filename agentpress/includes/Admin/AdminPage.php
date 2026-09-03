@@ -79,14 +79,19 @@ final class AdminPage {
 		}
 
 		$settings = array(
-			'toolsEndpoint'   => rest_url( 'agentpress/v1/webmcp/tools' ),
-			'executeEndpoint' => rest_url( 'agentpress/v1/webmcp/execute' ),
-			'refreshEndpoint' => admin_url( 'admin-ajax.php' ),
-			'context'         => ( new ContextService() )->execute(),
-			'nonce'           => wp_create_nonce( 'wp_rest' ),
-			'isHttps'         => is_ssl(),
-			'abilitiesApi'    => function_exists( 'wp_get_ability' ),
-			'wordpress'       => get_bloginfo( 'version' ),
+			'toolsEndpoint'      => rest_url( 'agentpress/v1/webmcp/tools' ),
+			'executeEndpoint'    => rest_url( 'agentpress/v1/webmcp/execute' ),
+			'changeSetsEndpoint' => rest_url( 'agentpress/v1/change-sets' ),
+			'activityEndpoint'   => rest_url( 'agentpress/v1/activity' ),
+			'updatesEndpoint'    => rest_url( 'agentpress/v1/updates' ),
+			'changesEndpoint'    => rest_url( 'agentpress/v1/changes/' ),
+			'refreshEndpoint'    => admin_url( 'admin-ajax.php' ),
+			'pollIntervalMs'     => 5000,
+			'context'            => ( new ContextService() )->execute(),
+			'nonce'              => wp_create_nonce( 'wp_rest' ),
+			'isHttps'            => is_ssl(),
+			'abilitiesApi'       => function_exists( 'wp_get_ability' ),
+			'wordpress'          => get_bloginfo( 'version' ),
 		);
 		?>
 		<div class="wrap agentpress-admin-wrap">

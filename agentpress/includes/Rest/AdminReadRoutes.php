@@ -73,6 +73,15 @@ final class AdminReadRoutes {
 				'permission_callback' => array( $this, 'authorize' ),
 			)
 		);
+		register_rest_route(
+			WebMCPRoutes::REST_NAMESPACE,
+			'/updates',
+			array(
+				'methods'             => \WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_updates' ),
+				'permission_callback' => array( $this, 'authorize' ),
+			)
+		);
 	}
 
 	/** @param \WP_REST_Request $request Request. @return true|\WP_Error */
@@ -95,6 +104,11 @@ final class AdminReadRoutes {
 		return $this->response( $this->activity->execute( $this->query_input( $request, array( 'change_set_id', 'result', 'page', 'per_page' ) ) ) );
 	}
 
+	/** @param \WP_REST_Request $request Request. @return \WP_REST_Response|\WP_Error */
+	public function get_updates( $request ) {
+		return $this->response( $this->activity->updates( $this->query_input( $request, array( 'after_event_id', 'per_page' ) ) ) );
+	}
+
 	/** @param \WP_REST_Request $request Request. @param array<int, string> $allowed Allowed keys. @return array<string, mixed> */
 	private function query_input( $request, $allowed ) {
 		$query = $request->get_query_params();
@@ -106,7 +120,7 @@ final class AdminReadRoutes {
 			if ( ! array_key_exists( $key, $query ) ) {
 				continue;
 			}
-			$input[ $key ] = in_array( $key, array( 'change_set_id', 'page', 'per_page' ), true ) ? (int) $query[ $key ] : (string) $query[ $key ];
+			$input[ $key ] = in_array( $key, array( 'change_set_id', 'after_event_id', 'page', 'per_page' ), true ) ? (int) $query[ $key ] : (string) $query[ $key ];
 		}
 		return $input;
 	}
