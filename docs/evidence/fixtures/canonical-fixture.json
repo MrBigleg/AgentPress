@@ -1,0 +1,55 @@
+{
+  "schema": "agentpress-canonical-fixture-v1",
+  "generated_at": "2026-09-03T03:50:22Z",
+  "site": {
+    "title": "Acme Web &amp; Digital Studio",
+    "tagline": "Modern web design, SEO, and digital consulting",
+    "home_page": 1192,
+    "blog_page": 1194,
+    "theme": "twentytwentyone"
+  },
+  "users": {
+    "administrator": {
+      "id": 118,
+      "login": "agentpress_admin",
+      "email": "agentpress_admin@example.test"
+    },
+    "author": {
+      "id": 119,
+      "login": "agentpress_author",
+      "email": "agentpress_author@example.test"
+    }
+  },
+  "categories": {
+    "news": 32,
+    "announcements": 33,
+    "case_studies": 34
+  },
+  "pages": {
+    "home": 1192,
+    "about": 1193,
+    "blog": 1194,
+    "contact": 1195
+  },
+  "posts": {
+    "welcoming_team": 1196,
+    "spring_trends": 1197
+  },
+  "navigation": {
+    "menu_id": 38,
+    "menu_name": "Primary Navigation",
+    "location": "primary",
+    "items": {
+      "home": 1216,
+      "about": 1217,
+      "blog": 1218,
+      "contact": 1219
+    },
+    "state_hash": "19ca97b4d3106b6799cb5563cd137c7aef07cea2abaf0065c7a04d43332a75c7"
+  },
+  "agentpress_db": {
+    "changes_count": 0,
+    "change_sets_count": 0,
+    "audit_count": 0
+  }
+}
