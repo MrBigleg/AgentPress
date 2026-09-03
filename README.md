@@ -47,7 +47,7 @@ Craig Burton."
  - Sanitized audit on everything. Allowed or denied, with no secrets.
  - Evidence-led. Every feature is an acceptance-tested task recorded as a reproducible experiment.
 
-> **Project stage:** active implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, persistence, policy, fixed 15-Ability catalog, audit, bootstrap/content/taxonomy/classic-navigation reads, draft/term writes, and wp-admin Overview are implemented. Navigation staging, approval/collaboration UI, release, and the full live workflow remain unimplemented or unverified.
+> **Project stage:** active implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, persistence, policy, fixed 15-Ability catalog, audit, bootstrap/content/taxonomy/classic-navigation reads, draft/content/term writes, and wp-admin Overview are implemented. Change reads, navigation staging, approval/collaboration UI, release, and the full live workflow remain unimplemented or unverified.
 
 ## Product thesis
 
@@ -204,7 +204,7 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 
 ## Next experiment
 
-AP-021 is locally implemented and acceptance-tested, so `get-navigation` now returns one bounded classic-menu location and deterministic state hash. It remains `UNCOMMITTED` and is not live-client evidence. The next smallest dependency-unblocking task is AP-016, `update-content`; it unlocks both the P0 authorization suite and approval execution.
+AP-021 is merged and acceptance-tested, so `get-navigation` returns one bounded classic-menu location and deterministic state hash. AP-016 is locally implemented and focused-runtime-tested: `update-content` applies only to AgentPress-created drafts and stages immutable proposals for all other editable targets with zero direct mutation. It remains `UNCOMMITTED` and is not live-client evidence. The next backend task is AP-020, the Change Set and sanitized Activity read layer needed by the approval and collaboration interfaces.
 
 **Hypothesis:** one bounded update service can automatically patch only an authorized AgentPress-created draft while storing an immutable R2 proposal for every other editable draft or published target.
 
