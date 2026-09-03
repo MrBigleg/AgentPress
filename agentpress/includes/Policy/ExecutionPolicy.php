@@ -7,6 +7,7 @@
 
 namespace AgentPress\Policy;
 
+use AgentPress\Changes\ChangeSetRepository;
 use AgentPress\Errors\ErrorFactory;
 use AgentPress\WebMCP\AbilityMap;
 
@@ -93,6 +94,16 @@ final class ExecutionPolicy {
 			}
 			if ( ! in_array( $post->post_type, array( 'post', 'page' ), true ) ) {
 				return ErrorFactory::make( 'AP_UNSUPPORTED_POST_TYPE' );
+			}
+		}
+		if ( 'agentpress/get-change-set' === $ability ) {
+			$set = isset( $context['change_set_id'] ) ? ( new ChangeSetRepository() )->find( (int) $context['change_set_id'] ) : null;
+			if ( ! is_array( $set ) ) {
+				return ErrorFactory::make( 'AP_CHANGE_NOT_FOUND' );
+			}
+			$context['owns_resource'] = get_current_user_id() === (int) $set['initiator_user_id'];
+			if ( ! $context['owns_resource'] && ! current_user_can( 'manage_options' ) ) {
+				return ErrorFactory::make( 'AP_CHANGE_NOT_FOUND' );
 			}
 		}
 
