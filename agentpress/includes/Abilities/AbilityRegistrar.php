@@ -7,6 +7,8 @@
 
 namespace AgentPress\Abilities;
 
+use AgentPress\Audit\ActivityReadService;
+use AgentPress\Changes\ChangeSetReadService;
 use AgentPress\Content\ContentReadService;
 use AgentPress\Content\ContentUpdateService;
 use AgentPress\Content\DraftCreationService;
@@ -47,6 +49,8 @@ final class AbilityRegistrar {
 		$this->policy = $policy ?? new ExecutionPolicy();
 		if ( null === $executor ) {
 			$context            = new ContextService();
+			$change_sets        = new ChangeSetReadService();
+			$activity           = new ActivityReadService();
 			$structure          = new SiteStructureService();
 			$content            = new ContentReadService();
 			$updates            = new ContentUpdateService();
@@ -55,7 +59,7 @@ final class AbilityRegistrar {
 			$navigation_staging = new StageNavigationChangeService();
 			$assignment         = new TermAssignmentService();
 			$terms              = new TermReadService();
-			$executor           = static function ( $ability, $input ) use ( $context, $structure, $content, $updates, $drafts, $navigation, $navigation_staging, $assignment, $terms ) {
+			$executor           = static function ( $ability, $input ) use ( $context, $change_sets, $activity, $structure, $content, $updates, $drafts, $navigation, $navigation_staging, $assignment, $terms ) {
 				if ( 'agentpress/get-context' === $ability ) {
 					return $context->execute();
 				}
@@ -85,6 +89,15 @@ final class AbilityRegistrar {
 				}
 				if ( 'agentpress/assign-terms' === $ability ) {
 					return $assignment->execute( $input );
+				}
+				if ( 'agentpress/get-change-set' === $ability ) {
+					return $change_sets->get( $input );
+				}
+				if ( 'agentpress/list-change-sets' === $ability ) {
+					return $change_sets->listing( $input );
+				}
+				if ( 'agentpress/get-agent-activity' === $ability ) {
+					return $activity->execute( $input );
 				}
 				return ErrorFactory::make( 'AP_INTERNAL_ERROR' );
 			};

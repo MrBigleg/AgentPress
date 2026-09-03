@@ -23,6 +23,13 @@ final class Plugin {
 	private $webmcp_routes;
 
 	/**
+	 * Private wp-admin read routes.
+	 *
+	 * @var \AgentPress\Rest\AdminReadRoutes|null
+	 */
+	private $admin_read_routes;
+
+	/**
 	 * Fixed WordPress Ability registrar.
 	 *
 	 * @var AbilityRegistrar|null
@@ -80,6 +87,8 @@ final class Plugin {
 		$this->admin_page->register_hooks();
 		$this->webmcp_routes = new \AgentPress\Rest\WebMCPRoutes();
 		$this->webmcp_routes->register_hooks();
+		$this->admin_read_routes = new \AgentPress\Rest\AdminReadRoutes();
+		$this->admin_read_routes->register_hooks();
 		add_action( 'plugins_loaded', array( Migrator::class, 'maybe_migrate' ) );
 		do_action( 'agentpress_initialized', $this );
 	}

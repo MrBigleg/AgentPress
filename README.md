@@ -47,7 +47,7 @@ Craig Burton."
  - Sanitized audit on everything. Allowed or denied, with no secrets.
  - Evidence-led. Every feature is an acceptance-tested task recorded as a reproducible experiment.
 
-> **Project stage:** active implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, persistence, policy, fixed 15-Ability catalog, audit, bootstrap/content/taxonomy/classic-navigation reads, draft/content/term writes, classic-menu navigation staging, and wp-admin Overview are implemented. Approval/collaboration UI, release, and the full live workflow remain unimplemented or unverified.
+> **Project stage:** active implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, persistence, policy, fixed 15-Ability catalog, audit, bootstrap/content/taxonomy/classic-navigation reads, draft/content/term writes, Change Set and Activity reads, classic-menu navigation staging, and wp-admin Overview are implemented. Approval/collaboration UI, release, and the full live workflow remain unimplemented or unverified.
 
 ## Product thesis
 
@@ -198,6 +198,7 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Atomic existing-term assignment | `OBSERVED`, merged in PR #33; local append/replace/R1/R2/authority/idempotency and hosted repository gates pass | [Experiment 022](docs/evidence/sessions/2026-09-01-exp-022-assign-terms.md) |
 | wp-admin shell and Overview | `OBSERVED`, merged in PR #35; local role/component/runtime/visual/package and hosted repository gates pass | [Experiment 023](docs/evidence/sessions/2026-09-01-exp-023-admin-overview.md) |
 | Bounded classic-navigation read | `OBSERVED`, local implementation and acceptance matrix pass; `UNCOMMITTED` and not live-verified | [Experiment 031](docs/evidence/sessions/2026-09-03-exp-031-classic-navigation-read.md) |
+| Change Set and Activity reads | `OBSERVED`, local runtime acceptance matrix passes; `UNCOMMITTED` and not live-verified | [Experiment 033](docs/evidence/sessions/2026-09-03-exp-033-change-activity-reads.md) |
 | Classic-menu navigation staging | `OBSERVED`, local implementation and acceptance matrix pass; `UNCOMMITTED` and not live-verified | [Experiment 036](docs/evidence/sessions/2026-09-03-exp-036-stage-navigation-change.md) |
 | WebMCP client integration | `OBSERVED` reads in Gemini/Chrome and ChatGPT built-in browser; Codex built-in-browser page draft creation and exact read-back; Author role-switch gate `NOT_TESTED` | [Experiment 026](docs/evidence/sessions/2026-09-02-exp-026-gemini-chrome-read-smoke.md), [Experiment 027](docs/evidence/sessions/2026-09-02-exp-027-chatgpt-site-tools-discovery-failure.md), [Experiment 028](docs/evidence/sessions/2026-09-02-exp-028-chatgpt-read-smoke.md), [Experiment 029](docs/evidence/sessions/2026-09-02-exp-029-service-page-draft-demo.md); AP-028 remains open |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
@@ -205,7 +206,7 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 
 ## Next experiment
 
-AP-016 (bounded content updates) and AP-022 (classic-menu navigation staging) are implemented and focused-runtime-tested but not yet live-client evidence; both remain `UNCOMMITTED` on their feature branches. The next backend task is AP-023, the approval and rejection service and routes, which builds on the merged AP-010 coordinator and AP-022 staging: it must approve or reject a pending R2 proposal by re-reading and re-hashing the live menu, applying it on approval with no stale-state or privilege bypass, and recording the human approver.
+AP-016 (bounded content updates), AP-020 (Change Set and Activity reads), and AP-022 (classic-menu navigation staging) are implemented and focused-runtime-tested. The next backend task is AP-023, the approval and rejection service and routes, which builds on the merged AP-010 coordinator and AP-022 staging: it must approve or reject a pending R2 proposal by re-reading and re-hashing the live menu, applying it on approval with no stale-state or privilege bypass, and recording the human approver.
 
 **Hypothesis:** the existing Change Set child rows with immutable target/proposal hashes can be approved or rejected by a trusted executor that re-validates the current target state and the caller's authority without prior direct mutation.
 

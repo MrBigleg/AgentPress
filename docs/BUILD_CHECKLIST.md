@@ -173,7 +173,7 @@
 
 ### AP-020 — Implement Change Set and Activity read services
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-009, AP-010
 - **Demo critical:** yes
 - **Deliverable:** `get-change-set`, `list-change-sets`, `get-agent-activity`, admin read routes, ownership filtering, pagination, and bounded semantic summaries.
