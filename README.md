@@ -203,21 +203,22 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Human approval and rejection | `OBSERVED`, local implementation and acceptance matrix pass; `UNCOMMITTED` and not live-verified | [Experiment 037](docs/evidence/sessions/2026-09-03-exp-037-approval-rejection.md) |
 | Publish and term staging + approval | `OBSERVED`, local implementation and acceptance matrix pass; `UNCOMMITTED` and not live-verified | [Experiment 038](docs/evidence/sessions/2026-09-03-exp-038-publish-term-staging-approval.md) |
 | Changes and Activity collaboration UI | `OBSERVED`, native UI/component and WordPress cursor/visibility/privacy matrices pass; not live-browser-verified | [Experiment 039](docs/evidence/sessions/2026-09-03-exp-039-changes-activity-ui.md) |
+| P0 security and approval gate | `OBSERVED`, consolidated CI runner covers 16 matrices; the original 15-matrix full run, atomic-claim matrix, and hardened order permutations passed locally; the final combined runner was not rerun after integration | [Experiment 040](docs/evidence/sessions/2026-09-03-exp-040-p0-security-integration-gate.md), [Experiment 041](docs/evidence/sessions/2026-09-03-exp-041-security-test-hardening.md) |
 | WebMCP client integration | `OBSERVED` reads in Gemini/Chrome and ChatGPT built-in browser; Codex built-in-browser page draft creation and exact read-back; Author role-switch gate `NOT_TESTED` | [Experiment 026](docs/evidence/sessions/2026-09-02-exp-026-gemini-chrome-read-smoke.md), [Experiment 027](docs/evidence/sessions/2026-09-02-exp-027-chatgpt-site-tools-discovery-failure.md), [Experiment 028](docs/evidence/sessions/2026-09-02-exp-028-chatgpt-read-smoke.md), [Experiment 029](docs/evidence/sessions/2026-09-02-exp-029-service-page-draft-demo.md); AP-028 remains open |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `OBSERVED` public video and Devpost project URLs resolve; Devpost finalization and judge URL remain open | [Watch the demo](https://youtu.be/DJs68ZSfrBA); [Devpost project](https://devpost.com/software/agentpress); [submission package](docs/CHALLENGE_SUBMISSION_PACKAGE.md); [Experiment 030](docs/evidence/sessions/2026-09-02-exp-030-submission-package.md) |
 
 ## Next experiment
 
-AP-024 and AP-025 now provide the native Changes review workspace and sanitized Activity feed over the implemented staging and approval backend. The next unblocked engineering task is AP-029: consolidate the complete security gate on a clean WordPress 6.9 environment before release packaging.
+AP-029 now provides the consolidated P0 security runner and CI gate. The next unblocked engineering task is AP-030: build the final reproducible release ZIP and verify clean installation/activation.
 
-**Hypothesis:** the existing focused security matrices can be made self-contained and run together on a clean WordPress 6.9 environment without order-dependent fixtures.
+**Hypothesis:** the production-only ZIP can install and activate on a clean WordPress 6.9 site, expose the fixed 15-tool catalog, pass the smoke workflow, and reproduce the same SHA-256 across two builds.
 
-**Falsification condition:** any role, direct-call, nonce, rate, schema, idempotency, stale-state, concurrency, or audit assertion depends on test order or fails to verify zero unauthorized mutation.
+**Falsification condition:** the ZIP contains development/test files, fails clean activation or smoke execution, changes the public catalog, or two unchanged-source builds produce different hashes.
 
-**Prerequisite evidence:** AP-018 and the completed write/staging/approval tasks provide the focused matrices AP-029 must consolidate.
+**Prerequisite evidence:** AP-029 provides the consolidated security gate required before release packaging.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-029--run-the-full-security-and-approval-integration-gate).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-030--package-one-installable-release-zip).
 
 ## Local development
 

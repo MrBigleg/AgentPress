@@ -253,7 +253,7 @@
 
 ### AP-029 — Run the full security and approval integration gate
 
-- [ ] **Difficulty:** L
+- [x] **Difficulty:** L
 - **Depends on:** AP-018, AP-022, AP-023, AP-026, AP-033
 - **Demo critical:** yes
 - **Deliverable:** all specified role/direct-call/nonce/rate/schema/idempotency/stale/concurrency/audit cases in CI.

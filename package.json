@@ -15,6 +15,7 @@
     "env:activate": "wp-env run cli wp plugin activate agentpress",
     "test:unit": "wp-env run cli --env-cwd=wp-content/plugins/agentpress composer test:unit",
     "test:browser": "node --test agentpress/tests/js/*.test.mjs",
+    "test:security": "node scripts/run-security-gate.mjs",
     "test:third-party": "node scripts/verify-third-party.mjs",
     "lint:php": "wp-env run cli --env-cwd=wp-content/plugins/agentpress composer lint",
     "build:zip": "node scripts/build-zip.mjs",

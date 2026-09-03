@@ -15,7 +15,7 @@
 | Agent/operator | Antigravity (Advanced Agentic Coding) |
 | Branch | `ap-029-security-test-hardening` |
 | Baseline commit | `97d13926ad2a73a666092ead2d72fc021577ec3f` |
-| Ending commit | `1c6dfb9` |
+| Ending source-branch commit | `a8c3961` |
 | Environment | Windows; Node.js 22.23.2; WordPress 6.9/PHP 8.0 wp-env (docker) |
 
 ## Question
@@ -145,7 +145,7 @@ All three security acceptance matrices are now independently repeatable and orde
 
 - `DECIDED`: No product source was modified.
 - `DECIDED`: No runner scripts, workflows, package.json, or other tests were modified.
-- `NOT_COMMITTED`: Changes are staged in worktree `ap-029-security-test-hardening` pending authorized commit.
-- `NOT_PUSHED`: Branch has not been pushed to remote.
-- `NOT_MERGED`: `main` has not been altered.
+- `OBSERVED`: Changes were committed on the isolated source branch as `a8c3961`.
+- `NOT_PUSHED`: The isolated source branch was not pushed to remote.
+- `OBSERVED`: The commit was subsequently integrated into `main` as `11dd163`; this dated correction does not alter the experiment observations.
 - `EVIDENCE_INDEX`: Left untouched for main agent integration to avoid merge conflicts.

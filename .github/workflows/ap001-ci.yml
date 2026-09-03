@@ -17,7 +17,7 @@ jobs:
   scaffold:
     name: Unit, standards, provenance, audit, and package
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     env:
       COMPOSER_ROOT_VERSION: 0.1.0
 
@@ -47,6 +47,7 @@ jobs:
       - name: Check packaging script syntax
         run: |
           node --check scripts/build-zip.mjs
+          node --check scripts/run-security-gate.mjs
           node --check scripts/verify-third-party.mjs
 
       - name: Verify third-party provenance and package boundary
@@ -76,3 +77,13 @@ jobs:
           ! grep -F 'provideContext' /tmp/webmcp-adapter.js
           ! grep -F 'localStorage' /tmp/webmcp-adapter.js
           ! grep -F 'sessionStorage' /tmp/webmcp-adapter.js
+
+      - name: Start clean WordPress integration environment
+        run: npx wp-env start
+
+      - name: Run P0 security and approval integration gate
+        run: npm run test:security
+
+      - name: Stop WordPress integration environment
+        if: always()
+        run: npx wp-env stop
