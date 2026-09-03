@@ -197,7 +197,7 @@
 
 ### AP-023 — Implement approval and rejection service/routes
 
-- [ ] **Difficulty:** L
+- [x] **Difficulty:** L
 - **Depends on:** AP-010, AP-016, AP-022
 - **Demo critical:** yes
 - **Deliverable:** explicit human endpoints, conditional claim, proposal/expiry/state revalidation, current capability recheck, narrow executors, audit, and replay/concurrency handling.

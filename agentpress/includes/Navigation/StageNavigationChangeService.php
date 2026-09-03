@@ -89,7 +89,7 @@ final class StageNavigationChangeService {
 			'actor_user_id'   => (int) get_current_user_id(),
 			'ability'         => 'agentpress/stage-navigation-change',
 			'operation'       => $operation,
-			'object_type'     => 'nav_menu_item',
+			'object_type'     => 'nav_menu_item:' . $location,
 			'object_id'       => 'remove' === $operation || 'move' === $operation ? max( 0, (int) $item['item_id'] ) : 0,
 			'idempotency_key' => (string) $input['idempotency_key'],
 			'before'          => $before,

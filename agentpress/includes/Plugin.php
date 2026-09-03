@@ -30,6 +30,13 @@ final class Plugin {
 	private $admin_read_routes;
 
 	/**
+	 * Private wp-admin approval routes.
+	 *
+	 * @var \AgentPress\Rest\ApprovalRoutes|null
+	 */
+	private $approval_routes;
+
+	/**
 	 * Fixed WordPress Ability registrar.
 	 *
 	 * @var AbilityRegistrar|null
@@ -89,6 +96,8 @@ final class Plugin {
 		$this->webmcp_routes->register_hooks();
 		$this->admin_read_routes = new \AgentPress\Rest\AdminReadRoutes();
 		$this->admin_read_routes->register_hooks();
+		$this->approval_routes = new \AgentPress\Rest\ApprovalRoutes();
+		$this->approval_routes->register_hooks();
 		add_action( 'plugins_loaded', array( Migrator::class, 'maybe_migrate' ) );
 		do_action( 'agentpress_initialized', $this );
 	}
