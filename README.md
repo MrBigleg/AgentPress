@@ -47,7 +47,7 @@ Craig Burton."
  - Sanitized audit on everything. Allowed or denied, with no secrets.
  - Evidence-led. Every feature is an acceptance-tested task recorded as a reproducible experiment.
 
-> **Project stage:** active implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, persistence, policy, fixed 15-Ability catalog, audit, bootstrap/content/taxonomy reads, draft/term writes, and wp-admin Overview are implemented. Navigation, approval/collaboration UI, release, and the live challenge workflow remain unimplemented or unverified.
+> **Project stage:** active implementation. The scaffold, attributed bridge boundary, browser adapter, private transport, persistence, policy, fixed 15-Ability catalog, audit, bootstrap/content/taxonomy/classic-navigation reads, draft/term writes, and wp-admin Overview are implemented. Navigation staging, approval/collaboration UI, release, and the full live workflow remain unimplemented or unverified.
 
 ## Product thesis
 
@@ -197,21 +197,22 @@ See the [visual asset ledger](docs/evidence/assets/README.md) for classification
 | Safe idempotent draft creation | `OBSERVED`, merged in PR #31; local role/type/parent/KSES/idempotency/zero-denied-mutation and hosted repository gates pass | [Experiment 021](docs/evidence/sessions/2026-09-01-exp-021-create-draft.md) |
 | Atomic existing-term assignment | `OBSERVED`, merged in PR #33; local append/replace/R1/R2/authority/idempotency and hosted repository gates pass | [Experiment 022](docs/evidence/sessions/2026-09-01-exp-022-assign-terms.md) |
 | wp-admin shell and Overview | `OBSERVED`, merged in PR #35; local role/component/runtime/visual/package and hosted repository gates pass | [Experiment 023](docs/evidence/sessions/2026-09-01-exp-023-admin-overview.md) |
+| Bounded classic-navigation read | `OBSERVED`, local implementation and acceptance matrix pass; `UNCOMMITTED` and not live-verified | [Experiment 031](docs/evidence/sessions/2026-09-03-exp-031-classic-navigation-read.md) |
 | WebMCP client integration | `OBSERVED` reads in Gemini/Chrome and ChatGPT built-in browser; Codex built-in-browser page draft creation and exact read-back; Author role-switch gate `NOT_TESTED` | [Experiment 026](docs/evidence/sessions/2026-09-02-exp-026-gemini-chrome-read-smoke.md), [Experiment 027](docs/evidence/sessions/2026-09-02-exp-027-chatgpt-site-tools-discovery-failure.md), [Experiment 028](docs/evidence/sessions/2026-09-02-exp-028-chatgpt-read-smoke.md), [Experiment 029](docs/evidence/sessions/2026-09-02-exp-029-service-page-draft-demo.md); AP-028 remains open |
 | Canonical workflow reliability | `NOT_TESTED` | AP-031 requires five consecutive passes |
 | Challenge submission | `OBSERVED` public video and Devpost project URLs resolve; Devpost finalization and judge URL remain open | [Watch the demo](https://youtu.be/DJs68ZSfrBA); [Devpost project](https://devpost.com/software/agentpress); [submission package](docs/CHALLENGE_SUBMISSION_PACKAGE.md); [Experiment 030](docs/evidence/sessions/2026-09-02-exp-030-submission-package.md) |
 
 ## Next experiment
 
-AP-019 is merged and green and provides the first manual-testable wp-admin surface. The next longest-path implementation task is AP-021, the classic-navigation read adapter, followed by AP-022 staging and AP-023 approval execution. AP-020 collaboration reads remains the parallel prerequisite for the later Changes and Activity interfaces.
+AP-021 is locally implemented and acceptance-tested, so `get-navigation` now returns one bounded classic-menu location and deterministic state hash. It remains `UNCOMMITTED` and is not live-client evidence. The next smallest dependency-unblocking task is AP-016, `update-content`; it unlocks both the P0 authorization suite and approval execution.
 
-**Hypothesis:** one bounded classic-menu adapter can resolve the configured `primary` location into a deterministic semantic hierarchy and state hash while rejecting unassigned or unsupported navigation without mutation.
+**Hypothesis:** one bounded update service can automatically patch only an authorized AgentPress-created draft while storing an immutable R2 proposal for every other editable draft or published target.
 
-**Falsification condition:** the fixture hierarchy differs from WordPress, relabel/move/add/remove/location changes fail to change the hash, unsupported block/unassigned navigation is accepted, private destinations leak, or a read mutates menu state.
+**Falsification condition:** an AgentPress-created draft does not receive the exact permitted patch, any ordinary/published target changes during staging, ownership/parent/field checks fail, idempotent replay duplicates work, or any denied request mutates WordPress or AgentPress target state.
 
-**Prerequisite evidence:** AP-008 is merged with the fixed `get-navigation` contract; AP-019 provides the diagnostic/admin surface that later displays navigation proposals.
+**Prerequisite evidence:** AP-010 and AP-015 are merged with the coordinator, idempotency, AgentPress-draft authority, and forced-draft behavior required by AP-016.
 
-The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-021--implement-get-navigation-classic-adapter).
+The detailed task and acceptance test are in the [build checklist](docs/BUILD_CHECKLIST.md#ap-016--implement-update-content).
 
 ## Local development
 

@@ -25,6 +25,16 @@ function agentpress_ap012_user( $login, $role ) {
 	return $id;
 }
 
+foreach ( get_posts( array( 'post_type' => 'page', 'post_status' => 'any', 's' => 'AP012', 'posts_per_page' => -1 ) ) as $stale_page ) {
+	wp_delete_post( $stale_page->ID, true );
+}
+foreach ( array( 'administrator', 'author', 'subscriber' ) as $role ) {
+	$stale_user = get_user_by( 'login', 'agentpress_ap012_' . $role );
+	if ( is_object( $stale_user ) ) {
+		wp_delete_user( $stale_user->ID );
+	}
+}
+
 register_nav_menu( 'primary', 'Synthetic AP-012 Primary' );
 $user_ids = array(
 	'administrator' => agentpress_ap012_user( 'agentpress_ap012_administrator', 'administrator' ),
