@@ -7,7 +7,8 @@ Thumbs.db
 # Dependencies and generated artifacts
 node_modules/
 vendor/
-dist/
+dist/*
+!dist/agentpress.zip
 build/
 coverage/
 agentpress/.phpunit.result.cache
@@ -24,4 +25,5 @@ wordpress/
 
 # Archives and logs
 *.zip
+!dist/agentpress.zip
 *.log

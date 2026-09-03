@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/MrBigleg/AgentPress/releases/download/v0.1.0-rc.1/agentpress-0.1.0-rc.1.zip"><strong>Download AgentPress v0.1 RC (.zip)</strong></a>
+  <a href="https://github.com/MrBigleg/AgentPress/raw/refs/heads/main/dist/agentpress.zip"><strong>Download AgentPress v0.1 (.zip)</strong></a>
   &nbsp;•&nbsp;
   <a href="https://youtu.be/DJs68ZSfrBA"><strong>Watch the Demo (02:17)</strong></a>
   &nbsp;•&nbsp;
@@ -22,11 +22,11 @@
   <img src="https://img.shields.io/badge/WebMCP-Native_Adapter-blue" alt="WebMCP">
   <img src="https://img.shields.io/badge/WordPress-6.9+-21759b" alt="WordPress 6.9 or newer">
   <img src="https://img.shields.io/badge/Security-No_API_Keys-green" alt="No API keys">
-  <img src="https://img.shields.io/badge/Release_Candidate-v0.1.0--rc.1-brightgreen" alt="v0.1.0-rc.1 release candidate">
+  <img src="https://img.shields.io/badge/Version-v0.1.0-brightgreen" alt="v0.1.0">
   <img src="https://img.shields.io/badge/License-GPL--2.0--or--later-orange" alt="GPL-2.0-or-later">
 </p>
 
-> **Release candidate:** AgentPress is ready for evaluation, but the remaining real-client Author-role gate and five-consecutive-run reliability gate are not yet complete. See [Known limitations](#known-limitations).
+> **Evaluation note:** AgentPress is ready for evaluation, but the remaining real-client Author-role gate and five-consecutive-run reliability gate are not yet complete. See [Known limitations](#known-limitations).
 
 ## Quickstart: install AgentPress on WordPress
 
@@ -43,21 +43,21 @@ AgentPress does not require an AgentPress account, API key, application password
 
 ### 1. Download the plugin
 
-[Download `agentpress-0.1.0-rc.1.zip`](https://github.com/MrBigleg/AgentPress/releases/download/v0.1.0-rc.1/agentpress-0.1.0-rc.1.zip).
+[Download `agentpress.zip`](https://github.com/MrBigleg/AgentPress/raw/refs/heads/main/dist/agentpress.zip).
 
-Use the ZIP attached to the [v0.1.0-rc.1 GitHub prerelease](https://github.com/MrBigleg/AgentPress/releases/tag/v0.1.0-rc.1). Do **not** use GitHub's green **Code → Download ZIP** button: that archive contains the development repository, not the installable WordPress plugin.
+Download the installable `dist/agentpress.zip` package directly from this repository. Do **not** use GitHub's green **Code → Download ZIP** button: that archive contains the development repository, not the installable WordPress plugin.
 
 Published SHA-256:
 
 ```text
-96E50234EEC7FED583EC6ABC1A01C0A39A555B948296EBEA1E06E466E453BC4D
+47546B6EF80C854648B0843A163AAAA3396851489998B21268D6383B0A1134C8
 ```
 
 ### 2. Upload, install, and activate it
 
 1. Sign in to WordPress as an Administrator.
 2. Open **Plugins → Add New Plugin → Upload Plugin**.
-3. Choose `agentpress-0.1.0-rc.1.zip`, then select **Install Now**.
+3. Choose `agentpress.zip`, then select **Install Now**.
 4. When installation finishes, select **Activate Plugin**.
 5. Open **AgentPress** from the wp-admin menu.
 
@@ -135,13 +135,13 @@ Every execution revalidates authentication, nonce, schema, target, object-specif
 - The v0.1 navigation adapter supports classic menus. Block Navigation is detected and rejected safely.
 - ChatGPT real-client reads and one draft workflow have direct evidence, but the complete Administrator-versus-Author AP-028 gate remains open.
 - The canonical workflow has not yet passed the required five consecutive AP-031 runs.
-- This prerelease is not a WordPress.org listing and is not a stable v0.1 declaration.
+- This release is not a WordPress.org listing and is not a stable v0.1 declaration.
 
 ## Live verification and evidence
 
 - **Live client proof ([EXP-029](docs/evidence/sessions/2026-09-02-exp-029-service-page-draft-demo.md)):** the built-in-browser client inspected a live WordPress site, created one page draft, and read it back; no page was published and the pre-existing page metadata remained unchanged.
 - **Native wp-admin collaboration UI ([EXP-023](docs/evidence/sessions/2026-09-01-exp-023-admin-overview.md), [EXP-039](docs/evidence/sessions/2026-09-03-exp-039-changes-activity-ui.md)):** repository tests cover connection health, capability states, Change Set review, approval controls, and sanitized Activity behavior.
-- **Release-candidate distribution ([EXP-043](docs/evidence/sessions/2026-09-03-exp-043-readme-release-quickstart.md)):** records the RC version, package checks, clean installation, and public asset verification. Historical package work remains in [EXP-042](docs/evidence/sessions/2026-09-03-exp-042-release-package.md).
+- **Release packaging ([EXP-043](docs/evidence/sessions/2026-09-03-exp-043-readme-release-quickstart.md)):** records the repository ZIP package checks, live installation verification, and tracked asset distribution. Historical package work remains in [EXP-042](docs/evidence/sessions/2026-09-03-exp-042-release-package.md).
 
 The [interactive concept](https://agentpress-webmcp.bigleg.chatgpt.site/) is a presentation of the product direction. It is not the WordPress plugin download, a live judge WordPress site, or proof of runtime behavior.
 
@@ -172,7 +172,7 @@ npm run test:third-party
 npm run build:zip
 ```
 
-The generated developer ZIP is written to `dist/agentpress.zip` and is ignored by Git. Use the versioned GitHub release asset for normal installation.
+The installable plugin package is tracked in the repository at `dist/agentpress.zip`.
 
 ## Documentation and support
 
