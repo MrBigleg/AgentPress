@@ -155,7 +155,7 @@
 
 ### AP-018 — Build P0 authorization regression suite
 
-- [ ] **Difficulty:** L
+- [x] **Difficulty:** L
 - **Depends on:** AP-004, AP-007, AP-008, AP-011–AP-017
 - **Demo critical:** yes
 - **Deliverable:** parameterized discovery plus direct-execution tests for Administrator, Editor, Author, Subscriber, logged-out, invalid nonce, expired session, and capability mutation.
