@@ -139,7 +139,7 @@
 
 ### AP-016 — Implement `update-content`
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-010, AP-015
 - **Demo critical:** no
 - **Deliverable:** bounded field patch, no taxonomy/status field, automatic AgentPress-draft update, and immutable staging for all other targets.
