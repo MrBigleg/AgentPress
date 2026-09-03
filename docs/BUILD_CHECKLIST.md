@@ -181,7 +181,7 @@
 
 ### AP-021 — Implement `get-navigation` classic adapter
 
-- [ ] **Difficulty:** M
+- [x] **Difficulty:** M
 - **Depends on:** AP-008
 - **Demo critical:** yes
 - **Deliverable:** classic `primary` menu detection, normalized bounded snapshot, item hierarchy, and deterministic state hash.

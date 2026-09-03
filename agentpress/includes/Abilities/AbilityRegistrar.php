@@ -12,6 +12,7 @@ use AgentPress\Content\DraftCreationService;
 use AgentPress\Context\ContextService;
 use AgentPress\Context\SiteStructureService;
 use AgentPress\Errors\ErrorFactory;
+use AgentPress\Navigation\NavigationReadService;
 use AgentPress\Policy\ExecutionPolicy;
 use AgentPress\Terms\TermReadService;
 use AgentPress\Terms\TermAssignmentService;
@@ -47,9 +48,10 @@ final class AbilityRegistrar {
 			$structure  = new SiteStructureService();
 			$content    = new ContentReadService();
 			$drafts     = new DraftCreationService();
+			$navigation = new NavigationReadService();
 			$assignment = new TermAssignmentService();
 			$terms      = new TermReadService();
-			$executor   = static function ( $ability, $input ) use ( $context, $structure, $content, $drafts, $assignment, $terms ) {
+			$executor   = static function ( $ability, $input ) use ( $context, $structure, $content, $drafts, $navigation, $assignment, $terms ) {
 				if ( 'agentpress/get-context' === $ability ) {
 					return $context->execute();
 				}
@@ -67,6 +69,9 @@ final class AbilityRegistrar {
 				}
 				if ( 'agentpress/list-terms' === $ability ) {
 					return $terms->execute( $input );
+				}
+				if ( 'agentpress/get-navigation' === $ability ) {
+					return $navigation->execute( $input );
 				}
 				if ( 'agentpress/assign-terms' === $ability ) {
 					return $assignment->execute( $input );
