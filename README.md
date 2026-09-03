@@ -9,6 +9,8 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/MrBigleg/AgentPress/releases/download/v0.1.0-rc.1/agentpress-0.1.0-rc.1.zip"><strong>Download AgentPress v0.1 RC (.zip)</strong></a>
+  &nbsp;•&nbsp;
   <a href="https://youtu.be/DJs68ZSfrBA"><strong>Watch the Demo (02:17)</strong></a>
   &nbsp;•&nbsp;
   <a href="https://devpost.com/software/agentpress"><strong>Devpost Entry</strong></a>
@@ -18,126 +20,180 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/WebMCP-Native_Adapter-blue" alt="WebMCP">
-  <img src="https://img.shields.io/badge/WordPress-6.9+_%2F_7.1-21759b" alt="WordPress">
-  <img src="https://img.shields.io/badge/Security-No_API_Keys-green" alt="No API Keys">
-  <img src="https://img.shields.io/badge/Release_Candidate-v0.1-brightgreen" alt="v0.1">
-  <img src="https://img.shields.io/badge/License-GPL--2.0--or--later-orange" alt="GPL-2.0">
+  <img src="https://img.shields.io/badge/WordPress-6.9+-21759b" alt="WordPress 6.9 or newer">
+  <img src="https://img.shields.io/badge/Security-No_API_Keys-green" alt="No API keys">
+  <img src="https://img.shields.io/badge/Release_Candidate-v0.1.0--rc.1-brightgreen" alt="v0.1.0-rc.1 release candidate">
+  <img src="https://img.shields.io/badge/License-GPL--2.0--or--later-orange" alt="GPL-2.0-or-later">
 </p>
 
----
+> **Release candidate:** AgentPress is ready for evaluation, but the remaining real-client Author-role gate and five-consecutive-run reliability gate are not yet complete. See [Known limitations](#known-limitations).
 
-## The Problem & The WebMCP Solution
+## Quickstart: install AgentPress on WordPress
 
-WordPress powers over 40% of the web. But letting an AI agent interact with a WordPress site has always required an unacceptable security trade-off: hand over an unconstrained administrator API key, create permanent application passwords, or rely on slow, brittle browser screen-scraping.
+### Before you start
 
-**AgentPress inverts that model using [WebMCP](https://github.com/webmachinelearning/webmcp).**
+You need:
 
-Instead of granting an agent independent, credentialed access to your server, AgentPress lets ChatGPT work directly inside the authenticated browser session you are already using. 
+- WordPress 6.9 or newer;
+- PHP 8.0 or newer;
+- an HTTPS WordPress site with the standard REST API available;
+- the ChatGPT desktop built-in browser and an account/model with Site Tools access for the full WebMCP workflow.
 
-WordPress defines the human user's maximum authority. AgentPress strictly narrows that authority:
-* **No API keys or application passwords:** The agent operates exclusively through your active, authenticated login.
-* **Safe operations happen automatically:** Inspect site structure, read content styles, and create unpublished drafts.
-* **Consequential operations wait for approval:** Publishing posts, modifying navigation menus, and adding taxonomy terms are staged in wp-admin for explicit human sign-off.
-* **Dangerous areas are strictly blocked:** Users, plugins, themes, core code, credentials, and settings are never exposed as tools.
+AgentPress does not require an AgentPress account, API key, application password, OAuth setup, or separate MCP server.
 
----
+### 1. Download the plugin
 
-## How It Works
+[Download `agentpress-0.1.0-rc.1.zip`](https://github.com/MrBigleg/AgentPress/releases/download/v0.1.0-rc.1/agentpress-0.1.0-rc.1.zip).
 
-AgentPress operates as a secure bridge between the browser's model context and the WordPress core:
+Use the ZIP attached to the [v0.1.0-rc.1 GitHub prerelease](https://github.com/MrBigleg/AgentPress/releases/tag/v0.1.0-rc.1). Do **not** use GitHub's green **Code → Download ZIP** button: that archive contains the development repository, not the installable WordPress plugin.
+
+Published SHA-256:
 
 ```text
-ChatGPT / AI Agent (in-browser)
-       │
-       ▼  document.modelContext.registerTool
-AgentPress WebMCP Browser Adapter
-       │
-       ▼  Private same-origin REST transport (session cookie + REST nonce)
-AgentPress Policy & Safe Mode Engine
-       │  ├─ Checks live user capabilities
-       │  ├─ Validates strict closed schemas
-       │  ├─ Idempotent Change Set coordinator (AP-1)
-       │  └─ Sanitized audit logging (secrets scrubbed)
-       ▼
-WordPress Abilities API (agentpress/* catalog)
-       │
-       ▼
-WordPress Core (Posts, Pages, Terms, Menus)
+96E50234EEC7FED583EC6ABC1A01C0A39A555B948296EBEA1E06E466E453BC4D
 ```
 
-### The Three Tiers of Authority
+### 2. Upload, install, and activate it
 
-| Tier | Capabilities | Policy Boundary |
-| :--- | :--- | :--- |
-| 🟢 **Automatic** | `get-context`, `get-site-structure`, `list-content`, `get-content`, `list-terms`, `create-draft` | Reversible and safe. Drafts are forced to `draft` status under an idempotent **Change Set** (`AP-1`). |
-| 🟡 **Approval Required** | `publish-content`, `update-navigation`, `create-term`, `assign-terms` | Consequential actions. Staged for explicit human review in the native wp-admin collaboration interface. |
-| 🔴 **Always Blocked** | Users, plugins, themes, core code, credentials, options/settings | Never registered or exposed to WebMCP. Hard-blocked at the server boundary. |
+1. Sign in to WordPress as an Administrator.
+2. Open **Plugins → Add New Plugin → Upload Plugin**.
+3. Choose `agentpress-0.1.0-rc.1.zip`, then select **Install Now**.
+4. When installation finishes, select **Activate Plugin**.
+5. Open **AgentPress** from the wp-admin menu.
 
----
+For an upgrade, back up WordPress first, upload the newer AgentPress ZIP through the same screen, and choose **Replace current with uploaded**. AgentPress preserves Change Sets and audit tables during plugin replacement.
 
-## Live Verification & Evidence
+### 3. Open AgentPress inside ChatGPT
 
-AgentPress was built following a strict, reproducible evidence protocol. Every capability was developed against falsifiable hypotheses and verified with passing acceptance tests:
+1. Open ChatGPT's desktop built-in browser.
+2. Navigate to your site's wp-admin and sign in there. The built-in browser has its own session.
+3. Open **AgentPress** in the wp-admin menu, or go to `/wp-admin/admin.php?page=agentpress`.
+4. Confirm the Overview screen reports the Site Tools connection as **Ready**. Keep this page open while using AgentPress; its tools are page-scoped.
 
-* **Live Client Proof ([EXP-029](docs/evidence/sessions/2026-09-02-exp-029-service-page-draft-demo.md)):** Tested in the Codex / ChatGPT in-app browser on a live WordPress 7.1 HTTPS site. In one request, ChatGPT inspected site structure (15 pages) and created a 463-word service page draft (*Homebuyer Drain Surveys in Poole*).
-  * **Verified boundary:** Visible page count moved from 15 to 16, draft ID 97 was created, all 15 pre-existing page metadata records remained 100% identical, and zero pages were published.
-* **Native wp-admin Collaboration UI ([EXP-023](docs/evidence/sessions/2026-09-01-exp-023-admin-overview.md), [EXP-039](docs/evidence/sessions/2026-09-03-exp-039-changes-activity-ui.md)):** Dedicated admin screens provide real-time connection health, WebMCP bridge state, pending Change Set reviews, and a sanitized audit log.
-* **Reproducible Release Package ([EXP-042](docs/evidence/sessions/2026-09-03-exp-042-release-package.md)):** Deterministic 67-entry release ZIP with verified SHA-256 checksum (`234A1981C8D15DE97E125F064170BC868448134DEBFC5A8541F78090AC88B97F`) that installs and activates cleanly on WordPress 6.9+ and PHP 8.0+.
+### 4. Run a safe first task
 
----
+Ask ChatGPT:
 
-## Quickstart
+> Use AgentPress to inspect this site's structure first. Then draft a new service page about home drain surveys, matching the existing site where appropriate. Keep it as a draft and do not publish anything. Finally, read the new draft back and summarize what changed.
 
-### Option 1: Try with ChatGPT / WebMCP Browser
-1. Log in to your WordPress site inside ChatGPT's built-in browser (or Chrome with WebMCP enabled).
-2. Open **AgentPress** in the WordPress admin to verify connection health shows **Ready**.
-3. In chat, prompt your agent:
-   > *"Use AgentPress to inspect this site's structure, then draft a new service page about home drain surveys. Do not publish it."*
-4. The agent discovers the tools, inspects the site, creates the draft, and verifies the result.
+Confirm the result under **Pages → All Pages** and review the matching Change Set and Activity entries under **AgentPress**.
 
-### Option 2: Local Development (`wp-env`)
-Run a fully configured WordPress 6.9 test environment with one command:
+## What AgentPress does
+
+AgentPress lets ChatGPT work through the WordPress session you already control. WordPress defines the logged-in user's maximum authority; AgentPress narrows that authority into safe automatic work, changes that require explicit human approval, and sensitive areas that are never exposed.
+
+- **No additional credentials:** the agent uses the active WordPress browser session.
+- **Safe work is automatic:** inspect the site and create unpublished drafts.
+- **Consequential work is staged:** publishing, structural edits, and navigation changes wait for approval in wp-admin.
+- **Sensitive administration is blocked:** users, plugins, themes, code, credentials, and settings are not tools.
+- **Activity is visible:** Change Sets and sanitized audit events show what happened.
+
+## The 15 Site Tools
+
+The names below are the exact WebMCP tools registered by v0.1. Availability is filtered by the current WordPress user's real capabilities.
+
+| Behavior | Site Tools | Result |
+|---|---|---|
+| Automatic reads and collaboration | `agentpress_get_context`, `agentpress_get_structure`, `agentpress_list_content`, `agentpress_get_content`, `agentpress_list_terms`, `agentpress_get_navigation`, `agentpress_get_change_set`, `agentpress_list_change_sets`, `agentpress_get_activity` | Reads only what the signed-in user may access. Navigation reads require the relevant WordPress capability. |
+| Automatic safe write | `agentpress_create_draft` | Always creates a post or page with `draft` status. |
+| Conditional write | `agentpress_update_content`, `agentpress_assign_terms` | Applies automatically only to eligible AgentPress-created drafts; otherwise creates a proposal for approval. |
+| Always staged | `agentpress_stage_publish`, `agentpress_stage_term`, `agentpress_stage_navigation` | Never performs the consequential change during the tool call; a human must approve it in wp-admin. |
+
+Approving or rejecting a proposal is an explicit human action in WordPress, not an agent tool call.
+
+## How it works
+
+```text
+ChatGPT / AI agent in the authenticated browser
+       │
+       ▼  document.modelContext.registerTool
+AgentPress WebMCP browser adapter
+       │
+       ▼  same-origin REST (session cookie + REST nonce)
+AgentPress policy, Safe Mode, Change Sets, approvals, and audit
+       │
+       ▼
+WordPress Abilities API
+       │
+       ▼
+WordPress permissions and content APIs
+```
+
+Every execution revalidates authentication, nonce, schema, target, object-specific WordPress capability, AgentPress policy, idempotency, and current target state on the server.
+
+## Troubleshooting
+
+- **Overview does not show Ready:** confirm you opened the AgentPress wp-admin page inside ChatGPT's built-in browser, signed in within that browser session, and are using HTTPS with WordPress 6.9+/PHP 8.0+.
+- **No Site Tools appear:** Site Tools availability depends on the supported ChatGPT desktop client, account, and model. Refresh the AgentPress page after signing in or changing users.
+- **A normal browser shows a degraded state:** this is expected when `document.modelContext` is unavailable. Ordinary HTTP or a browser without WebMCP cannot expose AgentPress Site Tools.
+- **A tool is missing:** AgentPress filters discovery to the current WordPress user's actual capabilities. Changing WordPress users changes the tool and operation envelope.
+- **Navigation returns `AP_UNSUPPORTED_NAVIGATION`:** v0.1 supports classic WordPress menus only.
+
+## Known limitations
+
+- Site Tools are page-scoped; keep the AgentPress wp-admin screen open during the session.
+- The v0.1 navigation adapter supports classic menus. Block Navigation is detected and rejected safely.
+- ChatGPT real-client reads and one draft workflow have direct evidence, but the complete Administrator-versus-Author AP-028 gate remains open.
+- The canonical workflow has not yet passed the required five consecutive AP-031 runs.
+- This prerelease is not a WordPress.org listing and is not a stable v0.1 declaration.
+
+## Live verification and evidence
+
+- **Live client proof ([EXP-029](docs/evidence/sessions/2026-09-02-exp-029-service-page-draft-demo.md)):** the built-in-browser client inspected a live WordPress site, created one page draft, and read it back; no page was published and the pre-existing page metadata remained unchanged.
+- **Native wp-admin collaboration UI ([EXP-023](docs/evidence/sessions/2026-09-01-exp-023-admin-overview.md), [EXP-039](docs/evidence/sessions/2026-09-03-exp-039-changes-activity-ui.md)):** repository tests cover connection health, capability states, Change Set review, approval controls, and sanitized Activity behavior.
+- **Release-candidate distribution ([EXP-043](docs/evidence/sessions/2026-09-03-exp-043-readme-release-quickstart.md)):** records the RC version, package checks, clean installation, and public asset verification. Historical package work remains in [EXP-042](docs/evidence/sessions/2026-09-03-exp-042-release-package.md).
+
+The [interactive concept](https://agentpress-webmcp.bigleg.chatgpt.site/) is a presentation of the product direction. It is not the WordPress plugin download, a live judge WordPress site, or proof of runtime behavior.
+
+## Developer setup
+
+Prerequisites: Node.js 20+, Docker Desktop, and Git. Host PHP and Composer are optional because `wp-env` supplies them inside its CLI container.
 
 ```bash
-# Clone the repository
 git clone https://github.com/MrBigleg/AgentPress.git
 cd AgentPress
-
-# Install dependencies and start WordPress
 npm install
 npm run env:start
-
-# Activate AgentPress
 npm run env:activate
 ```
 
-* **WordPress URL:** `http://localhost:8888`
-* **Username:** `admin` | **Password:** `password`
-* **AgentPress Dashboard:** `http://localhost:8888/wp-admin/admin.php?page=agentpress`
+- WordPress: `http://localhost:8888`
+- Username: `admin`
+- Password: `password`
+- AgentPress: `http://localhost:8888/wp-admin/admin.php?page=agentpress`
 
----
+Useful checks:
 
-## 💡 A Note from the Creator
+```bash
+npm run test:unit
+npm run test:browser
+npm run lint:php
+npm run test:third-party
+npm run build:zip
+```
 
-> *"I wanted to build something impressive, useful, and sustainable. I started with the problem and worked backwards from there:*
-> 
-> *'Lots of sites are still on WordPress. I really want a one-click solution for my agent to jump right in and work there safely.'*
-> 
-> *I was here to orchestrate, guide the architecture, run all the working live tests (linked in the demo video), and click commit along the way. AI wrote code, but this solves a real-world problem I face every day. I hope people find real use for this—it's well beyond a novelty, and I'll be using it on my own sites.*
-> 
-> *Cheers, and thanks to all the sponsors of the WebMCP Hackathon!"*  
+The generated developer ZIP is written to `dist/agentpress.zip` and is ignored by Git. Use the versioned GitHub release asset for normal installation.
+
+## Documentation and support
+
+- [Product Requirements Document](docs/PRD.md)
+- [Implementation Specification](docs/IMPLEMENTATION_SPEC.md)
+- [Dependency-Ordered Build Checklist](docs/BUILD_CHECKLIST.md)
+- [Evidence Index and Lab Notebook](docs/EVIDENCE_INDEX.md)
+- [Challenge Submission Package](docs/CHALLENGE_SUBMISSION_PACKAGE.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security Policy and private vulnerability reporting](SECURITY.md)
+- [Visual Asset Ledger](docs/evidence/assets/README.md)
+
+## A note from the creator
+
+> I wanted to build something impressive, useful, and sustainable. I started with the problem and worked backwards from there: lots of sites are still on WordPress, and I wanted a one-click way for my agent to work there safely.
+>
+> I orchestrated the work, guided the architecture, and ran the live tests shown in the demo. AI wrote code, but this solves a real-world problem I face every day. I hope people find real use for it—I'll be using it on my own sites.
+>
+> Cheers, and thanks to all the sponsors of the WebMCP Hackathon!
+>
 > — **Craig Burton**
-
----
-
-## Documentation & Evidence
-
-* [Product Requirements Document (PRD)](docs/PRD.md)
-* [Implementation Specification](docs/IMPLEMENTATION_SPEC.md)
-* [Dependency-Ordered Build Checklist](docs/BUILD_CHECKLIST.md)
-* [Evidence Index & Lab Notebook](docs/EVIDENCE_INDEX.md)
-* [Challenge Submission Package](docs/CHALLENGE_SUBMISSION_PACKAGE.md)
-* [Visual Asset Ledger](docs/evidence/assets/README.md)
 
 ## License
 

@@ -3,7 +3,7 @@
  * Plugin Name: AgentPress
  * Plugin URI: https://github.com/MrBigleg/AgentPress
  * Description: The shared human-agent workspace for WordPress.
- * Version: 0.1.0
+ * Version: 0.1.0-rc.1
  * Requires at least: 6.9
  * Requires PHP: 8.0
  * Author: AgentPress contributors
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'AGENTPRESS_VERSION', '0.1.0' );
+define( 'AGENTPRESS_VERSION', '0.1.0-rc.1' );
 define( 'AGENTPRESS_FILE', __FILE__ );
 define( 'AGENTPRESS_PATH', plugin_dir_path( __FILE__ ) );
 

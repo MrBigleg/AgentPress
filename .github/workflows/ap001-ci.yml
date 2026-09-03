@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      COMPOSER_ROOT_VERSION: 0.1.0
+      COMPOSER_ROOT_VERSION: 0.1.0-rc.1
 
     steps:
       - name: Check out repository
