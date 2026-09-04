@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://agentpress-webmcp.bigleg.chatgpt.site/">
-    <img src="docs/evidence/assets/approved/agentpress-approved-gradient-wordmark.png" alt="AgentPress" width="560">
+    <img src="./docs/evidence/assets/approved/agentpress-approved-gradient-wordmark.png" alt="AgentPress" width="560">
   </a>
 </p>
 
